@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="manifest" href="manifest.json">
+  <title>Курси Бепули Забонхо</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      min-height: 100vh;
+    }
+
+    /* ТОПБАР */
+    .topbar {
+      display: none;
+      background: #16213e;
+      padding: 14px 16px;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar.show { display: flex; }
+    .menu-btn {
+      font-size: 22px;
+      background: none;
+      border: none;
+      color: #FFD700;
+      cursor: pointer;
+    }
+    .topbar-title { color: #FFD700; font-size: 16px; font-weight: bold; }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0; left: -260px;
+      width: 260px;
+      height: 100%;
+      background: #0f3460;
+      z-index: 100;
+      transition: left 0.3s;
+      padding: 30px 20px;
+    }
+    .sidebar.open { left: 0; }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    .overlay.show { display: block; }
+    .sidebar-profile {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .sidebar-photo {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #FFD700;
+      margin-bottom: 10px;
+    }
+    .sidebar-name { color: #FFD700; font-size: 18px; font-weight: bold; }
+    .sidebar-btn {
+      display: block;
+      width: 100%;
+      background: #FFD700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .sidebar-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    /* ПРОФИЛ СТРАНИЦА */
+    .profile-edit { padding: 20px; max-width: 400px; margin: 0 auto; }
+    .profile-edit h2 { color: #FFD700; margin-bottom: 20px; text-align: center; }
+    .profile-photo-wrap { text-align: center; margin-bottom: 20px; }
+    .profile-photo-wrap img {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #FFD700;
+    }
+    .change-photo-btn {
+      display: block;
+      margin: 10px auto 0;
+      background: #444;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .main { max-width: 400px; margin: 0 auto; padding: 20px; text-align: center; }
+    h1 { color: #FFD700; font-size: 26px; margin-bottom: 12px; }
+    p { color: #ccc; font-size: 15px; line-height: 1.7; }
+    h2 { color: #FFD700; margin: 16px 0 10px; }
+    ul { text-align: left; display: inline-block; }
+    li { margin: 8px 0; font-size: 16px; }
+
+    .btn {
+      background: #FFD700;
+      color: #000;
+      border: none;
+      padding: 14px 40px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .page { display: none; }
+    .page.active { display: block; }
+    .card {
+      background: #16213e;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+    input[type=email], input[type=password], input[type=text] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #0f3460;
+      color: white;
+      font-size: 15px;
+    }
+    .btn-row { display: flex; gap: 10px; margin-top: 14px; }
+    .btn2 {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      flex: 1;
+    }
+    table { width: 100%; color: #ccc; font-size: 14px; border-collapse: collapse; }
+    td { padding: 5px 4px; border-bottom: 1px solid #333; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+  <div class="sidebar-profile">
+    <img src="" id="sidebarPhoto" class="sidebar-photo" />
+    <div class="sidebar-name" id="sidebarName">Номи шумо</div>
+  </div>
+  <button class="sidebar-btn" onclick="showPage('pageProfile');closeSidebar()">👤 Профил</button>
+  <button class="sidebar-btn" onclick="showPage('page5');closeSidebar()" style="margin-top:10px;background:#0f3460;color:white">🌍 Забонхо</button>
+</div>
+
+<!-- ТОПБАР -->
+<div class="topbar" id="topbar">
+  <button class="menu-btn" onclick="openSidebar()">☰</button>
+  <span class="topbar-title">Курси Забонхо</span>
+  <span></span>
+</div>
+
+<!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+<div class="page active" id="page1">
+  <div class="main">
+    <h1>Курси бепули забонхо!</h1>
+    <p>Дар инчо шумо метавонед ба гарантия забони Англиси, Хитои ва Урусиро ёд гиред!</p>
+    <p style="margin-top:10px">Пеш аз он ки курси бе пули моро аз худ кунед, хатман регистрация кунед!</p>
+    <h2>Забонхо:</h2>
+    <ul>
+      <li>🇬🇧 Англиси</li>
+      <li>🇨🇳 Хитои</li>
+      <li>🇷🇺 Уруси</li>
+    </ul>
+    <br>
+    <button class="btn" onclick="showPage('page2')">Регистрация</button>
+  </div>
+</div>
+
+<!-- СТРАНИЦА 2: ВОЙТИ -->
+<div class="page" id="page2">
+  <div class="main">
+    <div class="card">
+      <h2>Войти</h2>
+      <input type="email" id="loginEmail" placeholder="Введите Email" />
+      <input type="password" id="loginPass" placeholder="Введите пароль" />
+      <div class="btn-row">
+        <button class="btn" style="flex:1;padding:12px" onclick="doLogin()">Войти</button>
+        <button class="btn2" onclick="showPage('page3')">Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СТРАНИЦА 3: РЕГИСТРАЦИЯ -->
+<div class="page" id="page3">
+  <div class="main">
+    <div class="card">
+      <h2>Регистрация</h2>
+      <input type="text" id="regName" placeholder="Введите имя" />
+      <input type="email" id="regEmail" placeholder="Введите Email" />
+      <input type="password" id="regPass" placeholder="Введите пароль" />
+      <input type="password" id="regPass2" placeholder="Подтвердите пароль" />
+      <br>
+      <button class="btn" onclick="doRegister()" style="width:100%;margin-top:14px">Зарегистрироваться</button>
+    </div>
+  </div>
+</div>
+
+<!-- СТРАНИЦА 4: ХУШ ОМАДЕД -->
+<div class="page" id="page4">
+  <div class="main">
+    <div class="card">
+      <h2>Ассаламу Алайкум!</h2>
+      <p style="font-size:16px;line-height:1.8;margin-top:10px">Хуш омадед ба курси ройгони мо! Пеш аз он ки забонихои моро ёд гиред, ба кнопкаи Забонхо пахш кунед!</p>
+      <button class="btn" onclick="showPage('page5')" style="width:100%;margin-top:20px">🌍 Забонхо</button>
+    </div>
+  </div>
+</div>
+
+<!-- СТРАНИЦА 5: ЗАБОНХО -->
+<div class="page" id="page5">
+  <div class="main">
+    <div class="card">
+      <h2>Забонхо</h2>
+      <br>
+      <button class="btn" onclick="showPage('page6')" style="width:100%;margin-bottom:10px">🇬🇧 Англиси</button>
+      <button class="btn" style="width:100%;margin-bottom:10px;background:#e74c3c">🇨🇳 Хитои</button>
+      <button class="btn" style="width:100%;background:#3498db">🇷🇺 Уруси</button>
+    </div>
+  </div>
+</div>
+
+<!-- СТРАНИЦА 6: АНГЛИСИ -->
+<div class="page" id="page6">
+  <div class="main">
+    <div class="card">
+      <h2>🇬🇧 Хафтаи 1</h2>
+      <p style="color:#FFD700;margin-bottom:10px">100 лугати Англиси:</p>
+      <table>
+        <tr><td>1. Hello</td><td>- Салом</td></tr>
+        <tr><td>2. Goodbye</td><td>- Хайр</td></tr>
+        <tr><td>3. Yes</td><td>- Ха</td></tr>
+        <tr><td>4. No</td><td>- Не</td></tr>
+        <tr><td>5. Please</td><td>- Лутфан</td></tr>
+        <tr><td>6. Thank you</td><td>- Ташаккур</td></tr>
+        <tr><td>7. Sorry</td><td>- Бубахшед</td></tr>
+        <tr><td>8. Water</td><td>- Об</td></tr>
+        <tr><td>9. Food</td><td>- Хурок</td></tr>
+        <tr><td>10. House</td><td>- Хона</td></tr>
+        <tr><td>11. Car</td><td>- Мошин</td></tr>
+        <tr><td>12. School</td><td>- Мактаб</td></tr>
+        <tr><td>13. Book</td><td>- Китоб</td></tr>
+        <tr><td>14. Friend</td><td>- Дӯст</td></tr>
+        <tr><td>15. Family</td><td>- Оила</td></tr>
+        <tr><td>16. Mother</td><td>- Модар</td></tr>
+        <tr><td>17. Father</td><td>- Падар</td></tr>
+        <tr><td>18. Brother</td><td>- Бародар</td></tr>
+        <tr><td>19. Sister</td><td>- Хохар</td></tr>
+        <tr><td>20. Sun</td><td>- Офтоб</td></tr>
+        <tr><td>21. Moon</td><td>- Мох</td></tr>
+        <tr><td>22. Star</td><td>- Ситора</td></tr>
+        <tr><td>23. Day</td><td>- Руз</td></tr>
+        <tr><td>24. Night</td><td>- Шаб</td></tr>
+        <tr><td>25. Morning</td><td>- Субх</td></tr>
+        <tr><td>26. Evening</td><td>- Бегох</td></tr>
+        <tr><td>27. Good</td><td>- Хуб</td></tr>
+        <tr><td>28. Bad</td><td>- Бад</td></tr>
+        <tr><td>29. Big</td><td>- Калон</td></tr>
+        <tr><td>30. Small</td><td>- Хурд</td></tr>
+        <tr><td>31. Hot</td><td>- Гарм</td></tr>
+        <tr><td>32. Cold</td><td>- Хунук</td></tr>
+        <tr><td>33. New</td><td>- Нав</td></tr>
+        <tr><td>34. Old</td><td>- Куха</td></tr>
+        <tr><td>35. Fast</td><td>- Тез</td></tr>
+        <tr><td>36. Slow</td><td>- Суст</td></tr>
+        <tr><td>37. Happy</td><td>- Хурсанд</td></tr>
+        <tr><td>38. Sad</td><td>- Гамгин</td></tr>
+        <tr><td>39. Love</td><td>- Мухаббат</td></tr>
+        <tr><td>40. Peace</td><td>- Сулх</td></tr>
+        <tr><td>41. Work</td><td>- Кор</td></tr>
+        <tr><td>42. Play</td><td>- Бози</td></tr>
+        <tr><td>43. Eat</td><td>- Хурдан</td></tr>
+        <tr><td>44. Drink</td><td>- Нушидан</td></tr>
+        <tr><td>45. Sleep</td><td>- Хобидан</td></tr>
+        <tr><td>46. Walk</td><td>- Рафтан</td></tr>
+        <tr><td>47. Run</td><td>- Давидан</td></tr>
+        <tr><td>48. See</td><td>- Дидан</td></tr>
+        <tr><td>49. Hear</td><td>- Шунидан</td></tr>
+        <tr><td>50. Speak</td><td>- Гап задан</td></tr>
+        <tr><td>51. Read</td><td>- Хондан</td></tr>
+        <tr><td>52. Write</td><td>- Навиштан</td></tr>
+        <tr><td>53. Learn</td><td>- Омухтан</td></tr>
+        <tr><td>54. Know</td><td>- Донистан</td></tr>
+        <tr><td>55. Think</td><td>- Фикр кардан</td></tr>
+        <tr><td>56. Come</td><td>- Омадан</td></tr>
+        <tr><td>57. Go</td><td>- Рафтан</td></tr>
+        <tr><td>58. Open</td><td>- Кушодан</td></tr>
+        <tr><td>59. Close</td><td>- Пӯшидан</td></tr>
+        <tr><td>60. Give</td><td>- Додан</td></tr>
+        <tr><td>61. Take</td><td>- Гирифтан</td></tr>
+        <tr><td>62. Buy</td><td>- Харидан</td></tr>
+        <tr><td>63. Sell</td><td>- Фурӯхтан</td></tr>
+        <tr><td>64. Money</td><td>- Пул</td></tr>
+        <tr><td>65. Time</td><td>- Вакт</td></tr>
+        <tr><td>66. Year</td><td>- Сол</td></tr>
+        <tr><td>67. Month</td><td>- Мох</td></tr>
+        <tr><td>68. Week</td><td>- Хафта</td></tr>
+        <tr><td>69. Today</td><td>- Имруз</td></tr>
+        <tr><td>70. Tomorrow</td><td>- Пагох</td></tr>
+        <tr><td>71. Yesterday</td><td>- Дируз</td></tr>
+        <tr><td>72. City</td><td>- Шахр</td></tr>
+        <tr><td>73. Country</td><td>- Кишвар</td></tr>
+        <tr><td>74. Road</td><td>- Рох</td></tr>
+        <tr><td>75. Door</td><td>- Дар</td></tr>
+        <tr><td>76. Window</td><td>- Тиреза</td></tr>
+        <tr><td>77. Table</td><td>- Миз</td></tr>
+        <tr><td>78. Chair</td><td>- Курси</td></tr>
+        <tr><td>79. Bed</td><td>- Кат</td></tr>
+        <tr><td>80. Phone</td><td>- Телефон</td></tr>
+        <tr><td>81. Computer</td><td>- Компютер</td></tr>
+        <tr><td>82. Internet</td><td>- Интернет</td></tr>
+        <tr><td>83. Doctor</td><td>- Духтур</td></tr>
+        <tr><td>84. Teacher</td><td>- Муаллим</td></tr>
+        <tr><td>85. Student</td><td>- Донишҷӯ</td></tr>
+        <tr><td>86. Child</td><td>- Кудак</td></tr>
+        <tr><td>87. Man</td><td>- Мард</td></tr>
+        <tr><td>88. Woman</td><td>- Зан</td></tr>
+        <tr><td>89. Boy</td><td>- Писар</td></tr>
+        <tr><td>90. Girl</td><td>- Духтар</td></tr>
+        <tr><td>91. Dog</td><td>- Саг</td></tr>
+        <tr><td>92. Cat</td><td>- Гурба</td></tr>
+        <tr><td>93. Bird</td><td>- Парранда</td></tr>
+        <tr><td>94. Fish</td><td>- Мохи</td></tr>
+        <tr><td>95. Tree</td><td>- Дарахт</td></tr>
+        <tr><td>96. Flower</td><td>- Гул</td></tr>
+        <tr><td>97. Rain</td><td>- Борон</td></tr>
+        <tr><td>98. Snow</td><td>- Барф</td></tr>
+        <tr><td>99. Fire</td><td>- Оташ</td></tr>
+        <tr><td>100. Life</td><td>- Зиндаги</td></tr>
+      </table>
+      <br>
+      <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
+    </div>
+  </div>
+</div>
+
+<!-- СТРАНИЦА ПРОФИЛ -->
+<div class="page" id="pageProfile">
+  <div class="profile-edit">
+    <h2>👤 Профил</h2>
+    <div class="profile-photo-wrap">
+      <img src="" id="profilePhotoImg" />
+      <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="changePhoto(event)" />
+      <button class="change-photo-btn" onclick="document.getElementById('photoInput').click()">📷 Иваз кардани акс</button>
+    </div>
+    <input type="text" id="profileNameInput" placeholder="Номи худро нависед" />
+    <button class="btn" onclick="saveProfile()" style="width:100%;margin-top:14px">💾 Захира кардан</button>
+  </div>
+</div>
+
+<script>
+  const DEFAULT_PHOTO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230f3460'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%23FFD700'%3E👤%3C/text%3E%3C/svg%3E";
+
+  function loadProfile() {
+    const name = localStorage.getItem('userName') || 'Номи шумо';
+    const photo = localStorage.getItem('userPhoto') || DEFAULT_PHOTO;
+    document.getElementById('sidebarName').textContent = name;
+    document.getElementById('sidebarPhoto').src = photo;
+    document.getElementById('profilePhotoImg').src = photo;
+    document.getElementById('profileNameInput').value = localStorage.getItem('userName') || '';
+  }
+
+  function saveProfile() {
+    const name = document.getElementById('profileNameInput').value;
+    if (name) {
+      localStorage.setItem('userName', name);
+      loadProfile();
+      alert('Захира шуд! ✅');
+    } else {
+      alert('Номро нависед!');
+    }
+  }
+
+  function changePhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        localStorage.setItem('userPhoto', e.target.result);
+        loadProfile();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function doRegister() {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const pass = document.getElementById('regPass').value;
+    const pass2 = document.getElementById('regPass2').value;
+    if (!name || !email || !pass || !pass2) { alert('Ҳама майдонҳоро пур кунед!'); return; }
+    if (pass !== pass2) { alert('Паролҳо яксон нестанд!'); return; }
+    localStorage.setItem('userName', name);
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userPass', pass);
+    localStorage.setItem('isLoggedIn', 'true');
+    loadProfile();
+    showPage('page4');
+  }
+
+  function doLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    const savedEmail = localStorage.getItem('userEmail');
+    const savedPass = localStorage.getItem('userPass');
+    if (email === savedEmail && pass === savedPass) {
+      localStorage.setItem('isLoggedIn', 'true');
+      showPage('page4');
+    } else {
+      alert('Email ё парол нодуруст аст!');
+    }
+  }
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+    const noTopbar = ['page1', 'page2', 'page3'];
+    document.getElementById('topbar').classList.toggle('show', !noTopbar.includes(id));
+  }
+
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Старт
+  loadProfile();
+  if (localStorage.getItem('isLoggedIn') === 'true') {
+    showPage('page4');
+  }
+</script>
+
+</body>
+</html>
