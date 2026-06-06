@@ -1,179 +1,259 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="manifest" href="manifest.json">
   <title>Курси Бепули Забонхо</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, sans-serif;
-      background: #1a1a2e;
-      color: white;
-      min-height: 100vh;
-    }
-
-    /* ТОПБАР */
-    .topbar {
-      display: none;
-      background: #16213e;
-      padding: 14px 16px;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; min-height: 100vh; }
+    .topbar { display: none; background: #16213e; padding: 14px 16px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
     .topbar.show { display: flex; }
-    .menu-btn {
-      font-size: 22px;
-      background: none;
-      border: none;
-      color: #FFD700;
-      cursor: pointer;
-    }
+    .menu-btn { font-size: 22px; background: none; border: none; color: #FFD700; cursor: pointer; }
     .topbar-title { color: #FFD700; font-size: 16px; font-weight: bold; }
-
-    /* SIDEBAR */
-    .sidebar {
-      position: fixed;
-      top: 0; left: -260px;
-      width: 260px;
-      height: 100%;
-      background: #0f3460;
-      z-index: 100;
-      transition: left 0.3s;
-      padding: 30px 20px;
-    }
+    .sidebar { position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: #0f3460; z-index: 100; transition: left 0.3s; padding: 30px 20px; }
     .sidebar.open { left: 0; }
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 99;
-    }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
     .overlay.show { display: block; }
-    .sidebar-profile {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .sidebar-photo {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #FFD700;
-      margin-bottom: 10px;
-    }
+    .sidebar-profile { text-align: center; margin-bottom: 24px; }
+    .sidebar-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #FFD700; margin-bottom: 10px; }
     .sidebar-name { color: #FFD700; font-size: 18px; font-weight: bold; }
-    .sidebar-btn {
-      display: block;
-      width: 100%;
-      background: #FFD700;
-      color: #000;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-    .sidebar-close {
-      position: absolute;
-      top: 14px; right: 14px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    /* ПРОФИЛ СТРАНИЦА */
-    .profile-edit { padding: 20px; max-width: 400px; margin: 0 auto; }
-    .profile-edit h2 { color: #FFD700; margin-bottom: 20px; text-align: center; }
-    .profile-photo-wrap { text-align: center; margin-bottom: 20px; }
-    .profile-photo-wrap img {
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #FFD700;
-    }
-    .change-photo-btn {
-      display: block;
-      margin: 10px auto 0;
-      background: #444;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
+    .sidebar-btn { display: block; width: 100%; background: #FFD700; color: #000; border: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .sidebar-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
     .main { max-width: 400px; margin: 0 auto; padding: 20px; text-align: center; }
     h1 { color: #FFD700; font-size: 26px; margin-bottom: 12px; }
-    p { color: #ccc; font-size: 15px; line-height: 1.7; }
     h2 { color: #FFD700; margin: 16px 0 10px; }
+    p { color: #ccc; font-size: 15px; line-height: 1.7; }
     ul { text-align: left; display: inline-block; }
     li { margin: 8px 0; font-size: 16px; }
-
-    .btn {
-      background: #FFD700;
-      color: #000;
-      border: none;
-      padding: 14px 40px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 30px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+    .btn { background: #FFD700; color: #000; border: none; padding: 14px 40px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; margin-top: 10px; }
+    .btn-red { background: #e74c3c; color: white; border: none; padding: 14px 40px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; margin-top: 10px; }
     .page { display: none; }
     .page.active { display: block; }
-    .card {
-      background: #16213e;
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 20px;
-    }
-    input[type=email], input[type=password], input[type=text] {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 10px;
-      border: 1px solid #444;
-      background: #0f3460;
-      color: white;
-      font-size: 15px;
+    .card { background: #16213e; border-radius: 16px; padding: 24px; margin-top: 20px; }
+    input[type=email], input[type=password], input[type=text], input[type=number], textarea {
+      width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #444; background: #0f3460; color: white; font-size: 15px;
     }
     .btn-row { display: flex; gap: 10px; margin-top: 14px; }
-    .btn2 {
-      background: #444;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 30px;
-      cursor: pointer;
-      flex: 1;
-    }
+    .btn2 { background: #444; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 30px; cursor: pointer; flex: 1; }
     table { width: 100%; color: #ccc; font-size: 14px; border-collapse: collapse; }
-    td { padding: 5px 4px; border-bottom: 1px solid #333; }
+    td { padding: 6px 4px; border-bottom: 1px solid #333; }
+    .week-btn { display: inline-block; margin: 5px; padding: 10px 18px; background: #0f3460; color: #FFD700; border: 2px solid #FFD700; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
+    .admin-btns { display: flex; gap: 6px; }
+    .btn-edit { background: #3498db; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .btn-del { background: #e74c3c; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    .user-card { background: #0f3460; border-radius: 10px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+    .user-card img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #FFD700; }
+    .ban-msg { background: #e74c3c; border-radius: 16px; padding: 30px 20px; margin-top: 20px; text-align: center; }
+    .ban-msg h2 { color: white; }
+    .ban-msg p { color: #ffcccc; margin-top: 10px; }
   </style>
 </head>
 <body>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBGB7-cjsnivRb2tIpcXt5kTrqQ1_OdJ5M",
+    authDomain: "zabonpro-ff55d.firebaseapp.com",
+    projectId: "zabonpro-ff55d",
+    storageBucket: "zabonpro-ff55d.firebasestorage.app",
+    messagingSenderId: "695643079009",
+    appId: "1:695643079009:web:73fb2a22d75c4feffac520"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const ADMIN_EMAIL = "hsaera71@gmail.com";
+
+  window.doRegister = async function() {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const pass = document.getElementById('regPass').value;
+    const pass2 = document.getElementById('regPass2').value;
+    if (!name || !email || !pass || !pass2) { alert('Ҳама майдонҳоро пур кунед!'); return; }
+    if (pass !== pass2) { alert('Паролҳо яксон нестанд!'); return; }
+    try {
+      const uc = await createUserWithEmailAndPassword(auth, email, pass);
+      await setDoc(doc(db, "users", uc.user.uid), { name, email, banned: false, banDays: 0, banReason: "", isModerator: false });
+      showPage('page4');
+    } catch(e) { alert('Хато: ' + e.message); }
+  };
+
+  window.doLogin = async function() {
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch(e) { alert('Email ё парол нодуруст!'); }
+  };
+
+  window.doLogout = async function() {
+    await signOut(auth);
+    showPage('page1');
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const uDoc = await getDoc(doc(db, "users", user.uid));
+      if (uDoc.exists()) {
+        const data = uDoc.data();
+        if (data.banned) {
+          showBanPage(data);
+          return;
+        }
+        document.getElementById('sidebarName').textContent = data.name || 'Корбар';
+        if (user.email === ADMIN_EMAIL) {
+          document.getElementById('adminMenuBtn').style.display = 'block';
+        }
+        showPage('page4');
+      }
+    }
+  });
+
+  function showBanPage(data) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const banPage = document.getElementById('pageBan');
+    banPage.classList.add('active');
+    document.getElementById('banReason').textContent = data.banReason || 'Сабаб нишон дода нашудааст';
+    document.getElementById('banDays').textContent = data.banDays || '?';
+  }
+
+  window.loadAdminUsers = async function() {
+    const snap = await getDocs(collection(db, "users"));
+    const list = document.getElementById('userList');
+    list.innerHTML = '';
+    snap.forEach(d => {
+      const u = d.data();
+      const div = document.createElement('div');
+      div.className = 'user-card';
+      div.innerHTML = `
+        <img src="${u.photo || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22%3E%3Ccircle cx=%2225%22 cy=%2225%22 r=%2225%22 fill=%22%230f3460%22/%3E%3C/svg%3E'}" />
+        <div style="flex:1">
+          <div style="color:#FFD700;font-weight:bold">${u.name}</div>
+          <div style="font-size:12px;color:#aaa">${u.email}</div>
+          ${u.banned ? '<div style="color:#e74c3c;font-size:12px">БАН</div>' : ''}
+          ${u.isModerator ? '<div style="color:#2ecc71;font-size:12px">Модератор</div>' : ''}
+        </div>
+        <button class="btn-edit" onclick="openUserAdmin('${d.id}','${u.name}','${u.email}',${u.banned},${u.isModerator},'${u.banReason||''}',${u.banDays||0})">Профил</button>
+      `;
+      list.appendChild(div);
+    });
+  };
+
+  window.openUserAdmin = function(uid, name, email, banned, isMod, banReason, banDays) {
+    document.getElementById('adminUserName').textContent = name;
+    document.getElementById('adminUserEmail').textContent = email;
+    document.getElementById('banReasonInput').value = banReason;
+    document.getElementById('banDaysInput').value = banDays;
+    document.getElementById('currentBanStatus').textContent = banned ? 'БАН' : 'Фаъол';
+    window._selectedUid = uid;
+    window._isMod = isMod;
+    window._isBanned = banned;
+    document.getElementById('modBtnText').textContent = isMod ? 'Гирифтани модератор' : 'Дать модератора';
+    showPage('pageUserAdmin');
+  };
+
+  window.doBan = async function() {
+    const days = parseInt(document.getElementById('banDaysInput').value);
+    const reason = document.getElementById('banReasonInput').value;
+    if (!days || !reason) { alert('Рӯзҳо ва сабабро нависед!'); return; }
+    await updateDoc(doc(db, "users", window._selectedUid), { banned: true, banDays: days, banReason: reason });
+    alert('Корбар бан шуд! ✅');
+    loadAdminUsers();
+    showPage('pageAdmin');
+  };
+
+  window.doUnban = async function() {
+    await updateDoc(doc(db, "users", window._selectedUid), { banned: false, banDays: 0, banReason: "" });
+    alert('Бан бардошта шуд! ✅');
+    loadAdminUsers();
+    showPage('pageAdmin');
+  };
+
+  window.toggleModerator = async function() {
+    await updateDoc(doc(db, "users", window._selectedUid), { isModerator: !window._isMod });
+    alert(!window._isMod ? 'Модератор дода шуд! ✅' : 'Модератор гирифта шуд! ✅');
+    loadAdminUsers();
+    showPage('pageAdmin');
+  };
+
+  // ЛУГАТХО
+  window.deleteWord = async function(lang, week, index) {
+    if (!confirm('Ҳатман удалит кунем?')) return;
+    const ref = doc(db, "words", lang + "_" + week);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      let words = snap.data().list || [];
+      words.splice(index, 1);
+      await updateDoc(ref, { list: words });
+      loadWords(lang, week);
+    }
+  };
+
+  window.editWord = async function(lang, week, index) {
+    const ref = doc(db, "words", lang + "_" + week);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      let words = snap.data().list || [];
+      const w = words[index];
+      const newWord = prompt('Луғатро иваз кун:', w.word);
+      const newTrans = prompt('Тарҷумаро иваз кун:', w.trans);
+      if (newWord && newTrans) {
+        words[index] = { word: newWord, trans: newTrans };
+        await updateDoc(ref, { list: words });
+        loadWords(lang, week);
+      }
+    }
+  };
+
+  window.loadWords = async function(lang, week) {
+    const ref = doc(db, "words", lang + "_" + week);
+    const snap = await getDoc(ref);
+    const isAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
+    const tbody = document.getElementById('wordTable');
+    tbody.innerHTML = '';
+    let words = [];
+    if (snap.exists()) {
+      words = snap.data().list || [];
+    } else {
+      words = getDefaultWords(lang, week);
+      await setDoc(ref, { list: words });
+    }
+    words.forEach((w, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i+1}. ${w.word}</td>
+        <td>- ${w.trans}</td>
+        ${isAdmin ? `<td class="admin-btns"><button class="btn-edit" onclick="editWord('${lang}','${week}',${i})">✏️</button><button class="btn-del" onclick="deleteWord('${lang}','${week}',${i})">🗑️</button></td>` : '<td></td>'}
+      `;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('wordTableTitle').textContent = (lang === 'eng' ? '🇬🇧 Англиси' : lang === 'chn' ? '🇨🇳 Хитои' : '🇷🇺 Уруси') + ' - Хафтаи ' + week;
+    window._currentLang = lang;
+    window._currentWeek = week;
+    showPage('pageWords');
+  };
+
+  window._currentLang = '';
+  window._currentWeek = '';
+</script>
 
 <!-- SIDEBAR -->
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 <div class="sidebar" id="sidebar">
   <button class="sidebar-close" onclick="closeSidebar()">✕</button>
   <div class="sidebar-profile">
-    <img src="" id="sidebarPhoto" class="sidebar-photo" />
-    <div class="sidebar-name" id="sidebarName">Номи шумо</div>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%230f3460'/%3E%3Ctext x='40' y='55' font-size='40' text-anchor='middle' fill='%23FFD700'%3E👤%3C/text%3E%3C/svg%3E" id="sidebarPhoto" class="sidebar-photo" />
+    <div class="sidebar-name" id="sidebarName">Корбар</div>
   </div>
-  <button class="sidebar-btn" onclick="showPage('pageProfile');closeSidebar()">👤 Профил</button>
-  <button class="sidebar-btn" onclick="showPage('page5');closeSidebar()" style="margin-top:10px;background:#0f3460;color:white">🌍 Забонхо</button>
+  <button class="sidebar-btn" onclick="showPage('page5');closeSidebar()">🌍 Забонхо</button>
+  <button class="sidebar-btn" id="adminMenuBtn" style="display:none;background:#e74c3c;color:white;margin-top:10px" onclick="showPage('pageAdmin');loadAdminUsers();closeSidebar()">⚙️ Админ панел</button>
+  <button class="sidebar-btn" style="background:#444;color:white;margin-top:10px" onclick="doLogout()">🚪 Выйти</button>
 </div>
 
 <!-- ТОПБАР -->
@@ -183,17 +263,17 @@
   <span></span>
 </div>
 
-<!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+<!-- СТРАНИЦА 1 -->
 <div class="page active" id="page1">
   <div class="main">
     <h1>Курси бепули забонхо!</h1>
-    <p>Дар инчо шумо метавонед ба гарантия забони Англиси, Хитои ва Урусиро ёд гиред!</p>
-    <p style="margin-top:10px">Пеш аз он ки курси бе пули моро аз худ кунед, хатман регистрация кунед!</p>
+    <p>Дар инҷо шумо метавонед забони Англисӣ, Хитоӣ ва Урусиро ёд гиред!</p>
+    <p style="margin-top:10px">Хатман регистрация кунед!</p>
     <h2>Забонхо:</h2>
     <ul>
-      <li>🇬🇧 Англиси</li>
-      <li>🇨🇳 Хитои</li>
-      <li>🇷🇺 Уруси</li>
+      <li>🇬🇧 Англисӣ</li>
+      <li>🇨🇳 Хитоӣ</li>
+      <li>🇷🇺 Урусӣ</li>
     </ul>
     <br>
     <button class="btn" onclick="showPage('page2')">Регистрация</button>
@@ -224,7 +304,6 @@
       <input type="email" id="regEmail" placeholder="Введите Email" />
       <input type="password" id="regPass" placeholder="Введите пароль" />
       <input type="password" id="regPass2" placeholder="Подтвердите пароль" />
-      <br>
       <button class="btn" onclick="doRegister()" style="width:100%;margin-top:14px">Зарегистрироваться</button>
     </div>
   </div>
@@ -235,7 +314,7 @@
   <div class="main">
     <div class="card">
       <h2>Ассаламу Алайкум!</h2>
-      <p style="font-size:16px;line-height:1.8;margin-top:10px">Хуш омадед ба курси ройгони мо! Пеш аз он ки забонихои моро ёд гиред, ба кнопкаи Забонхо пахш кунед!</p>
+      <p style="margin-top:10px">Хуш омадед! Ба кнопкаи Забонхо пахш кунед!</p>
       <button class="btn" onclick="showPage('page5')" style="width:100%;margin-top:20px">🌍 Забонхо</button>
     </div>
   </div>
@@ -245,211 +324,119 @@
 <div class="page" id="page5">
   <div class="main">
     <div class="card">
-      <h2>Забонхо</h2>
-      <br>
-      <button class="btn" onclick="showPage('page6')" style="width:100%;margin-bottom:10px">🇬🇧 Англиси</button>
-      <button class="btn" style="width:100%;margin-bottom:10px;background:#e74c3c">🇨🇳 Хитои</button>
-      <button class="btn" style="width:100%;background:#3498db">🇷🇺 Уруси</button>
+      <h2>Забонхо</h2><br>
+      <button class="btn" onclick="showPage('pageEng')" style="width:100%;margin-bottom:10px">🇬🇧 Англисӣ</button>
+      <button class="btn" onclick="showPage('pageChn')" style="width:100%;margin-bottom:10px;background:#e74c3c">🇨🇳 Хитоӣ</button>
+      <button class="btn" onclick="showPage('pageRus')" style="width:100%;background:#3498db">🇷🇺 Урусӣ</button>
     </div>
   </div>
 </div>
 
-<!-- СТРАНИЦА 6: АНГЛИСИ -->
-<div class="page" id="page6">
+<!-- АНГЛИСИ -->
+<div class="page" id="pageEng">
+  <div class="main"><div class="card">
+    <h2>🇬🇧 Англисӣ</h2>
+    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
+    <button class="week-btn" onclick="loadWords('eng',1)">Хафтаи 1</button>
+    <button class="week-btn" onclick="loadWords('eng',2)">Хафтаи 2</button>
+    <button class="week-btn" onclick="loadWords('eng',3)">Хафтаи 3</button>
+    <button class="week-btn" onclick="loadWords('eng',4)">Хафтаи 4</button>
+    <br><br>
+    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
+  </div></div>
+</div>
+
+<!-- ХИТОИ -->
+<div class="page" id="pageChn">
+  <div class="main"><div class="card">
+    <h2>🇨🇳 Хитоӣ</h2>
+    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
+    <button class="week-btn" onclick="loadWords('chn',1)">Хафтаи 1</button>
+    <button class="week-btn" onclick="loadWords('chn',2)">Хафтаи 2</button>
+    <button class="week-btn" onclick="loadWords('chn',3)">Хафтаи 3</button>
+    <button class="week-btn" onclick="loadWords('chn',4)">Хафтаи 4</button>
+    <br><br>
+    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
+  </div></div>
+</div>
+
+<!-- УРУСИ -->
+<div class="page" id="pageRus">
+  <div class="main"><div class="card">
+    <h2>🇷🇺 Урусӣ</h2>
+    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
+    <button class="week-btn" onclick="loadWords('rus',1)">Хафтаи 1</button>
+    <button class="week-btn" onclick="loadWords('rus',2)">Хафтаи 2</button>
+    <button class="week-btn" onclick="loadWords('rus',3)">Хафтаи 3</button>
+    <button class="week-btn" onclick="loadWords('rus',4)">Хафтаи 4</button>
+    <br><br>
+    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
+  </div></div>
+</div>
+
+<!-- ЛУГАТХО -->
+<div class="page" id="pageWords">
+  <div class="main"><div class="card">
+    <h2 id="wordTableTitle"></h2>
+    <table><tbody id="wordTable"></tbody></table>
+    <br>
+    <button class="btn" onclick="showPage(window._currentLang==='eng'?'pageEng':window._currentLang==='chn'?'pageChn':'pageRus')" style="width:100%">⬅ Бозгашт</button>
+  </div></div>
+</div>
+
+<!-- АДМИН ПАНЕЛ -->
+<div class="page" id="pageAdmin">
   <div class="main">
     <div class="card">
-      <h2>🇬🇧 Хафтаи 1</h2>
-      <p style="color:#FFD700;margin-bottom:10px">100 лугати Англиси:</p>
-      <table>
-        <tr><td>1. Hello</td><td>- Салом</td></tr>
-        <tr><td>2. Goodbye</td><td>- Хайр</td></tr>
-        <tr><td>3. Yes</td><td>- Ха</td></tr>
-        <tr><td>4. No</td><td>- Не</td></tr>
-        <tr><td>5. Please</td><td>- Лутфан</td></tr>
-        <tr><td>6. Thank you</td><td>- Ташаккур</td></tr>
-        <tr><td>7. Sorry</td><td>- Бубахшед</td></tr>
-        <tr><td>8. Water</td><td>- Об</td></tr>
-        <tr><td>9. Food</td><td>- Хурок</td></tr>
-        <tr><td>10. House</td><td>- Хона</td></tr>
-        <tr><td>11. Car</td><td>- Мошин</td></tr>
-        <tr><td>12. School</td><td>- Мактаб</td></tr>
-        <tr><td>13. Book</td><td>- Китоб</td></tr>
-        <tr><td>14. Friend</td><td>- Дӯст</td></tr>
-        <tr><td>15. Family</td><td>- Оила</td></tr>
-        <tr><td>16. Mother</td><td>- Модар</td></tr>
-        <tr><td>17. Father</td><td>- Падар</td></tr>
-        <tr><td>18. Brother</td><td>- Бародар</td></tr>
-        <tr><td>19. Sister</td><td>- Хохар</td></tr>
-        <tr><td>20. Sun</td><td>- Офтоб</td></tr>
-        <tr><td>21. Moon</td><td>- Мох</td></tr>
-        <tr><td>22. Star</td><td>- Ситора</td></tr>
-        <tr><td>23. Day</td><td>- Руз</td></tr>
-        <tr><td>24. Night</td><td>- Шаб</td></tr>
-        <tr><td>25. Morning</td><td>- Субх</td></tr>
-        <tr><td>26. Evening</td><td>- Бегох</td></tr>
-        <tr><td>27. Good</td><td>- Хуб</td></tr>
-        <tr><td>28. Bad</td><td>- Бад</td></tr>
-        <tr><td>29. Big</td><td>- Калон</td></tr>
-        <tr><td>30. Small</td><td>- Хурд</td></tr>
-        <tr><td>31. Hot</td><td>- Гарм</td></tr>
-        <tr><td>32. Cold</td><td>- Хунук</td></tr>
-        <tr><td>33. New</td><td>- Нав</td></tr>
-        <tr><td>34. Old</td><td>- Куха</td></tr>
-        <tr><td>35. Fast</td><td>- Тез</td></tr>
-        <tr><td>36. Slow</td><td>- Суст</td></tr>
-        <tr><td>37. Happy</td><td>- Хурсанд</td></tr>
-        <tr><td>38. Sad</td><td>- Гамгин</td></tr>
-        <tr><td>39. Love</td><td>- Мухаббат</td></tr>
-        <tr><td>40. Peace</td><td>- Сулх</td></tr>
-        <tr><td>41. Work</td><td>- Кор</td></tr>
-        <tr><td>42. Play</td><td>- Бози</td></tr>
-        <tr><td>43. Eat</td><td>- Хурдан</td></tr>
-        <tr><td>44. Drink</td><td>- Нушидан</td></tr>
-        <tr><td>45. Sleep</td><td>- Хобидан</td></tr>
-        <tr><td>46. Walk</td><td>- Рафтан</td></tr>
-        <tr><td>47. Run</td><td>- Давидан</td></tr>
-        <tr><td>48. See</td><td>- Дидан</td></tr>
-        <tr><td>49. Hear</td><td>- Шунидан</td></tr>
-        <tr><td>50. Speak</td><td>- Гап задан</td></tr>
-        <tr><td>51. Read</td><td>- Хондан</td></tr>
-        <tr><td>52. Write</td><td>- Навиштан</td></tr>
-        <tr><td>53. Learn</td><td>- Омухтан</td></tr>
-        <tr><td>54. Know</td><td>- Донистан</td></tr>
-        <tr><td>55. Think</td><td>- Фикр кардан</td></tr>
-        <tr><td>56. Come</td><td>- Омадан</td></tr>
-        <tr><td>57. Go</td><td>- Рафтан</td></tr>
-        <tr><td>58. Open</td><td>- Кушодан</td></tr>
-        <tr><td>59. Close</td><td>- Пӯшидан</td></tr>
-        <tr><td>60. Give</td><td>- Додан</td></tr>
-        <tr><td>61. Take</td><td>- Гирифтан</td></tr>
-        <tr><td>62. Buy</td><td>- Харидан</td></tr>
-        <tr><td>63. Sell</td><td>- Фурӯхтан</td></tr>
-        <tr><td>64. Money</td><td>- Пул</td></tr>
-        <tr><td>65. Time</td><td>- Вакт</td></tr>
-        <tr><td>66. Year</td><td>- Сол</td></tr>
-        <tr><td>67. Month</td><td>- Мох</td></tr>
-        <tr><td>68. Week</td><td>- Хафта</td></tr>
-        <tr><td>69. Today</td><td>- Имруз</td></tr>
-        <tr><td>70. Tomorrow</td><td>- Пагох</td></tr>
-        <tr><td>71. Yesterday</td><td>- Дируз</td></tr>
-        <tr><td>72. City</td><td>- Шахр</td></tr>
-        <tr><td>73. Country</td><td>- Кишвар</td></tr>
-        <tr><td>74. Road</td><td>- Рох</td></tr>
-        <tr><td>75. Door</td><td>- Дар</td></tr>
-        <tr><td>76. Window</td><td>- Тиреза</td></tr>
-        <tr><td>77. Table</td><td>- Миз</td></tr>
-        <tr><td>78. Chair</td><td>- Курси</td></tr>
-        <tr><td>79. Bed</td><td>- Кат</td></tr>
-        <tr><td>80. Phone</td><td>- Телефон</td></tr>
-        <tr><td>81. Computer</td><td>- Компютер</td></tr>
-        <tr><td>82. Internet</td><td>- Интернет</td></tr>
-        <tr><td>83. Doctor</td><td>- Духтур</td></tr>
-        <tr><td>84. Teacher</td><td>- Муаллим</td></tr>
-        <tr><td>85. Student</td><td>- Донишҷӯ</td></tr>
-        <tr><td>86. Child</td><td>- Кудак</td></tr>
-        <tr><td>87. Man</td><td>- Мард</td></tr>
-        <tr><td>88. Woman</td><td>- Зан</td></tr>
-        <tr><td>89. Boy</td><td>- Писар</td></tr>
-        <tr><td>90. Girl</td><td>- Духтар</td></tr>
-        <tr><td>91. Dog</td><td>- Саг</td></tr>
-        <tr><td>92. Cat</td><td>- Гурба</td></tr>
-        <tr><td>93. Bird</td><td>- Парранда</td></tr>
-        <tr><td>94. Fish</td><td>- Мохи</td></tr>
-        <tr><td>95. Tree</td><td>- Дарахт</td></tr>
-        <tr><td>96. Flower</td><td>- Гул</td></tr>
-        <tr><td>97. Rain</td><td>- Борон</td></tr>
-        <tr><td>98. Snow</td><td>- Барф</td></tr>
-        <tr><td>99. Fire</td><td>- Оташ</td></tr>
-        <tr><td>100. Life</td><td>- Зиндаги</td></tr>
-      </table>
-      <br>
-      <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
+      <h2>⚙️ Админ Панел</h2>
+      <p style="color:#FFD700;margin:10px 0">Рӯйхати корбарон:</p>
+      <div id="userList"></div>
     </div>
   </div>
 </div>
 
-<!-- СТРАНИЦА ПРОФИЛ -->
-<div class="page" id="pageProfile">
-  <div class="profile-edit">
-    <h2>👤 Профил</h2>
-    <div class="profile-photo-wrap">
-      <img src="" id="profilePhotoImg" />
-      <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="changePhoto(event)" />
-      <button class="change-photo-btn" onclick="document.getElementById('photoInput').click()">📷 Иваз кардани акс</button>
+<!-- ПРОФИЛИ КОРБАР (БАРОИ АДМИН) -->
+<div class="page" id="pageUserAdmin">
+  <div class="main"><div class="card">
+    <h2>👤 Профили Корбар</h2>
+    <p style="color:#FFD700" id="adminUserName"></p>
+    <p style="color:#aaa;font-size:13px" id="adminUserEmail"></p>
+    <p style="margin-top:10px">Статус: <span id="currentBanStatus" style="color:#2ecc71"></span></p>
+    <hr style="border-color:#333;margin:16px 0">
+    <h2 style="font-size:16px">🚫 Бан кардан</h2>
+    <input type="number" id="banDaysInput" placeholder="Рӯзҳои бан (мисол: 7)" />
+    <input type="text" id="banReasonInput" placeholder="Сабаби бан" />
+    <div class="btn-row">
+      <button class="btn-red btn" onclick="doBan()" style="flex:1;padding:12px">🚫 Забанить</button>
+      <button class="btn2" onclick="doUnban()">✅ Разбанить</button>
     </div>
-    <input type="text" id="profileNameInput" placeholder="Номи худро нависед" />
-    <button class="btn" onclick="saveProfile()" style="width:100%;margin-top:14px">💾 Захира кардан</button>
+    <hr style="border-color:#333;margin:16px 0">
+    <button class="btn" onclick="toggleModerator()" style="width:100%;background:#2ecc71" id="modBtnText">Дать модератора</button>
+    <br>
+    <button class="btn2" onclick="showPage('pageAdmin');loadAdminUsers()" style="width:100%;margin-top:10px">⬅ Бозгашт</button>
+  </div></div>
+</div>
+
+<!-- БАН СТРАНИЦА -->
+<div class="page" id="pageBan">
+  <div class="main">
+    <div class="ban-msg">
+      <h2>⛔ Бубахшед!</h2>
+      <p>Акаунти шуморо разработчикҳо бан кардаанд!</p>
+      <p style="margin-top:16px">Причина: <strong id="banReason"></strong></p>
+      <p style="margin-top:10px">Дней до окончания бана: <strong id="banDays"></strong></p>
+    </div>
+    <br>
+    <button class="btn" onclick="doLogout();showPage('page3')" style="width:100%">Аз сари нав Регистрация</button>
   </div>
 </div>
 
 <script>
-  const DEFAULT_PHOTO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230f3460'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='%23FFD700'%3E👤%3C/text%3E%3C/svg%3E";
-
-  function loadProfile() {
-    const name = localStorage.getItem('userName') || 'Номи шумо';
-    const photo = localStorage.getItem('userPhoto') || DEFAULT_PHOTO;
-    document.getElementById('sidebarName').textContent = name;
-    document.getElementById('sidebarPhoto').src = photo;
-    document.getElementById('profilePhotoImg').src = photo;
-    document.getElementById('profileNameInput').value = localStorage.getItem('userName') || '';
-  }
-
-  function saveProfile() {
-    const name = document.getElementById('profileNameInput').value;
-    if (name) {
-      localStorage.setItem('userName', name);
-      loadProfile();
-      alert('Захира шуд! ✅');
-    } else {
-      alert('Номро нависед!');
-    }
-  }
-
-  function changePhoto(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        localStorage.setItem('userPhoto', e.target.result);
-        loadProfile();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function doRegister() {
-    const name = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
-    const pass = document.getElementById('regPass').value;
-    const pass2 = document.getElementById('regPass2').value;
-    if (!name || !email || !pass || !pass2) { alert('Ҳама майдонҳоро пур кунед!'); return; }
-    if (pass !== pass2) { alert('Паролҳо яксон нестанд!'); return; }
-    localStorage.setItem('userName', name);
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userPass', pass);
-    localStorage.setItem('isLoggedIn', 'true');
-    loadProfile();
-    showPage('page4');
-  }
-
-  function doLogin() {
-    const email = document.getElementById('loginEmail').value;
-    const pass = document.getElementById('loginPass').value;
-    const savedEmail = localStorage.getItem('userEmail');
-    const savedPass = localStorage.getItem('userPass');
-    if (email === savedEmail && pass === savedPass) {
-      localStorage.setItem('isLoggedIn', 'true');
-      showPage('page4');
-    } else {
-      alert('Email ё парол нодуруст аст!');
-    }
-  }
-
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo(0, 0);
-    const noTopbar = ['page1', 'page2', 'page3'];
+    const noTopbar = ['page1', 'page2', 'page3', 'pageBan'];
     document.getElementById('topbar').classList.toggle('show', !noTopbar.includes(id));
   }
 
@@ -463,12 +450,29 @@
     document.getElementById('overlay').classList.remove('show');
   }
 
-  // Старт
-  loadProfile();
-  if (localStorage.getItem('isLoggedIn') === 'true') {
-    showPage('page4');
+  function getDefaultWords(lang, week) {
+    const words = {
+      eng: {
+        1: [{word:"Hello",trans:"Салом"},{word:"Goodbye",trans:"Хайр"},{word:"Yes",trans:"Ха"},{word:"No",trans:"Не"},{word:"Please",trans:"Лутфан"},{word:"Thank you",trans:"Ташаккур"},{word:"Sorry",trans:"Бубахшед"},{word:"Water",trans:"Об"},{word:"Food",trans:"Хурок"},{word:"House",trans:"Хона"},{word:"Car",trans:"Мошин"},{word:"School",trans:"Мактаб"},{word:"Book",trans:"Китоб"},{word:"Friend",trans:"Дӯст"},{word:"Family",trans:"Оила"},{word:"Mother",trans:"Модар"},{word:"Father",trans:"Падар"},{word:"Brother",trans:"Бародар"},{word:"Sister",trans:"Хохар"},{word:"Sun",trans:"Офтоб"},{word:"Moon",trans:"Мох"},{word:"Star",trans:"Ситора"},{word:"Day",trans:"Руз"},{word:"Night",trans:"Шаб"},{word:"Morning",trans:"Субх"},{word:"Evening",trans:"Бегох"},{word:"Good",trans:"Хуб"},{word:"Bad",trans:"Бад"},{word:"Big",trans:"Калон"},{word:"Small",trans:"Хурд"},{word:"Hot",trans:"Гарм"},{word:"Cold",trans:"Хунук"},{word:"New",trans:"Нав"},{word:"Old",trans:"Куха"},{word:"Fast",trans:"Тез"},{word:"Slow",trans:"Суст"},{word:"Happy",trans:"Хурсанд"},{word:"Sad",trans:"Гамгин"},{word:"Love",trans:"Мухаббат"},{word:"Peace",trans:"Сулх"},{word:"Work",trans:"Кор"},{word:"Play",trans:"Бози"},{word:"Eat",trans:"Хурдан"},{word:"Drink",trans:"Нушидан"},{word:"Sleep",trans:"Хобидан"},{word:"Walk",trans:"Рафтан"},{word:"Run",trans:"Давидан"},{word:"See",trans:"Дидан"},{word:"Hear",trans:"Шунидан"},{word:"Speak",trans:"Гап задан"},{word:"Read",trans:"Хондан"},{word:"Write",trans:"Навиштан"},{word:"Learn",trans:"Омухтан"},{word:"Know",trans:"Донистан"},{word:"Think",trans:"Фикр кардан"},{word:"Come",trans:"Омадан"},{word:"Go",trans:"Рафтан"},{word:"Open",trans:"Кушодан"},{word:"Close",trans:"Пӯшидан"},{word:"Give",trans:"Додан"},{word:"Take",trans:"Гирифтан"},{word:"Buy",trans:"Харидан"},{word:"Sell",trans:"Фурӯхтан"},{word:"Money",trans:"Пул"},{word:"Time",trans:"Вакт"},{word:"Year",trans:"Сол"},{word:"Month",trans:"Мох"},{word:"Week",trans:"Хафта"},{word:"Today",trans:"Имруз"},{word:"Tomorrow",trans:"Пагох"},{word:"Yesterday",trans:"Дируз"},{word:"City",trans:"Шахр"},{word:"Country",trans:"Кишвар"},{word:"Road",trans:"Рох"},{word:"Door",trans:"Дар"},{word:"Window",trans:"Тиреза"},{word:"Table",trans:"Миз"},{word:"Chair",trans:"Курси"},{word:"Bed",trans:"Кат"},{word:"Phone",trans:"Телефон"},{word:"Computer",trans:"Компютер"},{word:"Internet",trans:"Интернет"},{word:"Doctor",trans:"Духтур"},{word:"Teacher",trans:"Муаллим"},{word:"Student",trans:"Донишҷӯ"},{word:"Child",trans:"Кудак"},{word:"Man",trans:"Мард"},{word:"Woman",trans:"Зан"},{word:"Boy",trans:"Писар"},{word:"Girl",trans:"Духтар"},{word:"Dog",trans:"Саг"},{word:"Cat",trans:"Гурба"},{word:"Bird",trans:"Парранда"},{word:"Fish",trans:"Мохи"},{word:"Tree",trans:"Дарахт"},{word:"Flower",trans:"Гул"},{word:"Rain",trans:"Борон"},{word:"Snow",trans:"Барф"},{word:"Fire",trans:"Оташ"},{word:"Life",trans:"Зиндаги"}],
+        2: [{word:"Apple",trans:"Себ"},{word:"Bread",trans:"Нон"},{word:"Milk",trans:"Шир"},{word:"Egg",trans:"Тухм"},{word:"Meat",trans:"Гушт"},{word:"Rice",trans:"Биринҷ"},{word:"Sugar",trans:"Шакар"},{word:"Salt",trans:"Намак"},{word:"Oil",trans:"Равган"},{word:"Tea",trans:"Чой"},{word:"Coffee",trans:"Қаҳва"},{word:"Juice",trans:"Шарбат"},{word:"Soup",trans:"Шурбо"},{word:"Cake",trans:"Торт"},{word:"Candy",trans:"Ширинӣ"},{word:"Orange",trans:"Норинҷ"},{word:"Banana",trans:"Банан"},{word:"Grape",trans:"Ангур"},{word:"Tomato",trans:"Помидор"},{word:"Onion",trans:"Пиёз"},{word:"Potato",trans:"Картошка"},{word:"Carrot",trans:"Сабзӣ"},{word:"Cucumber",trans:"Бодиринг"},{word:"Pepper",trans:"Қаланфур"},{word:"Garlic",trans:"Сир"},{word:"Hospital",trans:"Беморхона"},{word:"Market",trans:"Бозор"},{word:"Bank",trans:"Банк"},{word:"Hotel",trans:"Меҳмонхона"},{word:"Airport",trans:"Фурудгох"},{word:"Station",trans:"Истгох"},{word:"Park",trans:"Боғ"},{word:"Museum",trans:"Осорхона"},{word:"Library",trans:"Китобхона"},{word:"Restaurant",trans:"Тарабхона"},{word:"Shirt",trans:"Пироҳан"},{word:"Pants",trans:"Шим"},{word:"Shoes",trans:"Пойафзол"},{word:"Hat",trans:"Куллох"},{word:"Jacket",trans:"Куртка"},{word:"Dress",trans:"Либос"},{word:"Bag",trans:"Сумка"},{word:"Watch",trans:"Соат"},{word:"Ring",trans:"Ангуштарин"},{word:"Mirror",trans:"Оина"},{word:"Key",trans:"Калид"},{word:"Lamp",trans:"Чарог"},{word:"Pen",trans:"Қалам"},{word:"Paper",trans:"Когаз"},{word:"Red",trans:"Сурх"},{word:"Blue",trans:"Кабуд"},{word:"Green",trans:"Сабз"},{word:"Yellow",trans:"Зард"},{word:"White",trans:"Сафед"},{word:"Black",trans:"Сиёх"},{word:"One",trans:"Як"},{word:"Two",trans:"Ду"},{word:"Three",trans:"Се"},{word:"Four",trans:"Чор"},{word:"Five",trans:"Панҷ"},{word:"Six",trans:"Шаш"},{word:"Seven",trans:"Хафт"},{word:"Eight",trans:"Хашт"},{word:"Nine",trans:"Нӯх"},{word:"Ten",trans:"Дах"},{word:"Monday",trans:"Душанбе"},{word:"Tuesday",trans:"Сешанбе"},{word:"Wednesday",trans:"Чоршанбе"},{word:"Thursday",trans:"Панҷшанбе"},{word:"Friday",trans:"Ҷумъа"},{word:"Saturday",trans:"Шанбе"},{word:"Sunday",trans:"Якшанбе"},{word:"Spring",trans:"Бахор"},{word:"Summer",trans:"Тобистон"},{word:"Autumn",trans:"Тирамох"},{word:"Winter",trans:"Зимистон"},{word:"North",trans:"Шимол"},{word:"South",trans:"Ҷануб"},{word:"East",trans:"Шарқ"},{word:"West",trans:"Ғарб"},{word:"Right",trans:"Рост"},{word:"Left",trans:"Чап"},{word:"January",trans:"Январ"},{word:"February",trans:"Феврал"},{word:"March",trans:"Март"},{word:"April",trans:"Апрел"},{word:"May",trans:"Май"},{word:"June",trans:"Июн"},{word:"July",trans:"Июл"},{word:"August",trans:"Август"},{word:"September",trans:"Сентябр"},{word:"October",trans:"Октябр"},{word:"November",trans:"Ноябр"},{word:"December",trans:"Декабр"}],
+        3: [{word:"Angry",trans:"Хашмгин"},{word:"Tired",trans:"Хаста"},{word:"Hungry",trans:"Гурусна"},{word:"Thirsty",trans:"Ташна"},{word:"Sick",trans:"Бемор"},{word:"Strong",trans:"Қавӣ"},{word:"Weak",trans:"Заиф"},{word:"Beautiful",trans:"Зебо"},{word:"Clean",trans:"Тоза"},{word:"Dirty",trans:"Чиркин"},{word:"Rich",trans:"Бой"},{word:"Poor",trans:"Камбагал"},{word:"Tall",trans:"Баланд"},{word:"Short",trans:"Паст"},{word:"Long",trans:"Дароз"},{word:"Heavy",trans:"Вазнин"},{word:"Light",trans:"Сабук"},{word:"Swim",trans:"Шино кардан"},{word:"Fly",trans:"Парвоз кардан"},{word:"Jump",trans:"Ҷаҳидан"},{word:"Dance",trans:"Рақсидан"},{word:"Sing",trans:"Суруд хондан"},{word:"Cook",trans:"Пухтан"},{word:"Build",trans:"Сохтан"},{word:"Break",trans:"Шикастан"},{word:"Help",trans:"Кумак кардан"},{word:"Wait",trans:"Интизор шудан"},{word:"Stop",trans:"Истодан"},{word:"Start",trans:"Оғоз кардан"},{word:"Finish",trans:"Тамом кардан"},{word:"Win",trans:"Ғалаба кардан"},{word:"Lose",trans:"Бохтан"},{word:"Try",trans:"Кӯшиш кардан"},{word:"Smile",trans:"Табассум кардан"},{word:"Cry",trans:"Гиристан"},{word:"Head",trans:"Сар"},{word:"Eye",trans:"Чашм"},{word:"Ear",trans:"Гӯш"},{word:"Nose",trans:"Бинӣ"},{word:"Mouth",trans:"Дахон"},{word:"Hand",trans:"Даст"},{word:"Foot",trans:"По"},{word:"Heart",trans:"Дил"},{word:"Hair",trans:"Мӯй"},{word:"Face",trans:"Рӯй"},{word:"Lion",trans:"Шер"},{word:"Tiger",trans:"Бабр"},{word:"Elephant",trans:"Фил"},{word:"Horse",trans:"Асп"},{word:"Cow",trans:"Гов"},{word:"Sheep",trans:"Гӯсфанд"},{word:"Chicken",trans:"Мурғ"},{word:"Rabbit",trans:"Харгӯш"},{word:"Bear",trans:"Хирс"},{word:"Wolf",trans:"Гург"},{word:"River",trans:"Дарё"},{word:"Mountain",trans:"Кӯх"},{word:"Sea",trans:"Бахр"},{word:"Forest",trans:"Ҷангал"},{word:"Desert",trans:"Биёбон"},{word:"Sky",trans:"Осмон"},{word:"Cloud",trans:"Абр"},{word:"Wind",trans:"Шамол"},{word:"Storm",trans:"Тӯфон"},{word:"Airplane",trans:"Хавопаймо"},{word:"Train",trans:"Қатора"},{word:"Bus",trans:"Автобус"},{word:"Bicycle",trans:"Велосипед"},{word:"Ship",trans:"Киштӣ"},{word:"Music",trans:"Мусиқӣ"},{word:"Song",trans:"Суруд"},{word:"Movie",trans:"Филм"},{word:"Sport",trans:"Варзиш"},{word:"Football",trans:"Футбол"},{word:"Science",trans:"Илм"},{word:"Math",trans:"Математика"},{word:"History",trans:"Таърих"},{word:"Language",trans:"Забон"},{word:"Dream",trans:"Орзу"},{word:"Hope",trans:"Умед"},{word:"Future",trans:"Оянда"},{word:"World",trans:"Ҷахон"},{word:"Freedom",trans:"Озодӣ"},{word:"Success",trans:"Муваффақият"}],
+        4: [{word:"Good morning",trans:"Субҳ бахайр"},{word:"Good evening",trans:"Шом бахайр"},{word:"Good night",trans:"Шаб бахайр"},{word:"How are you?",trans:"Ҳол шумо чӣ?"},{word:"I am fine",trans:"Ман хубам"},{word:"What is your name?",trans:"Номи шумо чист?"},{word:"My name is...",trans:"Номи ман..."},{word:"Where are you from?",trans:"Шумо аз куҷо?"},{word:"I am from Tajikistan",trans:"Ман аз Тоҷикистон"},{word:"How old are you?",trans:"Синну соли шумо?"},{word:"I don't understand",trans:"Ман намефаҳмам"},{word:"Please repeat",trans:"Лутфан такрор кунед"},{word:"How much?",trans:"Чанд пул?"},{word:"I need help",trans:"Ба ман кумак лозим"},{word:"I love you",trans:"Ман туро дӯст дорам"},{word:"Nice to meet you",trans:"Хурсандам аз шинохтан"},{word:"Good luck",trans:"Муваффақ бошед"},{word:"Happy birthday",trans:"Таваллудатон муборак"},{word:"Congratulations",trans:"Табрик"},{word:"No problem",trans:"Мушкил нест"},{word:"I agree",trans:"Ман розӣ ҳастам"},{word:"Maybe",trans:"Шояд"},{word:"Always",trans:"Ҳамеша"},{word:"Never",trans:"Ҳеҷ вақт"},{word:"Sometimes",trans:"Баъзан"},{word:"Here",trans:"Инҷо"},{word:"There",trans:"Онҷо"},{word:"Together",trans:"Якҷо"},{word:"Alone",trans:"Танҳо"},{word:"Easy",trans:"Осон"},{word:"Difficult",trans:"Душвор"},{word:"Important",trans:"Муҳим"},{word:"Interesting",trans:"Ҷолиб"},{word:"True",trans:"Рост"},{word:"False",trans:"Дурӯғ"},{word:"Safe",trans:"Бехатар"},{word:"Dangerous",trans:"Хатарнок"},{word:"Ready",trans:"Тайёр"},{word:"Busy",trans:"Банд"},{word:"Free",trans:"Озод"},{word:"Near",trans:"Наздик"},{word:"Far",trans:"Дур"},{word:"Up",trans:"Боло"},{word:"Down",trans:"Поён"},{word:"Before",trans:"Пеш"},{word:"After",trans:"Баъд"},{word:"Because",trans:"Чунки"},{word:"But",trans:"Аммо"},{word:"And",trans:"Ва"},{word:"Or",trans:"Ё"},{word:"If",trans:"Агар"}]
+      },
+      chn: {
+        1: [{word:"Nǐ hǎo",trans:"Салом"},{word:"Zàijiàn",trans:"Хайр"},{word:"Shì",trans:"Ха"},{word:"Bù shì",trans:"Не"},{word:"Qǐng",trans:"Лутфан"},{word:"Xièxiè",trans:"Ташаккур"},{word:"Duìbuqǐ",trans:"Бубахшед"},{word:"Shuǐ",trans:"Об"},{word:"Shíwù",trans:"Хурок"},{word:"Fángzi",trans:"Хона"},{word:"Chē",trans:"Мошин"},{word:"Xuéxiào",trans:"Мактаб"},{word:"Shū",trans:"Китоб"},{word:"Péngyǒu",trans:"Дӯст"},{word:"Jiātíng",trans:"Оила"},{word:"Māma",trans:"Модар"},{word:"Bàba",trans:"Падар"},{word:"Gēgē",trans:"Бародар"},{word:"Jiějiě",trans:"Хохар"},{word:"Tàiyáng",trans:"Офтоб"},{word:"Yuèliàng",trans:"Мох"},{word:"Xīngxīng",trans:"Ситора"},{word:"Tiān",trans:"Руз"},{word:"Yè",trans:"Шаб"},{word:"Zǎoshang",trans:"Субх"},{word:"Wǎnshang",trans:"Бегох"},{word:"Hǎo",trans:"Хуб"},{word:"Huài",trans:"Бад"},{word:"Dà",trans:"Калон"},{word:"Xiǎo",trans:"Хурд"},{word:"Rè",trans:"Гарм"},{word:"Lěng",trans:"Хунук"},{word:"Xīn",trans:"Нав"},{word:"Jiù",trans:"Куха"},{word:"Kuài",trans:"Тез"},{word:"Màn",trans:"Суст"},{word:"Gāoxìng",trans:"Хурсанд"},{word:"Nánguò",trans:"Гамгин"},{word:"Ài",trans:"Мухаббат"},{word:"Hépíng",trans:"Сулх"},{word:"Gōngzuò",trans:"Кор"},{word:"Wánr",trans:"Бози"},{word:"Chī",trans:"Хурдан"},{word:"Hē",trans:"Нушидан"},{word:"Shuìjiào",trans:"Хобидан"},{word:"Zǒu",trans:"Рафтан"},{word:"Pǎo",trans:"Давидан"},{word:"Kàn",trans:"Дидан"},{word:"Tīng",trans:"Шунидан"},{word:"Shuō",trans:"Гап задан"},{word:"Dú",trans:"Хондан"},{word:"Xiě",trans:"Навиштан"},{word:"Xué",trans:"Омухтан"},{word:"Zhīdào",trans:"Донистан"},{word:"Xiǎng",trans:"Фикр кардан"},{word:"Lái",trans:"Омадан"},{word:"Qù",trans:"Рафтан"},{word:"Kāi",trans:"Кушодан"},{word:"Guān",trans:"Пӯшидан"},{word:"Gěi",trans:"Додан"},{word:"Ná",trans:"Гирифтан"},{word:"Mǎi",trans:"Харидан"},{word:"Mài",trans:"Фурӯхтан"},{word:"Qián",trans:"Пул"},{word:"Shíjiān",trans:"Вакт"},{word:"Nián",trans:"Сол"},{word:"Yuè",trans:"Мох"},{word:"Zhōu",trans:"Хафта"},{word:"Jīntiān",trans:"Имруз"},{word:"Míngtiān",trans:"Пагох"},{word:"Zuótiān",trans:"Дируз"},{word:"Chéngshì",trans:"Шахр"},{word:"Guójiā",trans:"Кишвар"},{word:"Lù",trans:"Рох"},{word:"Mén",trans:"Дар"},{word:"Chuānghù",trans:"Тиреза"},{word:"Zhuōzi",trans:"Миз"},{word:"Yǐzi",trans:"Курси"},{word:"Chuáng",trans:"Кат"},{word:"Diànhuà",trans:"Телефон"},{word:"Diànnǎo",trans:"Компютер"},{word:"Hùliánwǎng",trans:"Интернет"},{word:"Yīshēng",trans:"Духтур"},{word:"Lǎoshī",trans:"Муаллим"},{word:"Xuéshēng",trans:"Донишҷӯ"},{word:"Háizi",trans:"Кудак"},{word:"Nánrén",trans:"Мард"},{word:"Nǚrén",trans:"Зан"},{word:"Nánhái",trans:"Писар"},{word:"Nǚhái",trans:"Духтар"},{word:"Gǒu",trans:"Саг"},{word:"Māo",trans:"Гурба"},{word:"Niǎo",trans:"Парранда"},{word:"Yú",trans:"Мохи"},{word:"Shù",trans:"Дарахт"},{word:"Huā",trans:"Гул"},{word:"Yǔ",trans:"Борон"},{word:"Xuě",trans:"Барф"},{word:"Huǒ",trans:"Оташ"},{word:"Shēnghuó",trans:"Зиндаги"}],
+        2: [{word:"Píngguǒ",trans:"Себ"},{word:"Miànbāo",trans:"Нон"},{word:"Niúnǎi",trans:"Шир"},{word:"Jīdàn",trans:"Тухм"},{word:"Ròu",trans:"Гушт"},{word:"Mǐfàn",trans:"Биринҷ"},{word:"Táng",trans:"Шакар"},{word:"Yán",trans:"Намак"},{word:"Yóu",trans:"Равган"},{word:"Chá",trans:"Чой"},{word:"Kāfēi",trans:"Қаҳва"},{word:"Guǒzhī",trans:"Шарбат"},{word:"Tāng",trans:"Шурбо"},{word:"Dàngāo",trans:"Торт"},{word:"Chéngzi",trans:"Норинҷ"},{word:"Xiāngjiāo",trans:"Банан"},{word:"Pútáo",trans:"Ангур"},{word:"Xīhóngshì",trans:"Помидор"},{word:"Yángcōng",trans:"Пиёз"},{word:"Tǔdòu",trans:"Картошка"},{word:"Húluóbo",trans:"Сабзӣ"},{word:"Huángguā",trans:"Бодиринг"},{word:"Suàn",trans:"Сир"},{word:"Yīyuàn",trans:"Беморхона"},{word:"Shìchǎng",trans:"Бозор"},{word:"Yínháng",trans:"Банк"},{word:"Jiǔdiàn",trans:"Меҳмонхона"},{word:"Jīchǎng",trans:"Фурудгох"},{word:"Chēzhàn",trans:"Истгох"},{word:"Gōngyuán",trans:"Боғ"},{word:"Bówùguǎn",trans:"Осорхона"},{word:"Túshūguǎn",trans:"Китобхона"},{word:"Cāntīng",trans:"Тарабхона"},{word:"Chènshān",trans:"Пироҳан"},{word:"Kùzi",trans:"Шим"},{word:"Xié",trans:"Пойафзол"},{word:"Màozi",trans:"Куллох"},{word:"Jiákè",trans:"Куртка"},{word:"Yīfú",trans:"Либос"},{word:"Bāo",trans:"Сумка"},{word:"Shǒubiǎo",trans:"Соат"},{word:"Jièzhǐ",trans:"Ангуштарин"},{word:"Jìngzi",trans:"Оина"},{word:"Yàoshi",trans:"Калид"},{word:"Dēng",trans:"Чарог"},{word:"Bǐ",trans:"Қалам"},{word:"Zhǐ",trans:"Когаз"},{word:"Hóngsè",trans:"Сурх"},{word:"Lánsè",trans:"Кабуд"},{word:"Lǜsè",trans:"Сабз"},{word:"Huángsè",trans:"Зард"},{word:"Báisè",trans:"Сафед"},{word:"Hēisè",trans:"Сиёх"},{word:"Yī",trans:"Як"},{word:"Èr",trans:"Ду"},{word:"Sān",trans:"Се"},{word:"Sì",trans:"Чор"},{word:"Wǔ",trans:"Панҷ"},{word:"Liù",trans:"Шаш"},{word:"Qī",trans:"Хафт"},{word:"Bā",trans:"Хашт"},{word:"Jiǔ",trans:"Нӯх"},{word:"Shí",trans:"Дах"},{word:"Xīngqīyī",trans:"Душанбе"},{word:"Xīngqīèr",trans:"Сешанбе"},{word:"Xīngqīsān",trans:"Чоршанбе"},{word:"Xīngqīsì",trans:"Панҷшанбе"},{word:"Xīngqīwǔ",trans:"Ҷумъа"},{word:"Xīngqīliù",trans:"Шанбе"},{word:"Xīngqītiān",trans:"Якшанбе"},{word:"Chūntiān",trans:"Бахор"},{word:"Xiàtiān",trans:"Тобистон"},{word:"Qiūtiān",trans:"Тирамох"},{word:"Dōngtiān",trans:"Зимистон"},{word:"Běifāng",trans:"Шимол"},{word:"Nánfāng",trans:"Ҷануб"},{word:"Dōngfāng",trans:"Шарқ"},{word:"Xīfāng",trans:"Ғарб"}],
+        3: [{word:"Shīzi",trans:"Шер"},{word:"Lǎohǔ",trans:"Бабр"},{word:"Dàxiàng",trans:"Фил"},{word:"Mǎ",trans:"Асп"},{word:"Niú",trans:"Гов"},{word:"Yáng",trans:"Гӯсфанд"},{word:"Jī",trans:"Мурғ"},{word:"Tùzi",trans:"Харгӯш"},{word:"Xióng",trans:"Хирс"},{word:"Láng",trans:"Гург"},{word:"Hé",trans:"Дарё"},{word:"Shān",trans:"Кӯх"},{word:"Hǎi",trans:"Бахр"},{word:"Sēnlín",trans:"Ҷангал"},{word:"Shāmò",trans:"Биёбон"},{word:"Tiānkōng",trans:"Осмон"},{word:"Yún",trans:"Абр"},{word:"Fēng",trans:"Шамол"},{word:"Fēijī",trans:"Хавопаймо"},{word:"Huǒchē",trans:"Қатора"},{word:"Gōngchē",trans:"Автобус"},{word:"Zìxíngchē",trans:"Велосипед"},{word:"Chuán",trans:"Киштӣ"},{word:"Yīnyuè",trans:"Мусиқӣ"},{word:"Gē",trans:"Суруд"},{word:"Diànyǐng",trans:"Филм"},{word:"Yóuxì",trans:"Бозӣ"},{word:"Yùndòng",trans:"Варзиш"},{word:"Zúqiú",trans:"Футбол"},{word:"Kēxué",trans:"Илм"},{word:"Shùxué",trans:"Математика"},{word:"Lìshǐ",trans:"Таърих"},{word:"Yǔyán",trans:"Забон"},{word:"Wénhuà",trans:"Фарҳанг"},{word:"Tóu",trans:"Сар"},{word:"Yǎnjīng",trans:"Чашм"},{word:"Ěrduǒ",trans:"Гӯш"},{word:"Bízi",trans:"Бинӣ"},{word:"Zuǐ",trans:"Дахон"},{word:"Shǒu",trans:"Даст"},{word:"Jiǎo",trans:"По"},{word:"Xīn",trans:"Дил"},{word:"Tóufa",trans:"Мӯй"},{word:"Liǎn",trans:"Рӯй"},{word:"Shēngqì",trans:"Хашмгин"},{word:"Lèi",trans:"Хаста"},{word:"È",trans:"Гурусна"},{word:"Kě",trans:"Ташна"},{word:"Bìng",trans:"Бемор"},{word:"Qiáng",trans:"Қавӣ"},{word:"Ruò",trans:"Заиф"},{word:"Měilì",trans:"Зебо"},{word:"Gānjìng",trans:"Тоза"},{word:"Zāng",trans:"Чиркин"},{word:"Fùyǒu",trans:"Бой"},{word:"Pínqióng",trans:"Камбагал"},{word:"Gāo",trans:"Баланд"},{word:"Ǎi",trans:"Паст"},{word:"Cháng",trans:"Дароз"},{word:"Zhòng",trans:"Вазнин"},{word:"Qīng",trans:"Сабук"},{word:"Mèngxiǎng",trans:"Орзу"},{word:"Xīwàng",trans:"Умед"},{word:"Wèilái",trans:"Оянда"},{word:"Shìjiè",trans:"Ҷахон"},{word:"Zìyóu",trans:"Озодӣ"},{word:"Chénggōng",trans:"Муваффақият"}],
+        4: [{word:"Nǐ hǎo ma?",trans:"Ҳол шумо чӣ?"},{word:"Wǒ hěn hǎo",trans:"Ман хубам"},{word:"Nǐ jiào shénme?",trans:"Номи шумо чист?"},{word:"Wǒ jiào...",trans:"Номи ман..."},{word:"Nǐ cóng nǎlǐ lái?",trans:"Шумо аз куҷо?"},{word:"Wǒ bù dǒng",trans:"Ман намефаҳмам"},{word:"Qǐng zài shuō",trans:"Лутфан такрор кунед"},{word:"Duōshao qián?",trans:"Чанд пул?"},{word:"Wǒ ài nǐ",trans:"Ман туро дӯст дорам"},{word:"Shēngrì kuàilè",trans:"Таваллудатон муборак"},{word:"Méi wèntí",trans:"Мушкил нест"},{word:"Tài hǎo le",trans:"Ин олӣ аст"},{word:"Yěxǔ",trans:"Шояд"},{word:"Zǒngshì",trans:"Ҳамеша"},{word:"Yǒushíhou",trans:"Баъзан"},{word:"Zhèlǐ",trans:"Инҷо"},{word:"Nàlǐ",trans:"Онҷо"},{word:"Yīqǐ",trans:"Якҷо"},{word:"Dúzì",trans:"Танҳо"},{word:"Róngyì",trans:"Осон"},{word:"Nán",trans:"Душвор"},{word:"Zhòngyào",trans:"Муҳим"},{word:"Ānquán",trans:"Бехатар"},{word:"Wēixiǎn",trans:"Хатарнок"},{word:"Zhǔnbèi hǎo",trans:"Тайёр"},{word:"Jìn",trans:"Наздик"},{word:"Yuǎn",trans:"Дур"},{word:"Shàng",trans:"Боло"},{word:"Xià",trans:"Поён"},{word:"Yīnwèi",trans:"Чунки"},{word:"Dànshì",trans:"Аммо"},{word:"Rúguǒ",trans:"Агар"}]
+      },
+      rus: {
+        1: [{word:"Привет",trans:"Салом"},{word:"До свидания",trans:"Хайр"},{word:"Да",trans:"Ха"},{word:"Нет",trans:"Не"},{word:"Пожалуйста",trans:"Лутфан"},{word:"Спасибо",trans:"Ташаккур"},{word:"Извините",trans:"Бубахшед"},{word:"Вода",trans:"Об"},{word:"Еда",trans:"Хурок"},{word:"Дом",trans:"Хона"},{word:"Машина",trans:"Мошин"},{word:"Школа",trans:"Мактаб"},{word:"Книга",trans:"Китоб"},{word:"Друг",trans:"Дӯст"},{word:"Семья",trans:"Оила"},{word:"Мама",trans:"Модар"},{word:"Папа",trans:"Падар"},{word:"Брат",trans:"Бародар"},{word:"Сестра",trans:"Хохар"},{word:"Солнце",trans:"Офтоб"},{word:"Луна",trans:"Мох"},{word:"Звезда",trans:"Ситора"},{word:"День",trans:"Руз"},{word:"Ночь",trans:"Шаб"},{word:"Утро",trans:"Субх"},{word:"Вечер",trans:"Бегох"},{word:"Хорошо",trans:"Хуб"},{word:"Плохо",trans:"Бад"},{word:"Большой",trans:"Калон"},{word:"Маленький",trans:"Хурд"},{word:"Горячий",trans:"Гарм"},{word:"Холодный",trans:"Хунук"},{word:"Новый",trans:"Нав"},{word:"Старый",trans:"Куха"},{word:"Быстрый",trans:"Тез"},{word:"Медленный",trans:"Суст"},{word:"Счастливый",trans:"Хурсанд"},{word:"Грустный",trans:"Гамгин"},{word:"Любовь",trans:"Мухаббат"},{word:"Мир",trans:"Сулх"},{word:"Работа",trans:"Кор"},{word:"Игра",trans:"Бози"},{word:"Есть",trans:"Хурдан"},{word:"Пить",trans:"Нушидан"},{word:"Спать",trans:"Хобидан"},{word:"Идти",trans:"Рафтан"},{word:"Бежать",trans:"Давидан"},{word:"Видеть",trans:"Дидан"},{word:"Слышать",trans:"Шунидан"},{word:"Говорить",trans:"Гап задан"},{word:"Читать",trans:"Хондан"},{word:"Писать",trans:"Навиштан"},{word:"Учиться",trans:"Омухтан"},{word:"Знать",trans:"Донистан"},{word:"Думать",trans:"Фикр кардан"},{word:"Приходить",trans:"Омадан"},{word:"Уходить",trans:"Рафтан"},{word:"Открывать",trans:"Кушодан"},{word:"Закрывать",trans:"Пӯшидан"},{word:"Давать",trans:"Додан"},{word:"Брать",trans:"Гирифтан"},{word:"Покупать",trans:"Харидан"},{word:"Продавать",trans:"Фурӯхтан"},{word:"Деньги",trans:"Пул"},{word:"Время",trans:"Вакт"},{word:"Год",trans:"Сол"},{word:"Месяц",trans:"Мох"},{word:"Неделя",trans:"Хафта"},{word:"Сегодня",trans:"Имруз"},{word:"Завтра",trans:"Пагох"},{word:"Вчера",trans:"Дируз"},{word:"Город",trans:"Шахр"},{word:"Страна",trans:"Кишвар"},{word:"Дорога",trans:"Рох"},{word:"Дверь",trans:"Дар"},{word:"Окно",trans:"Тиреза"},{word:"Стол",trans:"Миз"},{word:"Стул",trans:"Курси"},{word:"Кровать",trans:"Кат"},{word:"Телефон",trans:"Телефон"},{word:"Компьютер",trans:"Компютер"},{word:"Интернет",trans:"Интернет"},{word:"Врач",trans:"Духтур"},{word:"Учитель",trans:"Муаллим"},{word:"Студент",trans:"Донишҷӯ"},{word:"Ребёнок",trans:"Кудак"},{word:"Мужчина",trans:"Мард"},{word:"Женщина",trans:"Зан"},{word:"Мальчик",trans:"Писар"},{word:"Девочка",trans:"Духтар"},{word:"Собака",trans:"Саг"},{word:"Кошка",trans:"Гурба"},{word:"Птица",trans:"Парранда"},{word:"Рыба",trans:"Мохи"},{word:"Дерево",trans:"Дарахт"},{word:"Цветок",trans:"Гул"},{word:"Дождь",trans:"Борон"},{word:"Снег",trans:"Барф"},{word:"Огонь",trans:"Оташ"},{word:"Жизнь",trans:"Зиндаги"}],
+        2: [{word:"Яблоко",trans:"Себ"},{word:"Хлеб",trans:"Нон"},{word:"Молоко",trans:"Шир"},{word:"Яйцо",trans:"Тухм"},{word:"Мясо",trans:"Гушт"},{word:"Рис",trans:"Биринҷ"},{word:"Сахар",trans:"Шакар"},{word:"Соль",trans:"Намак"},{word:"Масло",trans:"Равган"},{word:"Чай",trans:"Чой"},{word:"Кофе",trans:"Қаҳва"},{word:"Сок",trans:"Шарбат"},{word:"Суп",trans:"Шурбо"},{word:"Торт",trans:"Торт"},{word:"Конфета",trans:"Ширинӣ"},{word:"Апельсин",trans:"Норинҷ"},{word:"Банан",trans:"Банан"},{word:"Виноград",trans:"Ангур"},{word:"Помидор",trans:"Помидор"},{word:"Лук",trans:"Пиёз"},{word:"Картошка",trans:"Картошка"},{word:"Морковь",trans:"Сабзӣ"},{word:"Огурец",trans:"Бодиринг"},{word:"Перец",trans:"Қаланфур"},{word:"Чеснок",trans:"Сир"},{word:"Больница",trans:"Беморхона"},{word:"Рынок",trans:"Бозор"},{word:"Банк",trans:"Банк"},{word:"Гостиница",trans:"Меҳмонхона"},{word:"Аэропорт",trans:"Фурудгох"},{word:"Станция",trans:"Истгох"},{word:"Парк",trans:"Боғ"},{word:"Музей",trans:"Осорхона"},{word:"Библиотека",trans:"Китобхона"},{word:"Ресторан",trans:"Тарабхона"},{word:"Рубашка",trans:"Пироҳан"},{word:"Брюки",trans:"Шим"},{word:"Обувь",trans:"Пойафзол"},{word:"Шапка",trans:"Куллох"},{word:"Куртка",trans:"Куртка"},{word:"Платье",trans:"Либос"},{word:"Сумка",trans:"Сумка"},{word:"Часы",trans:"Соат"},{word:"Кольцо",trans:"Ангуштарин"},{word:"Зеркало",trans:"Оина"},{word:"Ключ",trans:"Калид"},{word:"Лампа",trans:"Чарог"},{word:"Ручка",trans:"Қалам"},{word:"Бумага",trans:"Когаз"},{word:"Красный",trans:"Сурх"},{word:"Синий",trans:"Кабуд"},{word:"Зелёный",trans:"Сабз"},{word:"Жёлтый",trans:"Зард"},{word:"Белый",trans:"Сафед"},{word:"Чёрный",trans:"Сиёх"},{word:"Один",trans:"Як"},{word:"Два",trans:"Ду"},{word:"Три",trans:"Се"},{word:"Четыре",trans:"Чор"},{word:"Пять",trans:"Панҷ"},{word:"Шесть",trans:"Шаш"},{word:"Семь",trans:"Хафт"},{word:"Восемь",trans:"Хашт"},{word:"Девять",trans:"Нӯх"},{word:"Десять",trans:"Дах"},{word:"Понедельник",trans:"Душанбе"},{word:"Вторник",trans:"Сешанбе"},{word:"Среда",trans:"Чоршанбе"},{word:"Четверг",trans:"Панҷшанбе"},{word:"Пятница",trans:"Ҷумъа"},{word:"Суббота",trans:"Шанбе"},{word:"Воскресенье",trans:"Якшанбе"},{word:"Весна",trans:"Бахор"},{word:"Лето",trans:"Тобистон"},{word:"Осень",trans:"Тирамох"},{word:"Зима",trans:"Зимистон"},{word:"Север",trans:"Шимол"},{word:"Юг",trans:"Ҷануб"},{word:"Восток",trans:"Шарқ"},{word:"Запад",trans:"Ғарб"}],
+        3: [{word:"Лев",trans:"Шер"},{word:"Тигр",trans:"Бабр"},{word:"Слон",trans:"Фил"},{word:"Лошадь",trans:"Асп"},{word:"Корова",trans:"Гов"},{word:"Овца",trans:"Гӯсфанд"},{word:"Курица",trans:"Мурғ"},{word:"Кролик",trans:"Харгӯш"},{word:"Медведь",trans:"Хирс"},{word:"Волк",trans:"Гург"},{word:"Река",trans:"Дарё"},{word:"Гора",trans:"Кӯх"},{word:"Море",trans:"Бахр"},{word:"Лес",trans:"Ҷангал"},{word:"Пустыня",trans:"Биёбон"},{word:"Небо",trans:"Осмон"},{word:"Облако",trans:"Абр"},{word:"Ветер",trans:"Шамол"},{word:"Буря",trans:"Тӯфон"},{word:"Самолёт",trans:"Хавопаймо"},{word:"Поезд",trans:"Қатора"},{word:"Автобус",trans:"Автобус"},{word:"Велосипед",trans:"Велосипед"},{word:"Корабль",trans:"Киштӣ"},{word:"Музыка",trans:"Мусиқӣ"},{word:"Песня",trans:"Суруд"},{word:"Фильм",trans:"Филм"},{word:"Спорт",trans:"Варзиш"},{word:"Футбол",trans:"Футбол"},{word:"Наука",trans:"Илм"},{word:"Математика",trans:"Математика"},{word:"История",trans:"Таърих"},{word:"Язык",trans:"Забон"},{word:"Культура",trans:"Фарҳанг"},{word:"Голова",trans:"Сар"},{word:"Глаз",trans:"Чашм"},{word:"Ухо",trans:"Гӯш"},{word:"Нос",trans:"Бинӣ"},{word:"Рот",trans:"Дахон"},{word:"Рука",trans:"Даст"},{word:"Нога",trans:"По"},{word:"Сердце",trans:"Дил"},{word:"Волосы",trans:"Мӯй"},{word:"Лицо",trans:"Рӯй"},{word:"Злой",trans:"Хашмгин"},{word:"Усталый",trans:"Хаста"},{word:"Голодный",trans:"Гурусна"},{word:"Жаждущий",trans:"Ташна"},{word:"Больной",trans:"Бемор"},{word:"Сильный",trans:"Қавӣ"},{word:"Слабый",trans:"Заиф"},{word:"Красивый",trans:"Зебо"},{word:"Чистый",trans:"Тоза"},{word:"Грязный",trans:"Чиркин"},{word:"Богатый",trans:"Бой"},{word:"Бедный",trans:"Камбагал"},{word:"Высокий",trans:"Баланд"},{word:"Низкий",trans:"Паст"},{word:"Длинный",trans:"Дароз"},{word:"Тяжёлый",trans:"Вазнин"},{word:"Лёгкий",trans:"Сабук"},{word:"Мечта",trans:"Орзу"},{word:"Надежда",trans:"Умед"},{word:"Будущее",trans:"Оянда"},{word:"Мир (планета)",trans:"Ҷахон"},{word:"Свобода",trans:"Озодӣ"},{word:"Успех",trans:"Муваффақият"}],
+        4: [{word:"Доброе утро",trans:"Субҳ бахайр"},{word:"Добрый вечер",trans:"Шом бахайр"},{word:"Спокойной ночи",trans:"Шаб бахайр"},{word:"Как вы?",trans:"Ҳол шумо чӣ?"},{word:"Я хорошо",trans:"Ман хубам"},{word:"Как вас зовут?",trans:"Номи шумо чист?"},{word:"Меня зовут...",trans:"Номи ман..."},{word:"Откуда вы?",trans:"Шумо аз куҷо?"},{word:"Я из Таджикистана",trans:"Ман аз Тоҷикистон"},{word:"Я не понимаю",trans:"Ман намефаҳмам"},{word:"Повторите пожалуйста",trans:"Лутфан такрор кунед"},{word:"Сколько стоит?",trans:"Чанд пул?"},{word:"Мне нужна помощь",trans:"Ба ман кумак лозим"},{word:"Я тебя люблю",trans:"Ман туро дӯст дорам"},{word:"С днём рождения",trans:"Таваллудатон муборак"},{word:"Поздравляю",trans:"Табрик"},{word:"Нет проблем",trans:"Мушкил нест"},{word:"Я согласен",trans:"Ман розӣ ҳастам"},{word:"Может быть",trans:"Шояд"},{word:"Всегда",trans:"Ҳамеша"},{word:"Никогда",trans:"Ҳеҷ вақт"},{word:"Иногда",trans:"Баъзан"},{word:"Здесь",trans:"Инҷо"},{word:"Там",trans:"Онҷо"},{word:"Вместе",trans:"Якҷо"},{word:"Один",trans:"Танҳо"},{word:"Легко",trans:"Осон"},{word:"Трудно",trans:"Душвор"},{word:"Важно",trans:"Муҳим"},{word:"Безопасно",trans:"Бехатар"},{word:"Опасно",trans:"Хатарнок"},{word:"Готов",trans:"Тайёр"}]
+      }
+    };
+    return words[lang] && words[lang][week] ? words[lang][week] : [];
   }
 </script>
-
 </body>
 </html>
