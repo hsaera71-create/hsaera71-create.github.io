@@ -1,478 +1,1401 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru" data-theme="dark">
 <head>
-  <title>Курси Бепули Забонхо</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; min-height: 100vh; }
-    .topbar { display: none; background: #16213e; padding: 14px 16px; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-    .topbar.show { display: flex; }
-    .menu-btn { font-size: 22px; background: none; border: none; color: #FFD700; cursor: pointer; }
-    .topbar-title { color: #FFD700; font-size: 16px; font-weight: bold; }
-    .sidebar { position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: #0f3460; z-index: 100; transition: left 0.3s; padding: 30px 20px; }
-    .sidebar.open { left: 0; }
-    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
-    .overlay.show { display: block; }
-    .sidebar-profile { text-align: center; margin-bottom: 24px; }
-    .sidebar-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #FFD700; margin-bottom: 10px; }
-    .sidebar-name { color: #FFD700; font-size: 18px; font-weight: bold; }
-    .sidebar-btn { display: block; width: 100%; background: #FFD700; color: #000; border: none; padding: 12px; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    .sidebar-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
-    .main { max-width: 400px; margin: 0 auto; padding: 20px; text-align: center; }
-    h1 { color: #FFD700; font-size: 26px; margin-bottom: 12px; }
-    h2 { color: #FFD700; margin: 16px 0 10px; }
-    p { color: #ccc; font-size: 15px; line-height: 1.7; }
-    ul { text-align: left; display: inline-block; }
-    li { margin: 8px 0; font-size: 16px; }
-    .btn { background: #FFD700; color: #000; border: none; padding: 14px 40px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; margin-top: 10px; }
-    .btn-red { background: #e74c3c; color: white; border: none; padding: 14px 40px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; margin-top: 10px; }
-    .page { display: none; }
-    .page.active { display: block; }
-    .card { background: #16213e; border-radius: 16px; padding: 24px; margin-top: 20px; }
-    input[type=email], input[type=password], input[type=text], input[type=number], textarea {
-      width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #444; background: #0f3460; color: white; font-size: 15px;
-    }
-    .btn-row { display: flex; gap: 10px; margin-top: 14px; }
-    .btn2 { background: #444; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 30px; cursor: pointer; flex: 1; }
-    table { width: 100%; color: #ccc; font-size: 14px; border-collapse: collapse; }
-    td { padding: 6px 4px; border-bottom: 1px solid #333; }
-    .week-btn { display: inline-block; margin: 5px; padding: 10px 18px; background: #0f3460; color: #FFD700; border: 2px solid #FFD700; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
-    .admin-btns { display: flex; gap: 6px; }
-    .btn-edit { background: #3498db; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-    .btn-del { background: #e74c3c; color: white; border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-    .user-card { background: #0f3460; border-radius: 10px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
-    .user-card img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #FFD700; }
-    .ban-msg { background: #e74c3c; border-radius: 16px; padding: 30px 20px; margin-top: 20px; text-align: center; }
-    .ban-msg h2 { color: white; }
-    .ban-msg p { color: #ffcccc; margin-top: 10px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAXA HUB — Платформа цифровых услуг</title>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --card: #16161f;
+  --border: #2a2a3a;
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --accent3: #43e97b;
+  --text: #f0f0f8;
+  --text2: #a0a0b8;
+  --text3: #606078;
+  --radius: 16px;
+  --shadow: 0 8px 32px rgba(108,99,255,0.15);
+}
+[data-theme="light"] {
+  --bg: #f4f4fb; --bg2: #eaeaf5; --bg3: #ddddf0;
+  --card: #ffffff; --border: #d0d0e8;
+  --text: #0a0a1a; --text2: #4a4a6a; --text3: #9090aa;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+[data-theme="light"] .navbar{background:rgba(244,244,251,0.85);}
+.logo{font-size:22px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#ff6584);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-links a{color:var(--text2);text-decoration:none;padding:8px 14px;border-radius:10px;font-size:14px;font-weight:500;transition:all .2s;cursor:pointer;}
+.nav-links a:hover{color:var(--text);background:var(--bg3);}
+.nav-actions{display:flex;gap:8px;align-items:center;}
+.btn{padding:9px 20px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.btn-primary{background:linear-gradient(135deg,#6c63ff,#8b5cf6);color:#fff;box-shadow:0 4px 15px rgba(108,99,255,0.4);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(108,99,255,0.5);}
+.btn-danger{background:linear-gradient(135deg,#ff6584,#ff4757);color:#fff;}
+.btn-success{background:linear-gradient(135deg,#43e97b,#38f9d7);color:#0a0a0f;font-weight:700;}
+.btn-lg{padding:14px 32px;font-size:16px;border-radius:14px;}
+.theme-btn{width:38px;height:38px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.hamburger span{width:22px;height:2px;background:var(--text2);border-radius:2px;transition:all .3s;}
+
+.page{display:none;min-height:100vh;padding-top:64px;}
+.page.active{display:block;}
+
+.hero{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(108,99,255,0.25),transparent),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,101,132,0.12),transparent);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.3;}
+.hero-content{position:relative;max-width:800px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.3);padding:8px 16px;border-radius:100px;font-size:13px;color:var(--accent);margin-bottom:28px;animation:fadeInDown .6s ease;}
+.hero h1{font-size:clamp(36px,7vw,76px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;animation:fadeInUp .6s .1s ease both;}
+.hero h1 span{background:linear-gradient(135deg,#6c63ff,#ff6584,#43e97b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:clamp(16px,2vw,20px);color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.7;animation:fadeInUp .6s .2s ease both;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .6s .3s ease both;}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:60px;flex-wrap:wrap;animation:fadeInUp .6s .4s ease both;}
+.stat-item{text-align:center;}
+.stat-num{font-size:32px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#ff6584);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:13px;color:var(--text3);margin-top:4px;}
+
+.section{padding:80px 24px;max-width:1200px;margin:0 auto;}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:800;text-align:center;margin-bottom:12px;letter-spacing:-1px;}
+.section-sub{text-align:center;color:var(--text2);font-size:16px;margin-bottom:56px;max-width:500px;margin-left:auto;margin-right:auto;}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s;position:relative;overflow:hidden;}
+.feature-card:hover{border-color:rgba(108,99,255,0.4);transform:translateY(-4px);box-shadow:var(--shadow);}
+.feature-icon{width:52px;height:52px;border-radius:14px;background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;}
+.feature-card h3{font-size:18px;font-weight:700;margin-bottom:10px;}
+.feature-card p{color:var(--text2);font-size:14px;line-height:1.7;}
+
+.services-filter{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;}
+.filter-btn{padding:8px 18px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;cursor:pointer;transition:all .3s;position:relative;}
+.service-card:hover{border-color:rgba(108,99,255,0.4);transform:translateY(-4px);box-shadow:var(--shadow);}
+.service-img{width:100%;height:120px;border-radius:12px;margin-bottom:16px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:40px;}
+.service-cat{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.service-card h3{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4;}
+.service-card p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:16px;}
+.service-meta{display:flex;justify-content:space-between;align-items:center;}
+.service-price{font-size:18px;font-weight:800;color:var(--accent3);}
+.service-rating{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text2);}
+.service-rating span{color:#fbbf24;}
+.service-badge{position:absolute;top:16px;right:16px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;}
+.badge-new{background:rgba(67,233,123,0.2);color:#43e97b;border:1px solid rgba(67,233,123,0.3);}
+.badge-hot{background:rgba(255,101,132,0.2);color:#ff6584;border:1px solid rgba(255,101,132,0.3);}
+
+.search-bar{max-width:600px;margin:0 auto 48px;position:relative;}
+.search-bar input{width:100%;padding:16px 56px 16px 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:15px;outline:none;transition:all .3s;}
+.search-bar input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,99,255,0.15);}
+.search-bar input::placeholder{color:var(--text3);}
+.search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--text3);}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px;width:100%;max-width:480px;position:relative;animation:modalIn .3s ease;max-height:90vh;overflow-y:auto;}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:none;color:var(--text2);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal h2{font-size:24px;font-weight:800;margin-bottom:8px;}
+.modal-sub{color:var(--text2);font-size:14px;margin-bottom:28px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;outline:none;transition:all .3s;font-family:inherit;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,99,255,0.1);}
+.form-group textarea{resize:vertical;min-height:90px;}
+.form-link{color:var(--accent);cursor:pointer;font-weight:600;}
+.tabs{display:flex;gap:4px;background:var(--bg2);border-radius:10px;padding:4px;margin-bottom:24px;}
+.tab{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.tab.active{background:var(--accent);color:#fff;}
+
+.pay-block{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin:20px 0;}
+.pay-block-title{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;}
+.pay-card{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#1a1a3a,#2a1a4a);border:2px solid rgba(108,99,255,0.4);border-radius:14px;padding:16px;}
+.pay-card-icon{font-size:32px;}
+.pay-card-info{flex:1;}
+.pay-card-name{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;}
+.pay-card-num{font-size:13px;color:rgba(255,255,255,0.6);}
+.pay-amount{background:linear-gradient(135deg,rgba(67,233,123,0.15),rgba(56,249,215,0.05));border:1px solid rgba(67,233,123,0.3);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:12px;}
+.pay-amount-label{font-size:13px;color:var(--text2);}
+.pay-amount-val{font-size:22px;font-weight:900;color:#43e97b;}
+.pay-instruction{font-size:13px;color:var(--text2);line-height:1.7;margin-top:12px;padding:12px;background:rgba(108,99,255,0.08);border-radius:10px;}
+
+.check-upload{border:2px dashed var(--border);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:all .3s;margin:16px 0;}
+.check-upload:hover{border-color:var(--accent);background:rgba(108,99,255,0.05);}
+.check-upload input{display:none;}
+.check-upload-icon{font-size:36px;margin-bottom:10px;}
+.check-upload-text{font-size:14px;color:var(--text2);}
+.check-upload-text strong{color:var(--accent);}
+.check-preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:10px;}
+
+.order-steps{display:flex;justify-content:center;gap:0;margin-bottom:40px;}
+.step{display:flex;align-items:center;gap:8px;}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--text2);transition:all .3s;}
+.step-num.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.step-num.done{background:var(--accent3);border-color:var(--accent3);color:#0a0a0f;}
+.step-label{font-size:13px;color:var(--text2);font-weight:500;}
+.step-line{width:60px;height:2px;background:var(--border);margin:0 8px;}
+
+.dashboard{max-width:1200px;margin:0 auto;padding:32px 24px;}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px;}
+.dash-welcome h1{font-size:28px;font-weight:800;margin-bottom:4px;}
+.dash-welcome p{color:var(--text2);font-size:14px;}
+.dash-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;}
+.dash-card::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:var(--accent);opacity:0.07;}
+.dash-card-val{font-size:28px;font-weight:800;margin-bottom:4px;}
+.dash-card-label{font-size:13px;color:var(--text2);}
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;}
+@media(max-width:768px){.dash-grid{grid-template-columns:1fr;}}
+.dash-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;}
+.dash-section h2{font-size:18px;font-weight:700;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.order-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);}
+.order-item:last-child{border-bottom:none;}
+.order-info h4{font-size:14px;font-weight:600;margin-bottom:4px;}
+.order-info p{font-size:12px;color:var(--text2);}
+.order-status{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+.status-active{background:rgba(108,99,255,0.2);color:var(--accent);}
+.status-done{background:rgba(67,233,123,0.2);color:#43e97b;}
+.status-pending{background:rgba(251,191,36,0.2);color:#fbbf24;}
+.status-waiting{background:rgba(255,101,132,0.2);color:#ff6584;}
+.notif-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.notif-item:last-child{border-bottom:none;}
+.notif-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:4px;flex-shrink:0;}
+.notif-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.notif-time{font-size:11px;color:var(--text3);margin-top:4px;}
+
+.profile-page{max-width:900px;margin:0 auto;padding:32px 24px;}
+.profile-header{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:24px;}
+.avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;cursor:pointer;flex-shrink:0;position:relative;overflow:hidden;}
+.profile-tabs{display:flex;gap:4px;background:var(--bg2);border-radius:12px;padding:4px;margin-bottom:24px;}
+.profile-tab{flex:1;padding:10px;border-radius:10px;border:none;background:transparent;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.profile-tab.active{background:var(--card);color:var(--text);border:1px solid var(--border);}
+.profile-content{display:none;}
+.profile-content.active{display:block;}
+.settings-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;}
+.settings-section h3{font-size:16px;font-weight:700;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
+.settings-row:last-child{border-bottom:none;}
+.toggle{width:44px;height:24px;background:var(--bg3);border-radius:100px;cursor:pointer;position:relative;transition:background .3s;border:none;flex-shrink:0;}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .3s;}
+.toggle.on{background:var(--accent);}
+.toggle.on::after{transform:translateX(20px);}
+
+.admin-page{max-width:1400px;margin:0 auto;padding:32px 24px;}
+.admin-sidebar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.admin-nav-btn{padding:10px 18px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.admin-nav-btn.active,.admin-nav-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.admin-content{display:none;}
+.admin-content.active{display:block;}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px;}
+.admin-stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.admin-stat-num{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.admin-stat-label{font-size:12px;color:var(--text3);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+.table{width:100%;border-collapse:collapse;}
+.table th{text-align:left;padding:12px 16px;font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);}
+.table td{padding:14px 16px;font-size:14px;border-bottom:1px solid var(--border);}
+.table tr:last-child td{border-bottom:none;}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+
+.chat-modal-inner{max-width:540px;height:80vh;display:flex;flex-direction:column;padding:24px;}
+.chat-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:0;}
+.chat-body{flex:1;overflow-y:auto;padding:16px 0;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:75%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.6;}
+.msg.sent{background:linear-gradient(135deg,#6c63ff,#8b5cf6);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg.recv{background:var(--bg3);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg-time{font-size:11px;opacity:0.6;margin-top:4px;}
+.chat-input-row{display:flex;gap:10px;padding-top:16px;border-top:1px solid var(--border);}
+.chat-input-row input{flex:1;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none;}
+.chat-input-row input:focus{border-color:var(--accent);}
+.chat-send{width:42px;height:42px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:18px;cursor:pointer;}
+
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.review-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;}
+.review-header{display:flex;gap:12px;align-items:center;margin-bottom:16px;}
+.rev-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;flex-shrink:0;}
+.rev-name{font-weight:700;font-size:15px;}
+.rev-meta{font-size:12px;color:var(--text3);}
+.stars{color:#fbbf24;font-size:14px;margin-bottom:12px;}
+.rev-text{font-size:14px;color:var(--text2);line-height:1.7;}
+
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:3000;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;font-size:14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);animation:slideIn .3s ease;min-width:260px;}
+.toast.success{border-left:3px solid #43e97b;}
+.toast.error{border-left:3px solid #ff6584;}
+.toast.info{border-left:3px solid var(--accent);}
+
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;z-index:999;flex-direction:column;gap:4px;}
+.mobile-menu.show{display:flex;}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:12px 16px;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;}
+.mobile-menu a:hover{background:var(--bg3);color:var(--text);}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:60px 24px 32px;}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}.hamburger{display:flex;}}
+.footer-brand h3{font-size:20px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#ff6584);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
+.footer-brand p{color:var(--text2);font-size:14px;line-height:1.7;max-width:240px;}
+.footer-col h4{font-size:14px;font-weight:700;margin-bottom:16px;}
+.footer-col a{display:block;color:var(--text3);text-decoration:none;font-size:14px;margin-bottom:10px;cursor:pointer;transition:color .2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{color:var(--text3);font-size:13px;}
+.social-links{display:flex;gap:10px;margin-top:20px;}
+.social-link{width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);cursor:pointer;transition:all .2s;}
+.social-link:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.badge-inline{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;background:rgba(108,99,255,0.15);color:var(--accent);border:1px solid rgba(108,99,255,0.2);}
+
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes modalIn{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.float{animation:floatAnim 3s ease-in-out infinite;}
+@keyframes floatAnim{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.loader{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;}
+</style>
 </head>
 <body>
 
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<nav class="navbar">
+  <div class="logo" onclick="showPage('home')">MAXA HUB</div>
+  <div class="nav-links">
+    <a onclick="showPage('home')">Главная</a>
+    <a onclick="showPage('services')">Услуги</a>
+    <a onclick="showPage('order')">Заказать</a>
+    <a onclick="showPage('about')">О нас</a>
+  </div>
+  <div class="nav-actions">
+    <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+    <div id="guestActions" style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="openModal('loginModal')">Войти</button>
+      <button class="btn btn-primary" onclick="openModal('regModal')">Регистрация</button>
+    </div>
+    <div id="userActions" style="display:none;gap:8px;align-items:center;">
+      <button class="btn btn-ghost" onclick="showPage('dashboard')">🔔</button>
+      <button class="btn btn-ghost" onclick="showPage('profile')">👤 <span id="navUsername"></span></button>
+      <button class="btn btn-danger" onclick="logout()">Выйти</button>
+    </div>
+    <div class="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBGB7-cjsnivRb2tIpcXt5kTrqQ1_OdJ5M",
-    authDomain: "zabonpro-ff55d.firebaseapp.com",
-    projectId: "zabonpro-ff55d",
-    storageBucket: "zabonpro-ff55d.firebasestorage.app",
-    messagingSenderId: "695643079009",
-    appId: "1:695643079009:web:73fb2a22d75c4feffac520"
-  };
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home');closeMobile()">🏠 Главная</a>
+  <a onclick="showPage('services');closeMobile()">🛍 Услуги</a>
+  <a onclick="showPage('order');closeMobile()">📋 Заказать</a>
+  <a onclick="showPage('about');closeMobile()">ℹ️ О нас</a>
+  <a onclick="showPage('dashboard');closeMobile()">📊 Кабинет</a>
+</div>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+<div class="toast-container" id="toastContainer"></div>
 
-  const ADMIN_EMAIL = "hsaera71@gmail.com";
+<!-- ===== HOME ===== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🚀 Платформа нового поколения</div>
+      <h1>Цифровые услуги<br>для вашего <span>бизнеса</span></h1>
+      <p>Сайты, дизайн, боты, приложения — от 100 до 1000 рублей. Профессионально и быстро.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="showPage('services')">Найти услугу →</button>
+        <button class="btn btn-ghost btn-lg" onclick="openModal('regModal')">Стать исполнителем</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item float"><div class="stat-num">2,400+</div><div class="stat-label">Заказов</div></div>
+        <div class="stat-item float" style="animation-delay:.3s"><div class="stat-num">850+</div><div class="stat-label">Исполнителей</div></div>
+        <div class="stat-item float" style="animation-delay:.6s"><div class="stat-num">98%</div><div class="stat-label">Довольных</div></div>
+        <div class="stat-item float" style="animation-delay:.9s"><div class="stat-num">24/7</div><div class="stat-label">Поддержка</div></div>
+      </div>
+    </div>
+  </section>
 
-  window.doRegister = async function() {
-    const name = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
-    const pass = document.getElementById('regPass').value;
-    const pass2 = document.getElementById('regPass2').value;
-    if (!name || !email || !pass || !pass2) { alert('Ҳама майдонҳоро пур кунед!'); return; }
-    if (pass !== pass2) { alert('Паролҳо яксон нестанд!'); return; }
-    try {
-      const uc = await createUserWithEmailAndPassword(auth, email, pass);
-      await setDoc(doc(db, "users", uc.user.uid), { name, email, banned: false, banDays: 0, banReason: "", isModerator: false });
-      showPage('page4');
-    } catch(e) { alert('Хато: ' + e.message); }
-  };
+  <section class="section">
+    <h2 class="section-title">Почему выбирают <span style="background:linear-gradient(135deg,#6c63ff,#ff6584);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">MAXA HUB</span></h2>
+    <p class="section-sub">Удобно, быстро, доступно</p>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>Цены от 100₽</h3><p>Все услуги в диапазоне 100–1000 рублей. Никаких скрытых платежей.</p></div>
+      <div class="feature-card"><div class="feature-icon">⚡</div><h3>Быстрый старт</h3><p>Создайте заказ за 2 минуты и получайте предложения уже через час.</p></div>
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>Встроенный чат</h3><p>Общайтесь с исполнителем напрямую внутри платформы.</p></div>
+      <div class="feature-card"><div class="feature-icon">✈️</div><h3>Telegram уведомления</h3><p>Все обновления заказов мгновенно приходят в Telegram.</p></div>
+      <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Безопасная оплата</h3><p>Оплата через Alif Mobi. Деньги защищены до выполнения заказа.</p></div>
+      <div class="feature-card"><div class="feature-icon">⭐</div><h3>Рейтинг и отзывы</h3><p>Выбирайте лучших исполнителей по реальным оценкам клиентов.</p></div>
+    </div>
+  </section>
 
-  window.doLogin = async function() {
-    const email = document.getElementById('loginEmail').value;
-    const pass = document.getElementById('loginPass').value;
-    try {
-      await signInWithEmailAndPassword(auth, email, pass);
-    } catch(e) { alert('Email ё парол нодуруст!'); }
-  };
+  <section style="background:var(--bg2);padding:80px 24px;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <h2 class="section-title">Популярные услуги</h2>
+      <p class="section-sub">Самые востребованные цифровые услуги</p>
+      <div class="services-grid" id="popularServices"></div>
+      <div style="text-align:center;margin-top:32px;">
+        <button class="btn btn-ghost btn-lg" onclick="showPage('services')">Смотреть все →</button>
+      </div>
+    </div>
+  </section>
 
-  window.doLogout = async function() {
-    await signOut(auth);
-    showPage('page1');
-  };
+  <section class="section">
+    <h2 class="section-title">Отзывы клиентов</h2>
+    <p class="section-sub">Что говорят наши пользователи</p>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="review-header"><div class="rev-avatar">А</div><div><div class="rev-name">Алексей М.</div><div class="rev-meta">Сайт · 2 недели назад</div></div></div><div class="stars">★★★★★</div><p class="rev-text">Заказал лендинг за 900₽ — получил отличный результат! Рекомендую.</p></div>
+      <div class="review-card"><div class="review-header"><div class="rev-avatar" style="background:linear-gradient(135deg,#ff6584,#ff4757);">М</div><div><div class="rev-name">Мария К.</div><div class="rev-meta">Логотип · 1 месяц назад</div></div></div><div class="stars">★★★★★</div><p class="rev-text">Логотип за 500₽ — именно то, что хотела. Исполнитель реагировал быстро.</p></div>
+      <div class="review-card"><div class="review-header"><div class="rev-avatar" style="background:linear-gradient(135deg,#43e97b,#38f9d7);color:#0a0a0f;">Д</div><div><div class="rev-name">Дмитрий В.</div><div class="rev-meta">Telegram-бот · 3 недели назад</div></div></div><div class="stars">★★★★☆</div><p class="rev-text">Бот работает отлично. Цена 800₽ — очень выгодно.</p></div>
+    </div>
+  </section>
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const uDoc = await getDoc(doc(db, "users", user.uid));
-      if (uDoc.exists()) {
-        const data = uDoc.data();
-        if (data.banned) {
-          showBanPage(data);
-          return;
-        }
-        document.getElementById('sidebarName').textContent = data.name || 'Корбар';
-        if (user.email === ADMIN_EMAIL) {
-          document.getElementById('adminMenuBtn').style.display = 'block';
-        }
-        showPage('page4');
-      }
-    }
-  });
-
-  function showBanPage(data) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const banPage = document.getElementById('pageBan');
-    banPage.classList.add('active');
-    document.getElementById('banReason').textContent = data.banReason || 'Сабаб нишон дода нашудааст';
-    document.getElementById('banDays').textContent = data.banDays || '?';
-  }
-
-  window.loadAdminUsers = async function() {
-    const snap = await getDocs(collection(db, "users"));
-    const list = document.getElementById('userList');
-    list.innerHTML = '';
-    snap.forEach(d => {
-      const u = d.data();
-      const div = document.createElement('div');
-      div.className = 'user-card';
-      div.innerHTML = `
-        <img src="${u.photo || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22%3E%3Ccircle cx=%2225%22 cy=%2225%22 r=%2225%22 fill=%22%230f3460%22/%3E%3C/svg%3E'}" />
-        <div style="flex:1">
-          <div style="color:#FFD700;font-weight:bold">${u.name}</div>
-          <div style="font-size:12px;color:#aaa">${u.email}</div>
-          ${u.banned ? '<div style="color:#e74c3c;font-size:12px">БАН</div>' : ''}
-          ${u.isModerator ? '<div style="color:#2ecc71;font-size:12px">Модератор</div>' : ''}
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>MAXA HUB</h3>
+        <p>Профессиональная платформа цифровых услуг от 100 до 1000 рублей.</p>
+        <div class="social-links">
+          <div class="social-link">📱</div><div class="social-link">💬</div><div class="social-link">📧</div>
         </div>
-        <button class="btn-edit" onclick="openUserAdmin('${d.id}','${u.name}','${u.email}',${u.banned},${u.isModerator},'${u.banReason||''}',${u.banDays||0})">Профил</button>
-      `;
-      list.appendChild(div);
-    });
-  };
-
-  window.openUserAdmin = function(uid, name, email, banned, isMod, banReason, banDays) {
-    document.getElementById('adminUserName').textContent = name;
-    document.getElementById('adminUserEmail').textContent = email;
-    document.getElementById('banReasonInput').value = banReason;
-    document.getElementById('banDaysInput').value = banDays;
-    document.getElementById('currentBanStatus').textContent = banned ? 'БАН' : 'Фаъол';
-    window._selectedUid = uid;
-    window._isMod = isMod;
-    window._isBanned = banned;
-    document.getElementById('modBtnText').textContent = isMod ? 'Гирифтани модератор' : 'Дать модератора';
-    showPage('pageUserAdmin');
-  };
-
-  window.doBan = async function() {
-    const days = parseInt(document.getElementById('banDaysInput').value);
-    const reason = document.getElementById('banReasonInput').value;
-    if (!days || !reason) { alert('Рӯзҳо ва сабабро нависед!'); return; }
-    await updateDoc(doc(db, "users", window._selectedUid), { banned: true, banDays: days, banReason: reason });
-    alert('Корбар бан шуд! ✅');
-    loadAdminUsers();
-    showPage('pageAdmin');
-  };
-
-  window.doUnban = async function() {
-    await updateDoc(doc(db, "users", window._selectedUid), { banned: false, banDays: 0, banReason: "" });
-    alert('Бан бардошта шуд! ✅');
-    loadAdminUsers();
-    showPage('pageAdmin');
-  };
-
-  window.toggleModerator = async function() {
-    await updateDoc(doc(db, "users", window._selectedUid), { isModerator: !window._isMod });
-    alert(!window._isMod ? 'Модератор дода шуд! ✅' : 'Модератор гирифта шуд! ✅');
-    loadAdminUsers();
-    showPage('pageAdmin');
-  };
-
-  // ЛУГАТХО
-  window.deleteWord = async function(lang, week, index) {
-    if (!confirm('Ҳатман удалит кунем?')) return;
-    const ref = doc(db, "words", lang + "_" + week);
-    const snap = await getDoc(ref);
-    if (snap.exists()) {
-      let words = snap.data().list || [];
-      words.splice(index, 1);
-      await updateDoc(ref, { list: words });
-      loadWords(lang, week);
-    }
-  };
-
-  window.editWord = async function(lang, week, index) {
-    const ref = doc(db, "words", lang + "_" + week);
-    const snap = await getDoc(ref);
-    if (snap.exists()) {
-      let words = snap.data().list || [];
-      const w = words[index];
-      const newWord = prompt('Луғатро иваз кун:', w.word);
-      const newTrans = prompt('Тарҷумаро иваз кун:', w.trans);
-      if (newWord && newTrans) {
-        words[index] = { word: newWord, trans: newTrans };
-        await updateDoc(ref, { list: words });
-        loadWords(lang, week);
-      }
-    }
-  };
-
-  window.loadWords = async function(lang, week) {
-    const ref = doc(db, "words", lang + "_" + week);
-    const snap = await getDoc(ref);
-    const isAdmin = auth.currentUser && auth.currentUser.email === ADMIN_EMAIL;
-    const tbody = document.getElementById('wordTable');
-    tbody.innerHTML = '';
-    let words = [];
-    if (snap.exists()) {
-      words = snap.data().list || [];
-    } else {
-      words = getDefaultWords(lang, week);
-      await setDoc(ref, { list: words });
-    }
-    words.forEach((w, i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${i+1}. ${w.word}</td>
-        <td>- ${w.trans}</td>
-        ${isAdmin ? `<td class="admin-btns"><button class="btn-edit" onclick="editWord('${lang}','${week}',${i})">✏️</button><button class="btn-del" onclick="deleteWord('${lang}','${week}',${i})">🗑️</button></td>` : '<td></td>'}
-      `;
-      tbody.appendChild(tr);
-    });
-    document.getElementById('wordTableTitle').textContent = (lang === 'eng' ? '🇬🇧 Англиси' : lang === 'chn' ? '🇨🇳 Хитои' : '🇷🇺 Уруси') + ' - Хафтаи ' + week;
-    window._currentLang = lang;
-    window._currentWeek = week;
-    showPage('pageWords');
-  };
-
-  window._currentLang = '';
-  window._currentWeek = '';
-</script>
-
-<!-- SIDEBAR -->
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-<div class="sidebar" id="sidebar">
-  <button class="sidebar-close" onclick="closeSidebar()">✕</button>
-  <div class="sidebar-profile">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%230f3460'/%3E%3Ctext x='40' y='55' font-size='40' text-anchor='middle' fill='%23FFD700'%3E👤%3C/text%3E%3C/svg%3E" id="sidebarPhoto" class="sidebar-photo" />
-    <div class="sidebar-name" id="sidebarName">Корбар</div>
-  </div>
-  <button class="sidebar-btn" onclick="showPage('page5');closeSidebar()">🌍 Забонхо</button>
-  <button class="sidebar-btn" id="adminMenuBtn" style="display:none;background:#e74c3c;color:white;margin-top:10px" onclick="showPage('pageAdmin');loadAdminUsers();closeSidebar()">⚙️ Админ панел</button>
-  <button class="sidebar-btn" style="background:#444;color:white;margin-top:10px" onclick="doLogout()">🚪 Выйти</button>
+      </div>
+      <div class="footer-col"><h4>Услуги</h4><a>Сайты</a><a>Дизайн</a><a>Видео</a><a>Боты</a><a>Приложения</a></div>
+      <div class="footer-col"><h4>Платформа</h4><a onclick="showPage('about')">О нас</a><a>Как работает</a><a>Блог</a><a>FAQ</a></div>
+      <div class="footer-col"><h4>Поддержка</h4><a>Помощь</a><a>Конфиденциальность</a><a>Условия</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 MAXA HUB. Все права защищены.</p>
+      <p style="color:var(--text3);font-size:12px;">Оплата: Alif Mobi +992901-40-32-63</p>
+    </div>
+  </footer>
 </div>
 
-<!-- ТОПБАР -->
-<div class="topbar" id="topbar">
-  <button class="menu-btn" onclick="openSidebar()">☰</button>
-  <span class="topbar-title">Курси Забонхо</span>
-  <span></span>
+<!-- ===== SERVICES ===== -->
+<div class="page" id="page-services">
+  <section class="section">
+    <h2 class="section-title">Каталог услуг</h2>
+    <p class="section-sub">Все цены от 100 до 1000 рублей</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Поиск услуг..." oninput="filterServices()">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="services-filter" id="catFilter">
+      <button class="filter-btn active" onclick="setCat('all',this)">Все</button>
+      <button class="filter-btn" onclick="setCat('web',this)">🌐 Сайты</button>
+      <button class="filter-btn" onclick="setCat('design',this)">🎨 Дизайн</button>
+      <button class="filter-btn" onclick="setCat('video',this)">🎬 Видео</button>
+      <button class="filter-btn" onclick="setCat('bot',this)">🤖 Боты</button>
+      <button class="filter-btn" onclick="setCat('mobile',this)">📱 Приложения</button>
+      <button class="filter-btn" onclick="setCat('seo',this)">📈 SEO</button>
+    </div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </section>
 </div>
 
-<!-- СТРАНИЦА 1 -->
-<div class="page active" id="page1">
-  <div class="main">
-    <h1>Курси бепули забонхо!</h1>
-    <p>Дар инҷо шумо метавонед забони Англисӣ, Хитоӣ ва Урусиро ёд гиред!</p>
-    <p style="margin-top:10px">Хатман регистрация кунед!</p>
-    <h2>Забонхо:</h2>
-    <ul>
-      <li>🇬🇧 Англисӣ</li>
-      <li>🇨🇳 Хитоӣ</li>
-      <li>🇷🇺 Урусӣ</li>
-    </ul>
-    <br>
-    <button class="btn" onclick="showPage('page2')">Регистрация</button>
-  </div>
-</div>
+<!-- ===== ORDER PAGE ===== -->
+<div class="page" id="page-order">
+  <div style="max-width:780px;margin:0 auto;padding:32px 24px;">
+    <h2 class="section-title" style="text-align:left;margin-bottom:8px;">Создать заказ</h2>
+    <p style="color:var(--text2);margin-bottom:36px;">Заполните детали — оплатите через Alif Mobi — отправьте чек</p>
+    <div class="order-steps">
+      <div class="step"><div class="step-num active" id="s1">1</div><span class="step-label">Детали</span></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num" id="s2">2</div><span class="step-label">Оплата</span></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num" id="s3">3</div><span class="step-label">Готово</span></div>
+    </div>
 
-<!-- СТРАНИЦА 2: ВОЙТИ -->
-<div class="page" id="page2">
-  <div class="main">
-    <div class="card">
-      <h2>Войти</h2>
-      <input type="email" id="loginEmail" placeholder="Введите Email" />
-      <input type="password" id="loginPass" placeholder="Введите пароль" />
-      <div class="btn-row">
-        <button class="btn" style="flex:1;padding:12px" onclick="doLogin()">Войти</button>
-        <button class="btn2" onclick="showPage('page3')">Зарегистрироваться</button>
+    <!-- STEP 1 -->
+    <div id="orderStep1">
+      <div class="settings-section">
+        <h3>📋 Детали проекта</h3>
+
+        <div class="form-group">
+          <label>Тип услуги</label>
+          <select id="orderCat" onchange="updateOrderPrice()">
+            <option value="">Выберите категорию...</option>
+            <option value="web">🌐 Создание сайта / лендинга</option>
+            <option value="design">🎨 Дизайн логотипа / баннера</option>
+            <option value="video">🎬 Монтаж видео / Reels</option>
+            <option value="bot">🤖 Telegram-бот</option>
+            <option value="mobile">📱 Мобильное приложение (базовое)</option>
+            <option value="seo">📈 SEO аудит сайта</option>
+            <option value="other">✨ Другое</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Название программы / сайта / проекта</label>
+          <input type="text" id="orderTitle" placeholder="Например: Сайт для моего магазина, Бот для записи клиентов, Приложение DoShop...">
+        </div>
+
+        <div class="form-group">
+          <label>Подробное описание</label>
+          <textarea id="orderDesc" rows="5" placeholder="Опишите подробно:&#10;— Что нужно сделать?&#10;— Какие функции / страницы нужны?&#10;— Стиль, цвета, примеры&#10;— На какой платформе (iOS, Android, Web)?&#10;— Любые другие пожелания..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Ссылки на примеры (необязательно)</label>
+          <input type="text" id="orderLinks" placeholder="https://example.com или описание примера">
+        </div>
+
+        <div class="form-group">
+          <label>Срок выполнения</label>
+          <select id="orderDeadline">
+            <option>До 1 дня</option>
+            <option>До 3 дней</option>
+            <option>До 1 недели</option>
+            <option>До 2 недель</option>
+            <option>Не срочно</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ваше имя</label>
+          <input type="text" id="orderName" placeholder="Как вас зовут?">
+        </div>
+
+        <div class="form-group">
+          <label>Ваш Telegram (для связи)</label>
+          <input type="text" id="orderTg" placeholder="@username или +номер телефона">
+        </div>
+
+        <div id="priceDisplay" style="display:none;background:rgba(67,233,123,0.1);border:1px solid rgba(67,233,123,0.3);border-radius:12px;padding:14px 18px;margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:var(--text2);font-size:14px;">Стоимость услуги:</span>
+            <span id="priceVal" style="font-size:22px;font-weight:900;color:#43e97b;"></span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" onclick="goToPayment()">Перейти к оплате →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="orderStep2" style="display:none;">
+      <div class="settings-section">
+        <h3>💳 Оплата заказа</h3>
+        <div class="pay-block">
+          <div class="pay-block-title">Реквизиты для оплаты</div>
+          <div class="pay-card">
+            <div class="pay-card-icon">💳</div>
+            <div class="pay-card-info">
+              <div class="pay-card-name">Alif Mobi</div>
+              <div class="pay-card-num">+992 901-40-32-63</div>
+            </div>
+          </div>
+          <div class="pay-amount">
+            <div>
+              <div class="pay-amount-label">К оплате за: <strong id="payServiceName"></strong></div>
+              <div style="font-size:12px;color:var(--text3);margin-top:2px;" id="payOrderTitle"></div>
+            </div>
+            <div class="pay-amount-val" id="payAmount"></div>
+          </div>
+          <div class="pay-instruction">
+            1. Откройте приложение <strong>Alif Mobi</strong><br>
+            2. Перейдите в «Переводы» → «По номеру»<br>
+            3. Введите номер: <strong style="color:var(--accent);">+992901403263</strong><br>
+            4. Введите сумму и отправьте перевод<br>
+            5. Сделайте скриншот чека и загрузите ниже
+          </div>
+        </div>
+
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;">📎 Загрузите чек об оплате</div>
+        <div class="check-upload" onclick="document.getElementById('checkFile').click()">
+          <input type="file" id="checkFile" accept="image/*" onchange="previewCheck(event)">
+          <div class="check-upload-icon">📸</div>
+          <div class="check-upload-text">Нажмите чтобы выбрать фото чека из галереи<br><strong>или перетащите файл сюда</strong></div>
+          <img id="checkPreview" class="check-preview" alt="Чек" style="display:none;">
+        </div>
+        <div id="checkName" style="font-size:13px;color:var(--accent3);margin-bottom:16px;display:none;"></div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" onclick="backToDetails()">← Назад</button>
+          <button class="btn btn-success btn-lg" id="submitOrderBtn" onclick="submitOrder()">
+            ✅ Я оплатил — отправить заказ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="orderStep3" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:72px;margin-bottom:24px;">🎉</div>
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;">Заказ отправлен!</h2>
+      <p style="color:var(--text2);margin-bottom:8px;">Ваш заказ и чек об оплате отправлены администратору в Telegram.</p>
+      <p style="color:var(--text2);margin-bottom:32px;">Мы свяжемся с вами в ближайшее время по вашему Telegram.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-lg" onclick="showPage('dashboard')">Перейти в кабинет</button>
+        <button class="btn btn-ghost btn-lg" onclick="resetOrder()">Создать ещё заказ</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- СТРАНИЦА 3: РЕГИСТРАЦИЯ -->
-<div class="page" id="page3">
-  <div class="main">
-    <div class="card">
-      <h2>Регистрация</h2>
-      <input type="text" id="regName" placeholder="Введите имя" />
-      <input type="email" id="regEmail" placeholder="Введите Email" />
-      <input type="password" id="regPass" placeholder="Введите пароль" />
-      <input type="password" id="regPass2" placeholder="Подтвердите пароль" />
-      <button class="btn" onclick="doRegister()" style="width:100%;margin-top:14px">Зарегистрироваться</button>
+<!-- ===== DASHBOARD ===== -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard">
+    <div class="dash-header">
+      <div class="dash-welcome">
+        <h1>Добро пожаловать, <span id="dashName">Гость</span> 👋</h1>
+        <p id="dashDate"></p>
+      </div>
+      <button class="btn btn-primary" onclick="showPage('order')">+ Новый заказ</button>
+    </div>
+    <div class="dash-cards">
+      <div class="dash-card"><div style="font-size:24px;margin-bottom:12px;">📋</div><div class="dash-card-val">3</div><div class="dash-card-label">Активных заказов</div></div>
+      <div class="dash-card"><div style="font-size:24px;margin-bottom:12px;">💰</div><div class="dash-card-val">₽2,400</div><div class="dash-card-label">Потрачено</div></div>
+      <div class="dash-card"><div style="font-size:24px;margin-bottom:12px;">✅</div><div class="dash-card-val">8</div><div class="dash-card-label">Завершённых</div></div>
+      <div class="dash-card"><div style="font-size:24px;margin-bottom:12px;">⭐</div><div class="dash-card-val">4.9</div><div class="dash-card-label">Рейтинг</div></div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-section">
+        <h2>Мои заказы <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px;" onclick="showPage('orders')">Все →</button></h2>
+        <div id="ordersList"></div>
+      </div>
+      <div class="dash-section">
+        <h2>Уведомления</h2>
+        <div id="notifList"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- СТРАНИЦА 4: ХУШ ОМАДЕД -->
-<div class="page" id="page4">
-  <div class="main">
-    <div class="card">
-      <h2>Ассаламу Алайкум!</h2>
-      <p style="margin-top:10px">Хуш омадед! Ба кнопкаи Забонхо пахш кунед!</p>
-      <button class="btn" onclick="showPage('page5')" style="width:100%;margin-top:20px">🌍 Забонхо</button>
+<!-- ===== ORDERS ===== -->
+<div class="page" id="page-orders">
+  <div class="dashboard">
+    <div class="dash-header">
+      <div><h1 style="font-size:28px;font-weight:800;">История заказов</h1><p style="color:var(--text2);font-size:14px;margin-top:4px;">Все ваши заказы</p></div>
+      <button class="btn btn-primary" onclick="showPage('order')">+ Новый заказ</button>
+    </div>
+    <div class="table-wrap"><table class="table" id="ordersTable"></table></div>
+  </div>
+</div>
+
+<!-- ===== PROFILE ===== -->
+<div class="page" id="page-profile">
+  <div class="profile-page">
+    <div class="profile-header">
+      <div class="avatar"><span id="avatarText">М</span></div>
+      <div>
+        <h2 id="profileName">Пользователь</h2>
+        <p id="profileEmail" style="color:var(--text2);font-size:14px;margin-bottom:12px;"></p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge-inline">✓ Активен</span>
+          <span class="badge-inline">👤 Клиент</span>
+        </div>
+      </div>
+      <div style="margin-left:auto;"><button class="btn btn-ghost" onclick="activeProfileTab('settings')">⚙️ Настройки</button></div>
+    </div>
+    <div class="profile-tabs">
+      <button class="profile-tab active" onclick="activeProfileTab('info')">Профиль</button>
+      <button class="profile-tab" onclick="activeProfileTab('orders')">Заказы</button>
+      <button class="profile-tab" onclick="activeProfileTab('settings')">Настройки</button>
+    </div>
+    <div class="profile-content active" id="pc-info">
+      <div class="settings-section">
+        <h3>Личные данные</h3>
+        <div class="form-group"><label>Имя</label><input type="text" id="pName"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="pEmail"></div>
+        <div class="form-group"><label>Telegram</label><input type="text" id="pTg" placeholder="@username"></div>
+        <button class="btn btn-primary" onclick="saveProfile()">Сохранить</button>
+      </div>
+    </div>
+    <div class="profile-content" id="pc-orders">
+      <div class="table-wrap"><table class="table" id="profileOrdersTable"></table></div>
+    </div>
+    <div class="profile-content" id="pc-settings">
+      <div class="settings-section">
+        <h3>Уведомления</h3>
+        <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Telegram уведомления</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Email уведомления</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+      <div class="settings-section">
+        <h3>Безопасность</h3>
+        <div class="form-group"><label>Текущий пароль</label><input type="password" placeholder="••••••••"></div>
+        <div class="form-group"><label>Новый пароль</label><input type="password" placeholder="••••••••"></div>
+        <button class="btn btn-primary" onclick="showToast('Пароль изменён','success')">Изменить пароль</button>
+      </div>
+      <div class="settings-section">
+        <h3>Тема</h3>
+        <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Тёмная тема</div></div><button class="toggle on" id="themeToggle" onclick="toggleTheme();this.classList.toggle('on')"></button></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- СТРАНИЦА 5: ЗАБОНХО -->
-<div class="page" id="page5">
-  <div class="main">
-    <div class="card">
-      <h2>Забонхо</h2><br>
-      <button class="btn" onclick="showPage('pageEng')" style="width:100%;margin-bottom:10px">🇬🇧 Англисӣ</button>
-      <button class="btn" onclick="showPage('pageChn')" style="width:100%;margin-bottom:10px;background:#e74c3c">🇨🇳 Хитоӣ</button>
-      <button class="btn" onclick="showPage('pageRus')" style="width:100%;background:#3498db">🇷🇺 Урусӣ</button>
+<!-- ===== ADMIN ===== -->
+<div class="page" id="page-admin">
+  <div class="admin-page">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+      <div><h1 style="font-size:28px;font-weight:800;">Панель администратора</h1><p style="color:var(--text2);font-size:14px;margin-top:4px;">MAXA HUB</p></div>
+      <div style="display:flex;gap:8px;"><button class="btn btn-ghost" onclick="showPage('home')">← Сайт</button><button class="btn btn-danger" onclick="logout()">Выйти</button></div>
+    </div>
+    <div class="admin-sidebar">
+      <button class="admin-nav-btn active" onclick="switchAdmin('stats',this)">📊 Статистика</button>
+      <button class="admin-nav-btn" onclick="switchAdmin('users',this)">👥 Пользователи</button>
+      <button class="admin-nav-btn" onclick="switchAdmin('aorders',this)">📋 Заказы</button>
+      <button class="admin-nav-btn" onclick="switchAdmin('aservices',this)">🛍 Услуги</button>
+      <button class="admin-nav-btn" onclick="switchAdmin('tgbot',this)">✈️ Telegram</button>
+    </div>
+    <div class="admin-content active" id="ac-stats">
+      <div class="admin-stats">
+        <div class="admin-stat"><div class="admin-stat-num">2,487</div><div class="admin-stat-label">Всего заказов</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">856</div><div class="admin-stat-label">Пользователей</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">₽485K</div><div class="admin-stat-label">Оборот</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">98%</div><div class="admin-stat-label">Успешных</div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-section"><h2>Последние заказы</h2><div id="adminRecentOrders"></div></div>
+        <div class="dash-section">
+          <h2>Активность</h2>
+          <div class="notif-item"><div class="notif-dot" style="animation:pulse 2s infinite;"></div><div><div class="notif-text">Новый заказ #1055 — Telegram-бот</div><div class="notif-time">5 мин. назад</div></div></div>
+          <div class="notif-item"><div class="notif-dot"></div><div><div class="notif-text">Оплата получена — ₽800</div><div class="notif-time">12 мин. назад</div></div></div>
+          <div class="notif-item"><div class="notif-dot"></div><div><div class="notif-text">Заказ #1048 завершён</div><div class="notif-time">1 час назад</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="admin-content" id="ac-users">
+      <div class="table-wrap"><table class="table" id="usersTable"></table></div>
+    </div>
+    <div class="admin-content" id="ac-aorders">
+      <div class="table-wrap"><table class="table" id="adminOrdersTable"></table></div>
+    </div>
+    <div class="admin-content" id="ac-aservices">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+        <button class="btn btn-primary" onclick="openModal('addServiceModal')">+ Добавить услугу</button>
+      </div>
+      <div class="table-wrap"><table class="table" id="adminServicesTable"></table></div>
+    </div>
+    <div class="admin-content" id="ac-tgbot">
+      <div class="settings-section">
+        <h3>✈️ Telegram Bot настройки</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:20px;">Бот подключён. Уведомления о заказах отправляются автоматически.</p>
+        <div style="background:rgba(67,233,123,0.1);border:1px solid rgba(67,233,123,0.3);border-radius:12px;padding:16px;margin-bottom:20px;">
+          <div style="font-size:14px;font-weight:700;color:#43e97b;margin-bottom:8px;">✅ Бот активен</div>
+          <div style="font-size:13px;color:var(--text2);">Chat ID: 7741984130<br>При каждом новом заказе в Telegram отправляются: имя, описание, контакт, сумма и фото чека.</div>
+        </div>
+        <div class="settings-section" style="background:var(--bg2);">
+          <h3>Уведомлять при:</h3>
+          <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Новый заказ + чек</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Новая регистрация</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="settings-row"><div><div style="font-size:14px;font-weight:500;">Завершение заказа</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- АНГЛИСИ -->
-<div class="page" id="pageEng">
-  <div class="main"><div class="card">
-    <h2>🇬🇧 Англисӣ</h2>
-    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
-    <button class="week-btn" onclick="loadWords('eng',1)">Хафтаи 1</button>
-    <button class="week-btn" onclick="loadWords('eng',2)">Хафтаи 2</button>
-    <button class="week-btn" onclick="loadWords('eng',3)">Хафтаи 3</button>
-    <button class="week-btn" onclick="loadWords('eng',4)">Хафтаи 4</button>
-    <br><br>
-    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
-  </div></div>
+<!-- ===== ABOUT ===== -->
+<div class="page" id="page-about">
+  <section class="section" style="max-width:780px;">
+    <h2 class="section-title">О MAXA HUB</h2>
+    <p class="section-sub">Цифровые услуги по доступным ценам</p>
+    <div class="feature-card" style="margin-bottom:20px;">
+      <h3 style="font-size:20px;margin-bottom:16px;">🎯 Наша миссия</h3>
+      <p style="color:var(--text2);line-height:1.8;font-size:15px;">MAXA HUB — платформа, где каждый может заказать цифровую услугу по цене от 100 до 1000 рублей. Мы соединяем клиентов с профессионалами.</p>
+    </div>
+    <div class="features-grid" style="margin-bottom:40px;">
+      <div class="feature-card"><div class="feature-icon">💰</div><h3>100–1000₽</h3><p>Все услуги в этом ценовом диапазоне</p></div>
+      <div class="feature-card"><div class="feature-icon">🌍</div><h3>СНГ</h3><p>Исполнители из России и стран СНГ</p></div>
+      <div class="feature-card"><div class="feature-icon">✈️</div><h3>Telegram</h3><p>Мгновенные уведомления о заказах</p></div>
+    </div>
+    <div class="feature-card">
+      <h3 style="font-size:18px;margin-bottom:16px;">📬 Контакты</h3>
+      <p style="color:var(--text2);margin-bottom:8px;">✈️ Telegram: @maxahub_support</p>
+      <p style="color:var(--text2);margin-bottom:8px;">💳 Оплата: Alif Mobi +992901-40-32-63</p>
+    </div>
+  </section>
 </div>
 
-<!-- ХИТОИ -->
-<div class="page" id="pageChn">
-  <div class="main"><div class="card">
-    <h2>🇨🇳 Хитоӣ</h2>
-    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
-    <button class="week-btn" onclick="loadWords('chn',1)">Хафтаи 1</button>
-    <button class="week-btn" onclick="loadWords('chn',2)">Хафтаи 2</button>
-    <button class="week-btn" onclick="loadWords('chn',3)">Хафтаи 3</button>
-    <button class="week-btn" onclick="loadWords('chn',4)">Хафтаи 4</button>
-    <br><br>
-    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
-  </div></div>
+<!-- ===== MODALS ===== -->
+
+<!-- LOGIN -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2>Вход</h2>
+    <p class="modal-sub">Войдите в свой аккаунт</p>
+    <div class="tabs">
+      <button class="tab active" onclick="switchLoginTab('user',this)">Клиент</button>
+      <button class="tab" onclick="switchLoginTab('admin',this)">Администратор</button>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="your@email.com"></div>
+    <div class="form-group"><label>Пароль</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+    <div style="text-align:right;margin-bottom:20px;"><span class="form-link" onclick="openModal('resetModal');closeModal('loginModal')">Забыли пароль?</span></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="doLogin()" id="loginBtn">Войти</button>
+    <div style="text-align:center;margin-top:16px;font-size:14px;color:var(--text2);">Нет аккаунта? <span class="form-link" onclick="openModal('regModal');closeModal('loginModal')">Регистрация</span></div>
+  </div>
 </div>
 
-<!-- УРУСИ -->
-<div class="page" id="pageRus">
-  <div class="main"><div class="card">
-    <h2>🇷🇺 Урусӣ</h2>
-    <p style="color:#FFD700;margin:10px 0">Хафтаро интихоб кунед:</p>
-    <button class="week-btn" onclick="loadWords('rus',1)">Хафтаи 1</button>
-    <button class="week-btn" onclick="loadWords('rus',2)">Хафтаи 2</button>
-    <button class="week-btn" onclick="loadWords('rus',3)">Хафтаи 3</button>
-    <button class="week-btn" onclick="loadWords('rus',4)">Хафтаи 4</button>
-    <br><br>
-    <button class="btn" onclick="showPage('page5')" style="width:100%">⬅ Бозгашт</button>
-  </div></div>
+<!-- REGISTER -->
+<div class="modal-overlay" id="regModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('regModal')">✕</button>
+    <h2>Регистрация</h2>
+    <p class="modal-sub">Создайте аккаунт на MAXA HUB</p>
+    <div class="form-group"><label>Имя и фамилия</label><input type="text" id="regName" placeholder="Иван Иванов"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com"></div>
+    <div class="form-group"><label>Пароль</label><input type="password" id="regPass" placeholder="Минимум 8 символов"></div>
+    <div class="form-group"><label>Подтвердить пароль</label><input type="password" id="regPass2" placeholder="Повторите пароль"></div>
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:20px;">
+      <input type="checkbox" id="regAgree" style="accent-color:var(--accent);margin-top:3px;">
+      <label for="regAgree" style="font-size:13px;color:var(--text2);">Принимаю <span class="form-link">условия использования</span></label>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="doRegister()">Зарегистрироваться 🚀</button>
+    <div style="text-align:center;margin-top:16px;font-size:14px;color:var(--text2);">Есть аккаунт? <span class="form-link" onclick="openModal('loginModal');closeModal('regModal')">Войти</span></div>
+  </div>
 </div>
 
-<!-- ЛУГАТХО -->
-<div class="page" id="pageWords">
-  <div class="main"><div class="card">
-    <h2 id="wordTableTitle"></h2>
-    <table><tbody id="wordTable"></tbody></table>
-    <br>
-    <button class="btn" onclick="showPage(window._currentLang==='eng'?'pageEng':window._currentLang==='chn'?'pageChn':'pageRus')" style="width:100%">⬅ Бозгашт</button>
-  </div></div>
+<!-- RESET -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('resetModal')">✕</button>
+    <h2>Восстановление пароля</h2>
+    <p class="modal-sub">Введите email — отправим инструкции</p>
+    <div class="form-group"><label>Email</label><input type="email" id="resetEmail" placeholder="your@email.com"></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="doReset()">Отправить</button>
+    <div style="text-align:center;margin-top:16px;"><span class="form-link" onclick="openModal('loginModal');closeModal('resetModal')">← Назад</span></div>
+  </div>
 </div>
 
-<!-- АДМИН ПАНЕЛ -->
-<div class="page" id="pageAdmin">
-  <div class="main">
-    <div class="card">
-      <h2>⚙️ Админ Панел</h2>
-      <p style="color:#FFD700;margin:10px 0">Рӯйхати корбарон:</p>
-      <div id="userList"></div>
+<!-- SERVICE DETAIL -->
+<div class="modal-overlay" id="serviceModal">
+  <div class="modal"><button class="modal-close" onclick="closeModal('serviceModal')">✕</button><div id="serviceModalContent"></div></div>
+</div>
+
+<!-- CHAT -->
+<div class="modal-overlay" id="chatModal">
+  <div class="modal chat-modal-inner">
+    <div class="chat-header">
+      <div><h3 style="font-size:16px;font-weight:700;" id="chatTitle">Чат</h3><p style="font-size:12px;color:var(--accent3);">🟢 Онлайн</p></div>
+      <button class="modal-close" style="position:static;" onclick="closeModal('chatModal')">✕</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInputField" placeholder="Сообщение..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send" onclick="sendMsg()">➤</button>
     </div>
   </div>
 </div>
 
-<!-- ПРОФИЛИ КОРБАР (БАРОИ АДМИН) -->
-<div class="page" id="pageUserAdmin">
-  <div class="main"><div class="card">
-    <h2>👤 Профили Корбар</h2>
-    <p style="color:#FFD700" id="adminUserName"></p>
-    <p style="color:#aaa;font-size:13px" id="adminUserEmail"></p>
-    <p style="margin-top:10px">Статус: <span id="currentBanStatus" style="color:#2ecc71"></span></p>
-    <hr style="border-color:#333;margin:16px 0">
-    <h2 style="font-size:16px">🚫 Бан кардан</h2>
-    <input type="number" id="banDaysInput" placeholder="Рӯзҳои бан (мисол: 7)" />
-    <input type="text" id="banReasonInput" placeholder="Сабаби бан" />
-    <div class="btn-row">
-      <button class="btn-red btn" onclick="doBan()" style="flex:1;padding:12px">🚫 Забанить</button>
-      <button class="btn2" onclick="doUnban()">✅ Разбанить</button>
-    </div>
-    <hr style="border-color:#333;margin:16px 0">
-    <button class="btn" onclick="toggleModerator()" style="width:100%;background:#2ecc71" id="modBtnText">Дать модератора</button>
-    <br>
-    <button class="btn2" onclick="showPage('pageAdmin');loadAdminUsers()" style="width:100%;margin-top:10px">⬅ Бозгашт</button>
-  </div></div>
-</div>
-
-<!-- БАН СТРАНИЦА -->
-<div class="page" id="pageBan">
-  <div class="main">
-    <div class="ban-msg">
-      <h2>⛔ Бубахшед!</h2>
-      <p>Акаунти шуморо разработчикҳо бан кардаанд!</p>
-      <p style="margin-top:16px">Причина: <strong id="banReason"></strong></p>
-      <p style="margin-top:10px">Дней до окончания бана: <strong id="banDays"></strong></p>
-    </div>
-    <br>
-    <button class="btn" onclick="doLogout();showPage('page3')" style="width:100%">Аз сари нав Регистрация</button>
+<!-- ADD SERVICE -->
+<div class="modal-overlay" id="addServiceModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addServiceModal')">✕</button>
+    <h2>Добавить услугу</h2>
+    <p class="modal-sub">Цена должна быть 100–1000₽</p>
+    <div class="form-group"><label>Название</label><input type="text" id="asTitle" placeholder="Название услуги"></div>
+    <div class="form-group"><label>Категория</label><select id="asCat"><option value="web">Сайты</option><option value="design">Дизайн</option><option value="video">Видео</option><option value="bot">Боты</option><option value="mobile">Приложения</option><option value="seo">SEO</option></select></div>
+    <div class="form-group"><label>Описание</label><textarea id="asDesc" placeholder="Описание..."></textarea></div>
+    <div class="form-group"><label>Цена (100–1000₽)</label><input type="number" id="asPrice" placeholder="500" min="100" max="1000"></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="addServiceAdmin()">Добавить</button>
   </div>
 </div>
 
 <script>
-  function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0, 0);
-    const noTopbar = ['page1', 'page2', 'page3', 'pageBan'];
-    document.getElementById('topbar').classList.toggle('show', !noTopbar.includes(id));
-  }
+// ===== CONFIG =====
+const TG_TOKEN = '8870078903:AAEprT38BxvdAlGoL3B_eT_XKDiw10YPfg8';
+const TG_CHAT_ID = '7741984130';
+const ADMIN_EMAIL = 'admin@maxahub.ru';
+const ADMIN_PASS = 'admin123';
 
-  function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-  }
+let currentUser = null;
+let loginRoleVal = 'user';
+let currentCat = 'all';
+let orderStep = 1;
+let checkFileData = null;
+let checkFileName = null;
 
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-  }
+const PRICE_MAP = {
+  web:900, design:500, video:700, bot:800, mobile:1000, seo:600, other:300
+};
+const CAT_LABELS = {
+  web:'🌐 Создание сайта / лендинга', design:'🎨 Дизайн логотипа / баннера',
+  video:'🎬 Монтаж видео / Reels', bot:'🤖 Telegram-бот',
+  mobile:'📱 Мобильное приложение', seo:'📈 SEO аудит сайта', other:'✨ Другое'
+};
 
-  function getDefaultWords(lang, week) {
-    const words = {
-      eng: {
-        1: [{word:"Hello",trans:"Салом"},{word:"Goodbye",trans:"Хайр"},{word:"Yes",trans:"Ха"},{word:"No",trans:"Не"},{word:"Please",trans:"Лутфан"},{word:"Thank you",trans:"Ташаккур"},{word:"Sorry",trans:"Бубахшед"},{word:"Water",trans:"Об"},{word:"Food",trans:"Хурок"},{word:"House",trans:"Хона"},{word:"Car",trans:"Мошин"},{word:"School",trans:"Мактаб"},{word:"Book",trans:"Китоб"},{word:"Friend",trans:"Дӯст"},{word:"Family",trans:"Оила"},{word:"Mother",trans:"Модар"},{word:"Father",trans:"Падар"},{word:"Brother",trans:"Бародар"},{word:"Sister",trans:"Хохар"},{word:"Sun",trans:"Офтоб"},{word:"Moon",trans:"Мох"},{word:"Star",trans:"Ситора"},{word:"Day",trans:"Руз"},{word:"Night",trans:"Шаб"},{word:"Morning",trans:"Субх"},{word:"Evening",trans:"Бегох"},{word:"Good",trans:"Хуб"},{word:"Bad",trans:"Бад"},{word:"Big",trans:"Калон"},{word:"Small",trans:"Хурд"},{word:"Hot",trans:"Гарм"},{word:"Cold",trans:"Хунук"},{word:"New",trans:"Нав"},{word:"Old",trans:"Куха"},{word:"Fast",trans:"Тез"},{word:"Slow",trans:"Суст"},{word:"Happy",trans:"Хурсанд"},{word:"Sad",trans:"Гамгин"},{word:"Love",trans:"Мухаббат"},{word:"Peace",trans:"Сулх"},{word:"Work",trans:"Кор"},{word:"Play",trans:"Бози"},{word:"Eat",trans:"Хурдан"},{word:"Drink",trans:"Нушидан"},{word:"Sleep",trans:"Хобидан"},{word:"Walk",trans:"Рафтан"},{word:"Run",trans:"Давидан"},{word:"See",trans:"Дидан"},{word:"Hear",trans:"Шунидан"},{word:"Speak",trans:"Гап задан"},{word:"Read",trans:"Хондан"},{word:"Write",trans:"Навиштан"},{word:"Learn",trans:"Омухтан"},{word:"Know",trans:"Донистан"},{word:"Think",trans:"Фикр кардан"},{word:"Come",trans:"Омадан"},{word:"Go",trans:"Рафтан"},{word:"Open",trans:"Кушодан"},{word:"Close",trans:"Пӯшидан"},{word:"Give",trans:"Додан"},{word:"Take",trans:"Гирифтан"},{word:"Buy",trans:"Харидан"},{word:"Sell",trans:"Фурӯхтан"},{word:"Money",trans:"Пул"},{word:"Time",trans:"Вакт"},{word:"Year",trans:"Сол"},{word:"Month",trans:"Мох"},{word:"Week",trans:"Хафта"},{word:"Today",trans:"Имруз"},{word:"Tomorrow",trans:"Пагох"},{word:"Yesterday",trans:"Дируз"},{word:"City",trans:"Шахр"},{word:"Country",trans:"Кишвар"},{word:"Road",trans:"Рох"},{word:"Door",trans:"Дар"},{word:"Window",trans:"Тиреза"},{word:"Table",trans:"Миз"},{word:"Chair",trans:"Курси"},{word:"Bed",trans:"Кат"},{word:"Phone",trans:"Телефон"},{word:"Computer",trans:"Компютер"},{word:"Internet",trans:"Интернет"},{word:"Doctor",trans:"Духтур"},{word:"Teacher",trans:"Муаллим"},{word:"Student",trans:"Донишҷӯ"},{word:"Child",trans:"Кудак"},{word:"Man",trans:"Мард"},{word:"Woman",trans:"Зан"},{word:"Boy",trans:"Писар"},{word:"Girl",trans:"Духтар"},{word:"Dog",trans:"Саг"},{word:"Cat",trans:"Гурба"},{word:"Bird",trans:"Парранда"},{word:"Fish",trans:"Мохи"},{word:"Tree",trans:"Дарахт"},{word:"Flower",trans:"Гул"},{word:"Rain",trans:"Борон"},{word:"Snow",trans:"Барф"},{word:"Fire",trans:"Оташ"},{word:"Life",trans:"Зиндаги"}],
-        2: [{word:"Apple",trans:"Себ"},{word:"Bread",trans:"Нон"},{word:"Milk",trans:"Шир"},{word:"Egg",trans:"Тухм"},{word:"Meat",trans:"Гушт"},{word:"Rice",trans:"Биринҷ"},{word:"Sugar",trans:"Шакар"},{word:"Salt",trans:"Намак"},{word:"Oil",trans:"Равган"},{word:"Tea",trans:"Чой"},{word:"Coffee",trans:"Қаҳва"},{word:"Juice",trans:"Шарбат"},{word:"Soup",trans:"Шурбо"},{word:"Cake",trans:"Торт"},{word:"Candy",trans:"Ширинӣ"},{word:"Orange",trans:"Норинҷ"},{word:"Banana",trans:"Банан"},{word:"Grape",trans:"Ангур"},{word:"Tomato",trans:"Помидор"},{word:"Onion",trans:"Пиёз"},{word:"Potato",trans:"Картошка"},{word:"Carrot",trans:"Сабзӣ"},{word:"Cucumber",trans:"Бодиринг"},{word:"Pepper",trans:"Қаланфур"},{word:"Garlic",trans:"Сир"},{word:"Hospital",trans:"Беморхона"},{word:"Market",trans:"Бозор"},{word:"Bank",trans:"Банк"},{word:"Hotel",trans:"Меҳмонхона"},{word:"Airport",trans:"Фурудгох"},{word:"Station",trans:"Истгох"},{word:"Park",trans:"Боғ"},{word:"Museum",trans:"Осорхона"},{word:"Library",trans:"Китобхона"},{word:"Restaurant",trans:"Тарабхона"},{word:"Shirt",trans:"Пироҳан"},{word:"Pants",trans:"Шим"},{word:"Shoes",trans:"Пойафзол"},{word:"Hat",trans:"Куллох"},{word:"Jacket",trans:"Куртка"},{word:"Dress",trans:"Либос"},{word:"Bag",trans:"Сумка"},{word:"Watch",trans:"Соат"},{word:"Ring",trans:"Ангуштарин"},{word:"Mirror",trans:"Оина"},{word:"Key",trans:"Калид"},{word:"Lamp",trans:"Чарог"},{word:"Pen",trans:"Қалам"},{word:"Paper",trans:"Когаз"},{word:"Red",trans:"Сурх"},{word:"Blue",trans:"Кабуд"},{word:"Green",trans:"Сабз"},{word:"Yellow",trans:"Зард"},{word:"White",trans:"Сафед"},{word:"Black",trans:"Сиёх"},{word:"One",trans:"Як"},{word:"Two",trans:"Ду"},{word:"Three",trans:"Се"},{word:"Four",trans:"Чор"},{word:"Five",trans:"Панҷ"},{word:"Six",trans:"Шаш"},{word:"Seven",trans:"Хафт"},{word:"Eight",trans:"Хашт"},{word:"Nine",trans:"Нӯх"},{word:"Ten",trans:"Дах"},{word:"Monday",trans:"Душанбе"},{word:"Tuesday",trans:"Сешанбе"},{word:"Wednesday",trans:"Чоршанбе"},{word:"Thursday",trans:"Панҷшанбе"},{word:"Friday",trans:"Ҷумъа"},{word:"Saturday",trans:"Шанбе"},{word:"Sunday",trans:"Якшанбе"},{word:"Spring",trans:"Бахор"},{word:"Summer",trans:"Тобистон"},{word:"Autumn",trans:"Тирамох"},{word:"Winter",trans:"Зимистон"},{word:"North",trans:"Шимол"},{word:"South",trans:"Ҷануб"},{word:"East",trans:"Шарқ"},{word:"West",trans:"Ғарб"},{word:"Right",trans:"Рост"},{word:"Left",trans:"Чап"},{word:"January",trans:"Январ"},{word:"February",trans:"Феврал"},{word:"March",trans:"Март"},{word:"April",trans:"Апрел"},{word:"May",trans:"Май"},{word:"June",trans:"Июн"},{word:"July",trans:"Июл"},{word:"August",trans:"Август"},{word:"September",trans:"Сентябр"},{word:"October",trans:"Октябр"},{word:"November",trans:"Ноябр"},{word:"December",trans:"Декабр"}],
-        3: [{word:"Angry",trans:"Хашмгин"},{word:"Tired",trans:"Хаста"},{word:"Hungry",trans:"Гурусна"},{word:"Thirsty",trans:"Ташна"},{word:"Sick",trans:"Бемор"},{word:"Strong",trans:"Қавӣ"},{word:"Weak",trans:"Заиф"},{word:"Beautiful",trans:"Зебо"},{word:"Clean",trans:"Тоза"},{word:"Dirty",trans:"Чиркин"},{word:"Rich",trans:"Бой"},{word:"Poor",trans:"Камбагал"},{word:"Tall",trans:"Баланд"},{word:"Short",trans:"Паст"},{word:"Long",trans:"Дароз"},{word:"Heavy",trans:"Вазнин"},{word:"Light",trans:"Сабук"},{word:"Swim",trans:"Шино кардан"},{word:"Fly",trans:"Парвоз кардан"},{word:"Jump",trans:"Ҷаҳидан"},{word:"Dance",trans:"Рақсидан"},{word:"Sing",trans:"Суруд хондан"},{word:"Cook",trans:"Пухтан"},{word:"Build",trans:"Сохтан"},{word:"Break",trans:"Шикастан"},{word:"Help",trans:"Кумак кардан"},{word:"Wait",trans:"Интизор шудан"},{word:"Stop",trans:"Истодан"},{word:"Start",trans:"Оғоз кардан"},{word:"Finish",trans:"Тамом кардан"},{word:"Win",trans:"Ғалаба кардан"},{word:"Lose",trans:"Бохтан"},{word:"Try",trans:"Кӯшиш кардан"},{word:"Smile",trans:"Табассум кардан"},{word:"Cry",trans:"Гиристан"},{word:"Head",trans:"Сар"},{word:"Eye",trans:"Чашм"},{word:"Ear",trans:"Гӯш"},{word:"Nose",trans:"Бинӣ"},{word:"Mouth",trans:"Дахон"},{word:"Hand",trans:"Даст"},{word:"Foot",trans:"По"},{word:"Heart",trans:"Дил"},{word:"Hair",trans:"Мӯй"},{word:"Face",trans:"Рӯй"},{word:"Lion",trans:"Шер"},{word:"Tiger",trans:"Бабр"},{word:"Elephant",trans:"Фил"},{word:"Horse",trans:"Асп"},{word:"Cow",trans:"Гов"},{word:"Sheep",trans:"Гӯсфанд"},{word:"Chicken",trans:"Мурғ"},{word:"Rabbit",trans:"Харгӯш"},{word:"Bear",trans:"Хирс"},{word:"Wolf",trans:"Гург"},{word:"River",trans:"Дарё"},{word:"Mountain",trans:"Кӯх"},{word:"Sea",trans:"Бахр"},{word:"Forest",trans:"Ҷангал"},{word:"Desert",trans:"Биёбон"},{word:"Sky",trans:"Осмон"},{word:"Cloud",trans:"Абр"},{word:"Wind",trans:"Шамол"},{word:"Storm",trans:"Тӯфон"},{word:"Airplane",trans:"Хавопаймо"},{word:"Train",trans:"Қатора"},{word:"Bus",trans:"Автобус"},{word:"Bicycle",trans:"Велосипед"},{word:"Ship",trans:"Киштӣ"},{word:"Music",trans:"Мусиқӣ"},{word:"Song",trans:"Суруд"},{word:"Movie",trans:"Филм"},{word:"Sport",trans:"Варзиш"},{word:"Football",trans:"Футбол"},{word:"Science",trans:"Илм"},{word:"Math",trans:"Математика"},{word:"History",trans:"Таърих"},{word:"Language",trans:"Забон"},{word:"Dream",trans:"Орзу"},{word:"Hope",trans:"Умед"},{word:"Future",trans:"Оянда"},{word:"World",trans:"Ҷахон"},{word:"Freedom",trans:"Озодӣ"},{word:"Success",trans:"Муваффақият"}],
-        4: [{word:"Good morning",trans:"Субҳ бахайр"},{word:"Good evening",trans:"Шом бахайр"},{word:"Good night",trans:"Шаб бахайр"},{word:"How are you?",trans:"Ҳол шумо чӣ?"},{word:"I am fine",trans:"Ман хубам"},{word:"What is your name?",trans:"Номи шумо чист?"},{word:"My name is...",trans:"Номи ман..."},{word:"Where are you from?",trans:"Шумо аз куҷо?"},{word:"I am from Tajikistan",trans:"Ман аз Тоҷикистон"},{word:"How old are you?",trans:"Синну соли шумо?"},{word:"I don't understand",trans:"Ман намефаҳмам"},{word:"Please repeat",trans:"Лутфан такрор кунед"},{word:"How much?",trans:"Чанд пул?"},{word:"I need help",trans:"Ба ман кумак лозим"},{word:"I love you",trans:"Ман туро дӯст дорам"},{word:"Nice to meet you",trans:"Хурсандам аз шинохтан"},{word:"Good luck",trans:"Муваффақ бошед"},{word:"Happy birthday",trans:"Таваллудатон муборак"},{word:"Congratulations",trans:"Табрик"},{word:"No problem",trans:"Мушкил нест"},{word:"I agree",trans:"Ман розӣ ҳастам"},{word:"Maybe",trans:"Шояд"},{word:"Always",trans:"Ҳамеша"},{word:"Never",trans:"Ҳеҷ вақт"},{word:"Sometimes",trans:"Баъзан"},{word:"Here",trans:"Инҷо"},{word:"There",trans:"Онҷо"},{word:"Together",trans:"Якҷо"},{word:"Alone",trans:"Танҳо"},{word:"Easy",trans:"Осон"},{word:"Difficult",trans:"Душвор"},{word:"Important",trans:"Муҳим"},{word:"Interesting",trans:"Ҷолиб"},{word:"True",trans:"Рост"},{word:"False",trans:"Дурӯғ"},{word:"Safe",trans:"Бехатар"},{word:"Dangerous",trans:"Хатарнок"},{word:"Ready",trans:"Тайёр"},{word:"Busy",trans:"Банд"},{word:"Free",trans:"Озод"},{word:"Near",trans:"Наздик"},{word:"Far",trans:"Дур"},{word:"Up",trans:"Боло"},{word:"Down",trans:"Поён"},{word:"Before",trans:"Пеш"},{word:"After",trans:"Баъд"},{word:"Because",trans:"Чунки"},{word:"But",trans:"Аммо"},{word:"And",trans:"Ва"},{word:"Or",trans:"Ё"},{word:"If",trans:"Агар"}]
-      },
-      chn: {
-        1: [{word:"Nǐ hǎo",trans:"Салом"},{word:"Zàijiàn",trans:"Хайр"},{word:"Shì",trans:"Ха"},{word:"Bù shì",trans:"Не"},{word:"Qǐng",trans:"Лутфан"},{word:"Xièxiè",trans:"Ташаккур"},{word:"Duìbuqǐ",trans:"Бубахшед"},{word:"Shuǐ",trans:"Об"},{word:"Shíwù",trans:"Хурок"},{word:"Fángzi",trans:"Хона"},{word:"Chē",trans:"Мошин"},{word:"Xuéxiào",trans:"Мактаб"},{word:"Shū",trans:"Китоб"},{word:"Péngyǒu",trans:"Дӯст"},{word:"Jiātíng",trans:"Оила"},{word:"Māma",trans:"Модар"},{word:"Bàba",trans:"Падар"},{word:"Gēgē",trans:"Бародар"},{word:"Jiějiě",trans:"Хохар"},{word:"Tàiyáng",trans:"Офтоб"},{word:"Yuèliàng",trans:"Мох"},{word:"Xīngxīng",trans:"Ситора"},{word:"Tiān",trans:"Руз"},{word:"Yè",trans:"Шаб"},{word:"Zǎoshang",trans:"Субх"},{word:"Wǎnshang",trans:"Бегох"},{word:"Hǎo",trans:"Хуб"},{word:"Huài",trans:"Бад"},{word:"Dà",trans:"Калон"},{word:"Xiǎo",trans:"Хурд"},{word:"Rè",trans:"Гарм"},{word:"Lěng",trans:"Хунук"},{word:"Xīn",trans:"Нав"},{word:"Jiù",trans:"Куха"},{word:"Kuài",trans:"Тез"},{word:"Màn",trans:"Суст"},{word:"Gāoxìng",trans:"Хурсанд"},{word:"Nánguò",trans:"Гамгин"},{word:"Ài",trans:"Мухаббат"},{word:"Hépíng",trans:"Сулх"},{word:"Gōngzuò",trans:"Кор"},{word:"Wánr",trans:"Бози"},{word:"Chī",trans:"Хурдан"},{word:"Hē",trans:"Нушидан"},{word:"Shuìjiào",trans:"Хобидан"},{word:"Zǒu",trans:"Рафтан"},{word:"Pǎo",trans:"Давидан"},{word:"Kàn",trans:"Дидан"},{word:"Tīng",trans:"Шунидан"},{word:"Shuō",trans:"Гап задан"},{word:"Dú",trans:"Хондан"},{word:"Xiě",trans:"Навиштан"},{word:"Xué",trans:"Омухтан"},{word:"Zhīdào",trans:"Донистан"},{word:"Xiǎng",trans:"Фикр кардан"},{word:"Lái",trans:"Омадан"},{word:"Qù",trans:"Рафтан"},{word:"Kāi",trans:"Кушодан"},{word:"Guān",trans:"Пӯшидан"},{word:"Gěi",trans:"Додан"},{word:"Ná",trans:"Гирифтан"},{word:"Mǎi",trans:"Харидан"},{word:"Mài",trans:"Фурӯхтан"},{word:"Qián",trans:"Пул"},{word:"Shíjiān",trans:"Вакт"},{word:"Nián",trans:"Сол"},{word:"Yuè",trans:"Мох"},{word:"Zhōu",trans:"Хафта"},{word:"Jīntiān",trans:"Имруз"},{word:"Míngtiān",trans:"Пагох"},{word:"Zuótiān",trans:"Дируз"},{word:"Chéngshì",trans:"Шахр"},{word:"Guójiā",trans:"Кишвар"},{word:"Lù",trans:"Рох"},{word:"Mén",trans:"Дар"},{word:"Chuānghù",trans:"Тиреза"},{word:"Zhuōzi",trans:"Миз"},{word:"Yǐzi",trans:"Курси"},{word:"Chuáng",trans:"Кат"},{word:"Diànhuà",trans:"Телефон"},{word:"Diànnǎo",trans:"Компютер"},{word:"Hùliánwǎng",trans:"Интернет"},{word:"Yīshēng",trans:"Духтур"},{word:"Lǎoshī",trans:"Муаллим"},{word:"Xuéshēng",trans:"Донишҷӯ"},{word:"Háizi",trans:"Кудак"},{word:"Nánrén",trans:"Мард"},{word:"Nǚrén",trans:"Зан"},{word:"Nánhái",trans:"Писар"},{word:"Nǚhái",trans:"Духтар"},{word:"Gǒu",trans:"Саг"},{word:"Māo",trans:"Гурба"},{word:"Niǎo",trans:"Парранда"},{word:"Yú",trans:"Мохи"},{word:"Shù",trans:"Дарахт"},{word:"Huā",trans:"Гул"},{word:"Yǔ",trans:"Борон"},{word:"Xuě",trans:"Барф"},{word:"Huǒ",trans:"Оташ"},{word:"Shēnghuó",trans:"Зиндаги"}],
-        2: [{word:"Píngguǒ",trans:"Себ"},{word:"Miànbāo",trans:"Нон"},{word:"Niúnǎi",trans:"Шир"},{word:"Jīdàn",trans:"Тухм"},{word:"Ròu",trans:"Гушт"},{word:"Mǐfàn",trans:"Биринҷ"},{word:"Táng",trans:"Шакар"},{word:"Yán",trans:"Намак"},{word:"Yóu",trans:"Равган"},{word:"Chá",trans:"Чой"},{word:"Kāfēi",trans:"Қаҳва"},{word:"Guǒzhī",trans:"Шарбат"},{word:"Tāng",trans:"Шурбо"},{word:"Dàngāo",trans:"Торт"},{word:"Chéngzi",trans:"Норинҷ"},{word:"Xiāngjiāo",trans:"Банан"},{word:"Pútáo",trans:"Ангур"},{word:"Xīhóngshì",trans:"Помидор"},{word:"Yángcōng",trans:"Пиёз"},{word:"Tǔdòu",trans:"Картошка"},{word:"Húluóbo",trans:"Сабзӣ"},{word:"Huángguā",trans:"Бодиринг"},{word:"Suàn",trans:"Сир"},{word:"Yīyuàn",trans:"Беморхона"},{word:"Shìchǎng",trans:"Бозор"},{word:"Yínháng",trans:"Банк"},{word:"Jiǔdiàn",trans:"Меҳмонхона"},{word:"Jīchǎng",trans:"Фурудгох"},{word:"Chēzhàn",trans:"Истгох"},{word:"Gōngyuán",trans:"Боғ"},{word:"Bówùguǎn",trans:"Осорхона"},{word:"Túshūguǎn",trans:"Китобхона"},{word:"Cāntīng",trans:"Тарабхона"},{word:"Chènshān",trans:"Пироҳан"},{word:"Kùzi",trans:"Шим"},{word:"Xié",trans:"Пойафзол"},{word:"Màozi",trans:"Куллох"},{word:"Jiákè",trans:"Куртка"},{word:"Yīfú",trans:"Либос"},{word:"Bāo",trans:"Сумка"},{word:"Shǒubiǎo",trans:"Соат"},{word:"Jièzhǐ",trans:"Ангуштарин"},{word:"Jìngzi",trans:"Оина"},{word:"Yàoshi",trans:"Калид"},{word:"Dēng",trans:"Чарог"},{word:"Bǐ",trans:"Қалам"},{word:"Zhǐ",trans:"Когаз"},{word:"Hóngsè",trans:"Сурх"},{word:"Lánsè",trans:"Кабуд"},{word:"Lǜsè",trans:"Сабз"},{word:"Huángsè",trans:"Зард"},{word:"Báisè",trans:"Сафед"},{word:"Hēisè",trans:"Сиёх"},{word:"Yī",trans:"Як"},{word:"Èr",trans:"Ду"},{word:"Sān",trans:"Се"},{word:"Sì",trans:"Чор"},{word:"Wǔ",trans:"Панҷ"},{word:"Liù",trans:"Шаш"},{word:"Qī",trans:"Хафт"},{word:"Bā",trans:"Хашт"},{word:"Jiǔ",trans:"Нӯх"},{word:"Shí",trans:"Дах"},{word:"Xīngqīyī",trans:"Душанбе"},{word:"Xīngqīèr",trans:"Сешанбе"},{word:"Xīngqīsān",trans:"Чоршанбе"},{word:"Xīngqīsì",trans:"Панҷшанбе"},{word:"Xīngqīwǔ",trans:"Ҷумъа"},{word:"Xīngqīliù",trans:"Шанбе"},{word:"Xīngqītiān",trans:"Якшанбе"},{word:"Chūntiān",trans:"Бахор"},{word:"Xiàtiān",trans:"Тобистон"},{word:"Qiūtiān",trans:"Тирамох"},{word:"Dōngtiān",trans:"Зимистон"},{word:"Běifāng",trans:"Шимол"},{word:"Nánfāng",trans:"Ҷануб"},{word:"Dōngfāng",trans:"Шарқ"},{word:"Xīfāng",trans:"Ғарб"}],
-        3: [{word:"Shīzi",trans:"Шер"},{word:"Lǎohǔ",trans:"Бабр"},{word:"Dàxiàng",trans:"Фил"},{word:"Mǎ",trans:"Асп"},{word:"Niú",trans:"Гов"},{word:"Yáng",trans:"Гӯсфанд"},{word:"Jī",trans:"Мурғ"},{word:"Tùzi",trans:"Харгӯш"},{word:"Xióng",trans:"Хирс"},{word:"Láng",trans:"Гург"},{word:"Hé",trans:"Дарё"},{word:"Shān",trans:"Кӯх"},{word:"Hǎi",trans:"Бахр"},{word:"Sēnlín",trans:"Ҷангал"},{word:"Shāmò",trans:"Биёбон"},{word:"Tiānkōng",trans:"Осмон"},{word:"Yún",trans:"Абр"},{word:"Fēng",trans:"Шамол"},{word:"Fēijī",trans:"Хавопаймо"},{word:"Huǒchē",trans:"Қатора"},{word:"Gōngchē",trans:"Автобус"},{word:"Zìxíngchē",trans:"Велосипед"},{word:"Chuán",trans:"Киштӣ"},{word:"Yīnyuè",trans:"Мусиқӣ"},{word:"Gē",trans:"Суруд"},{word:"Diànyǐng",trans:"Филм"},{word:"Yóuxì",trans:"Бозӣ"},{word:"Yùndòng",trans:"Варзиш"},{word:"Zúqiú",trans:"Футбол"},{word:"Kēxué",trans:"Илм"},{word:"Shùxué",trans:"Математика"},{word:"Lìshǐ",trans:"Таърих"},{word:"Yǔyán",trans:"Забон"},{word:"Wénhuà",trans:"Фарҳанг"},{word:"Tóu",trans:"Сар"},{word:"Yǎnjīng",trans:"Чашм"},{word:"Ěrduǒ",trans:"Гӯш"},{word:"Bízi",trans:"Бинӣ"},{word:"Zuǐ",trans:"Дахон"},{word:"Shǒu",trans:"Даст"},{word:"Jiǎo",trans:"По"},{word:"Xīn",trans:"Дил"},{word:"Tóufa",trans:"Мӯй"},{word:"Liǎn",trans:"Рӯй"},{word:"Shēngqì",trans:"Хашмгин"},{word:"Lèi",trans:"Хаста"},{word:"È",trans:"Гурусна"},{word:"Kě",trans:"Ташна"},{word:"Bìng",trans:"Бемор"},{word:"Qiáng",trans:"Қавӣ"},{word:"Ruò",trans:"Заиф"},{word:"Měilì",trans:"Зебо"},{word:"Gānjìng",trans:"Тоза"},{word:"Zāng",trans:"Чиркин"},{word:"Fùyǒu",trans:"Бой"},{word:"Pínqióng",trans:"Камбагал"},{word:"Gāo",trans:"Баланд"},{word:"Ǎi",trans:"Паст"},{word:"Cháng",trans:"Дароз"},{word:"Zhòng",trans:"Вазнин"},{word:"Qīng",trans:"Сабук"},{word:"Mèngxiǎng",trans:"Орзу"},{word:"Xīwàng",trans:"Умед"},{word:"Wèilái",trans:"Оянда"},{word:"Shìjiè",trans:"Ҷахон"},{word:"Zìyóu",trans:"Озодӣ"},{word:"Chénggōng",trans:"Муваффақият"}],
-        4: [{word:"Nǐ hǎo ma?",trans:"Ҳол шумо чӣ?"},{word:"Wǒ hěn hǎo",trans:"Ман хубам"},{word:"Nǐ jiào shénme?",trans:"Номи шумо чист?"},{word:"Wǒ jiào...",trans:"Номи ман..."},{word:"Nǐ cóng nǎlǐ lái?",trans:"Шумо аз куҷо?"},{word:"Wǒ bù dǒng",trans:"Ман намефаҳмам"},{word:"Qǐng zài shuō",trans:"Лутфан такрор кунед"},{word:"Duōshao qián?",trans:"Чанд пул?"},{word:"Wǒ ài nǐ",trans:"Ман туро дӯст дорам"},{word:"Shēngrì kuàilè",trans:"Таваллудатон муборак"},{word:"Méi wèntí",trans:"Мушкил нест"},{word:"Tài hǎo le",trans:"Ин олӣ аст"},{word:"Yěxǔ",trans:"Шояд"},{word:"Zǒngshì",trans:"Ҳамеша"},{word:"Yǒushíhou",trans:"Баъзан"},{word:"Zhèlǐ",trans:"Инҷо"},{word:"Nàlǐ",trans:"Онҷо"},{word:"Yīqǐ",trans:"Якҷо"},{word:"Dúzì",trans:"Танҳо"},{word:"Róngyì",trans:"Осон"},{word:"Nán",trans:"Душвор"},{word:"Zhòngyào",trans:"Муҳим"},{word:"Ānquán",trans:"Бехатар"},{word:"Wēixiǎn",trans:"Хатарнок"},{word:"Zhǔnbèi hǎo",trans:"Тайёр"},{word:"Jìn",trans:"Наздик"},{word:"Yuǎn",trans:"Дур"},{word:"Shàng",trans:"Боло"},{word:"Xià",trans:"Поён"},{word:"Yīnwèi",trans:"Чунки"},{word:"Dànshì",trans:"Аммо"},{word:"Rúguǒ",trans:"Агар"}]
-      },
-      rus: {
-        1: [{word:"Привет",trans:"Салом"},{word:"До свидания",trans:"Хайр"},{word:"Да",trans:"Ха"},{word:"Нет",trans:"Не"},{word:"Пожалуйста",trans:"Лутфан"},{word:"Спасибо",trans:"Ташаккур"},{word:"Извините",trans:"Бубахшед"},{word:"Вода",trans:"Об"},{word:"Еда",trans:"Хурок"},{word:"Дом",trans:"Хона"},{word:"Машина",trans:"Мошин"},{word:"Школа",trans:"Мактаб"},{word:"Книга",trans:"Китоб"},{word:"Друг",trans:"Дӯст"},{word:"Семья",trans:"Оила"},{word:"Мама",trans:"Модар"},{word:"Папа",trans:"Падар"},{word:"Брат",trans:"Бародар"},{word:"Сестра",trans:"Хохар"},{word:"Солнце",trans:"Офтоб"},{word:"Луна",trans:"Мох"},{word:"Звезда",trans:"Ситора"},{word:"День",trans:"Руз"},{word:"Ночь",trans:"Шаб"},{word:"Утро",trans:"Субх"},{word:"Вечер",trans:"Бегох"},{word:"Хорошо",trans:"Хуб"},{word:"Плохо",trans:"Бад"},{word:"Большой",trans:"Калон"},{word:"Маленький",trans:"Хурд"},{word:"Горячий",trans:"Гарм"},{word:"Холодный",trans:"Хунук"},{word:"Новый",trans:"Нав"},{word:"Старый",trans:"Куха"},{word:"Быстрый",trans:"Тез"},{word:"Медленный",trans:"Суст"},{word:"Счастливый",trans:"Хурсанд"},{word:"Грустный",trans:"Гамгин"},{word:"Любовь",trans:"Мухаббат"},{word:"Мир",trans:"Сулх"},{word:"Работа",trans:"Кор"},{word:"Игра",trans:"Бози"},{word:"Есть",trans:"Хурдан"},{word:"Пить",trans:"Нушидан"},{word:"Спать",trans:"Хобидан"},{word:"Идти",trans:"Рафтан"},{word:"Бежать",trans:"Давидан"},{word:"Видеть",trans:"Дидан"},{word:"Слышать",trans:"Шунидан"},{word:"Говорить",trans:"Гап задан"},{word:"Читать",trans:"Хондан"},{word:"Писать",trans:"Навиштан"},{word:"Учиться",trans:"Омухтан"},{word:"Знать",trans:"Донистан"},{word:"Думать",trans:"Фикр кардан"},{word:"Приходить",trans:"Омадан"},{word:"Уходить",trans:"Рафтан"},{word:"Открывать",trans:"Кушодан"},{word:"Закрывать",trans:"Пӯшидан"},{word:"Давать",trans:"Додан"},{word:"Брать",trans:"Гирифтан"},{word:"Покупать",trans:"Харидан"},{word:"Продавать",trans:"Фурӯхтан"},{word:"Деньги",trans:"Пул"},{word:"Время",trans:"Вакт"},{word:"Год",trans:"Сол"},{word:"Месяц",trans:"Мох"},{word:"Неделя",trans:"Хафта"},{word:"Сегодня",trans:"Имруз"},{word:"Завтра",trans:"Пагох"},{word:"Вчера",trans:"Дируз"},{word:"Город",trans:"Шахр"},{word:"Страна",trans:"Кишвар"},{word:"Дорога",trans:"Рох"},{word:"Дверь",trans:"Дар"},{word:"Окно",trans:"Тиреза"},{word:"Стол",trans:"Миз"},{word:"Стул",trans:"Курси"},{word:"Кровать",trans:"Кат"},{word:"Телефон",trans:"Телефон"},{word:"Компьютер",trans:"Компютер"},{word:"Интернет",trans:"Интернет"},{word:"Врач",trans:"Духтур"},{word:"Учитель",trans:"Муаллим"},{word:"Студент",trans:"Донишҷӯ"},{word:"Ребёнок",trans:"Кудак"},{word:"Мужчина",trans:"Мард"},{word:"Женщина",trans:"Зан"},{word:"Мальчик",trans:"Писар"},{word:"Девочка",trans:"Духтар"},{word:"Собака",trans:"Саг"},{word:"Кошка",trans:"Гурба"},{word:"Птица",trans:"Парранда"},{word:"Рыба",trans:"Мохи"},{word:"Дерево",trans:"Дарахт"},{word:"Цветок",trans:"Гул"},{word:"Дождь",trans:"Борон"},{word:"Снег",trans:"Барф"},{word:"Огонь",trans:"Оташ"},{word:"Жизнь",trans:"Зиндаги"}],
-        2: [{word:"Яблоко",trans:"Себ"},{word:"Хлеб",trans:"Нон"},{word:"Молоко",trans:"Шир"},{word:"Яйцо",trans:"Тухм"},{word:"Мясо",trans:"Гушт"},{word:"Рис",trans:"Биринҷ"},{word:"Сахар",trans:"Шакар"},{word:"Соль",trans:"Намак"},{word:"Масло",trans:"Равган"},{word:"Чай",trans:"Чой"},{word:"Кофе",trans:"Қаҳва"},{word:"Сок",trans:"Шарбат"},{word:"Суп",trans:"Шурбо"},{word:"Торт",trans:"Торт"},{word:"Конфета",trans:"Ширинӣ"},{word:"Апельсин",trans:"Норинҷ"},{word:"Банан",trans:"Банан"},{word:"Виноград",trans:"Ангур"},{word:"Помидор",trans:"Помидор"},{word:"Лук",trans:"Пиёз"},{word:"Картошка",trans:"Картошка"},{word:"Морковь",trans:"Сабзӣ"},{word:"Огурец",trans:"Бодиринг"},{word:"Перец",trans:"Қаланфур"},{word:"Чеснок",trans:"Сир"},{word:"Больница",trans:"Беморхона"},{word:"Рынок",trans:"Бозор"},{word:"Банк",trans:"Банк"},{word:"Гостиница",trans:"Меҳмонхона"},{word:"Аэропорт",trans:"Фурудгох"},{word:"Станция",trans:"Истгох"},{word:"Парк",trans:"Боғ"},{word:"Музей",trans:"Осорхона"},{word:"Библиотека",trans:"Китобхона"},{word:"Ресторан",trans:"Тарабхона"},{word:"Рубашка",trans:"Пироҳан"},{word:"Брюки",trans:"Шим"},{word:"Обувь",trans:"Пойафзол"},{word:"Шапка",trans:"Куллох"},{word:"Куртка",trans:"Куртка"},{word:"Платье",trans:"Либос"},{word:"Сумка",trans:"Сумка"},{word:"Часы",trans:"Соат"},{word:"Кольцо",trans:"Ангуштарин"},{word:"Зеркало",trans:"Оина"},{word:"Ключ",trans:"Калид"},{word:"Лампа",trans:"Чарог"},{word:"Ручка",trans:"Қалам"},{word:"Бумага",trans:"Когаз"},{word:"Красный",trans:"Сурх"},{word:"Синий",trans:"Кабуд"},{word:"Зелёный",trans:"Сабз"},{word:"Жёлтый",trans:"Зард"},{word:"Белый",trans:"Сафед"},{word:"Чёрный",trans:"Сиёх"},{word:"Один",trans:"Як"},{word:"Два",trans:"Ду"},{word:"Три",trans:"Се"},{word:"Четыре",trans:"Чор"},{word:"Пять",trans:"Панҷ"},{word:"Шесть",trans:"Шаш"},{word:"Семь",trans:"Хафт"},{word:"Восемь",trans:"Хашт"},{word:"Девять",trans:"Нӯх"},{word:"Десять",trans:"Дах"},{word:"Понедельник",trans:"Душанбе"},{word:"Вторник",trans:"Сешанбе"},{word:"Среда",trans:"Чоршанбе"},{word:"Четверг",trans:"Панҷшанбе"},{word:"Пятница",trans:"Ҷумъа"},{word:"Суббота",trans:"Шанбе"},{word:"Воскресенье",trans:"Якшанбе"},{word:"Весна",trans:"Бахор"},{word:"Лето",trans:"Тобистон"},{word:"Осень",trans:"Тирамох"},{word:"Зима",trans:"Зимистон"},{word:"Север",trans:"Шимол"},{word:"Юг",trans:"Ҷануб"},{word:"Восток",trans:"Шарқ"},{word:"Запад",trans:"Ғарб"}],
-        3: [{word:"Лев",trans:"Шер"},{word:"Тигр",trans:"Бабр"},{word:"Слон",trans:"Фил"},{word:"Лошадь",trans:"Асп"},{word:"Корова",trans:"Гов"},{word:"Овца",trans:"Гӯсфанд"},{word:"Курица",trans:"Мурғ"},{word:"Кролик",trans:"Харгӯш"},{word:"Медведь",trans:"Хирс"},{word:"Волк",trans:"Гург"},{word:"Река",trans:"Дарё"},{word:"Гора",trans:"Кӯх"},{word:"Море",trans:"Бахр"},{word:"Лес",trans:"Ҷангал"},{word:"Пустыня",trans:"Биёбон"},{word:"Небо",trans:"Осмон"},{word:"Облако",trans:"Абр"},{word:"Ветер",trans:"Шамол"},{word:"Буря",trans:"Тӯфон"},{word:"Самолёт",trans:"Хавопаймо"},{word:"Поезд",trans:"Қатора"},{word:"Автобус",trans:"Автобус"},{word:"Велосипед",trans:"Велосипед"},{word:"Корабль",trans:"Киштӣ"},{word:"Музыка",trans:"Мусиқӣ"},{word:"Песня",trans:"Суруд"},{word:"Фильм",trans:"Филм"},{word:"Спорт",trans:"Варзиш"},{word:"Футбол",trans:"Футбол"},{word:"Наука",trans:"Илм"},{word:"Математика",trans:"Математика"},{word:"История",trans:"Таърих"},{word:"Язык",trans:"Забон"},{word:"Культура",trans:"Фарҳанг"},{word:"Голова",trans:"Сар"},{word:"Глаз",trans:"Чашм"},{word:"Ухо",trans:"Гӯш"},{word:"Нос",trans:"Бинӣ"},{word:"Рот",trans:"Дахон"},{word:"Рука",trans:"Даст"},{word:"Нога",trans:"По"},{word:"Сердце",trans:"Дил"},{word:"Волосы",trans:"Мӯй"},{word:"Лицо",trans:"Рӯй"},{word:"Злой",trans:"Хашмгин"},{word:"Усталый",trans:"Хаста"},{word:"Голодный",trans:"Гурусна"},{word:"Жаждущий",trans:"Ташна"},{word:"Больной",trans:"Бемор"},{word:"Сильный",trans:"Қавӣ"},{word:"Слабый",trans:"Заиф"},{word:"Красивый",trans:"Зебо"},{word:"Чистый",trans:"Тоза"},{word:"Грязный",trans:"Чиркин"},{word:"Богатый",trans:"Бой"},{word:"Бедный",trans:"Камбагал"},{word:"Высокий",trans:"Баланд"},{word:"Низкий",trans:"Паст"},{word:"Длинный",trans:"Дароз"},{word:"Тяжёлый",trans:"Вазнин"},{word:"Лёгкий",trans:"Сабук"},{word:"Мечта",trans:"Орзу"},{word:"Надежда",trans:"Умед"},{word:"Будущее",trans:"Оянда"},{word:"Мир (планета)",trans:"Ҷахон"},{word:"Свобода",trans:"Озодӣ"},{word:"Успех",trans:"Муваффақият"}],
-        4: [{word:"Доброе утро",trans:"Субҳ бахайр"},{word:"Добрый вечер",trans:"Шом бахайр"},{word:"Спокойной ночи",trans:"Шаб бахайр"},{word:"Как вы?",trans:"Ҳол шумо чӣ?"},{word:"Я хорошо",trans:"Ман хубам"},{word:"Как вас зовут?",trans:"Номи шумо чист?"},{word:"Меня зовут...",trans:"Номи ман..."},{word:"Откуда вы?",trans:"Шумо аз куҷо?"},{word:"Я из Таджикистана",trans:"Ман аз Тоҷикистон"},{word:"Я не понимаю",trans:"Ман намефаҳмам"},{word:"Повторите пожалуйста",trans:"Лутфан такрор кунед"},{word:"Сколько стоит?",trans:"Чанд пул?"},{word:"Мне нужна помощь",trans:"Ба ман кумак лозим"},{word:"Я тебя люблю",trans:"Ман туро дӯст дорам"},{word:"С днём рождения",trans:"Таваллудатон муборак"},{word:"Поздравляю",trans:"Табрик"},{word:"Нет проблем",trans:"Мушкил нест"},{word:"Я согласен",trans:"Ман розӣ ҳастам"},{word:"Может быть",trans:"Шояд"},{word:"Всегда",trans:"Ҳамеша"},{word:"Никогда",trans:"Ҳеҷ вақт"},{word:"Иногда",trans:"Баъзан"},{word:"Здесь",trans:"Инҷо"},{word:"Там",trans:"Онҷо"},{word:"Вместе",trans:"Якҷо"},{word:"Один",trans:"Танҳо"},{word:"Легко",trans:"Осон"},{word:"Трудно",trans:"Душвор"},{word:"Важно",trans:"Муҳим"},{word:"Безопасно",trans:"Бехатар"},{word:"Опасно",trans:"Хатарнок"},{word:"Готов",trans:"Тайёр"}]
+const SERVICES_DATA = [
+  {id:1,title:'Landing Page',cat:'web',desc:'Одностраничный сайт с формой заявки и адаптивным дизайном',price:'900₽',priceNum:900,rating:4.9,reviews:124,badge:'hot',emoji:'🌐'},
+  {id:2,title:'Корпоративный сайт',cat:'web',desc:'Многостраничный сайт для бизнеса с CMS',price:'1000₽',priceNum:1000,rating:4.8,reviews:87,badge:'',emoji:'💼'},
+  {id:3,title:'Редизайн сайта',cat:'web',desc:'Обновление дизайна существующего сайта',price:'800₽',priceNum:800,rating:4.7,reviews:56,badge:'new',emoji:'🔄'},
+  {id:4,title:'Логотип и стиль',cat:'design',desc:'Профессиональный логотип + 3 варианта на выбор',price:'500₽',priceNum:500,rating:4.9,reviews:203,badge:'hot',emoji:'🎨'},
+  {id:5,title:'Баннер / обложка',cat:'design',desc:'Дизайн баннера для соцсетей или рекламы',price:'200₽',priceNum:200,rating:4.7,reviews:91,badge:'',emoji:'🖼️'},
+  {id:6,title:'Иконки для сайта',cat:'design',desc:'Набор из 10 иконок в едином стиле',price:'300₽',priceNum:300,rating:4.8,reviews:44,badge:'',emoji:'✏️'},
+  {id:7,title:'Монтаж видео',cat:'video',desc:'Монтаж ролика до 3 минут с музыкой и титрами',price:'700₽',priceNum:700,rating:4.8,reviews:178,badge:'',emoji:'🎬'},
+  {id:8,title:'Reels / TikTok',cat:'video',desc:'Короткий вертикальный ролик до 60 секунд',price:'400₽',priceNum:400,rating:4.9,reviews:211,badge:'hot',emoji:'📱'},
+  {id:9,title:'Telegram-бот',cat:'bot',desc:'Бот для приёма заявок, автоответов и рассылок',price:'800₽',priceNum:800,rating:5.0,reviews:312,badge:'hot',emoji:'🤖'},
+  {id:10,title:'Бот-модератор',cat:'bot',desc:'Анти-спам и модерация для Telegram-группы',price:'500₽',priceNum:500,rating:4.8,reviews:89,badge:'',emoji:'🛡️'},
+  {id:11,title:'Мобильное приложение',cat:'mobile',desc:'Базовое приложение на Flutter/React Native',price:'1000₽',priceNum:1000,rating:4.9,reviews:34,badge:'new',emoji:'📲'},
+  {id:12,title:'SEO аудит',cat:'seo',desc:'Полный технический аудит сайта с рекомендациями',price:'600₽',priceNum:600,rating:4.7,reviews:67,badge:'',emoji:'📈'},
+  {id:13,title:'Парсинг данных',cat:'seo',desc:'Автосбор данных с любого сайта',price:'700₽',priceNum:700,rating:4.6,reviews:44,badge:'new',emoji:'🔧'},
+  {id:14,title:'Настройка рекламы',cat:'seo',desc:'Настройка таргета ВКонтакте или Telegram Ads',price:'900₽',priceNum:900,rating:4.8,reviews:58,badge:'',emoji:'📣'},
+];
+
+const ORDERS_DATA = [
+  {id:'#1051',title:'Лендинг для фитнес-клуба',cat:'Сайты',price:'₽900',status:'active',date:'08.06.2025'},
+  {id:'#1048',title:'Логотип для кофейни',cat:'Дизайн',price:'₽500',status:'done',date:'01.06.2025'},
+  {id:'#1045',title:'Telegram-бот для записи',cat:'Боты',price:'₽800',status:'pending',date:'25.05.2025'},
+  {id:'#1039',title:'Монтаж рекламного ролика',cat:'Видео',price:'₽700',status:'done',date:'10.05.2025'},
+  {id:'#1032',title:'SEO аудит сайта',cat:'SEO',price:'₽600',status:'waiting',date:'01.05.2025'},
+];
+
+const USERS_DATA = [
+  {id:1,name:'Алексей М.',email:'aleksey@mail.ru',role:'client',orders:12,status:'active'},
+  {id:2,name:'Мария К.',email:'maria@gmail.com',role:'executor',orders:47,status:'active'},
+  {id:3,name:'Дмитрий В.',email:'dmitry@yandex.ru',role:'client',orders:5,status:'active'},
+  {id:4,name:'Анна П.',email:'anna@mail.ru',role:'executor',orders:23,status:'banned'},
+];
+
+// ===== СЕССИЯ =====
+function saveSession(user) {
+  localStorage.setItem('mh_user', JSON.stringify(user));
+  localStorage.setItem('mh_session', 'active');
+}
+
+function loadSession() {
+  const session = localStorage.getItem('mh_session');
+  const stored = localStorage.getItem('mh_user');
+  if (session === 'active' && stored) {
+    try { return JSON.parse(stored); } catch(e) { return null; }
+  }
+  return null;
+}
+
+function clearSession() {
+  localStorage.removeItem('mh_session');
+}
+
+// ===== TELEGRAM =====
+async function sendTelegramMessage(text) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({chat_id:TG_CHAT_ID, text, parse_mode:'HTML'})
+    });
+  } catch(e) {}
+}
+
+async function sendTelegramPhoto(caption, base64data) {
+  try {
+    const arr = base64data.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while(n--) u8arr[n] = bstr.charCodeAt(n);
+    const blob = new Blob([u8arr], {type:mime});
+    const fd = new FormData();
+    fd.append('chat_id', TG_CHAT_ID);
+    fd.append('photo', blob, 'check.jpg');
+    fd.append('caption', caption);
+    fd.append('parse_mode', 'HTML');
+    const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {method:'POST', body:fd});
+    if (!res.ok) throw new Error('failed');
+  } catch(e) {
+    await sendTelegramMessage(caption);
+  }
+}
+
+// ===== СТРАНИЦЫ =====
+function showPage(id) {
+  // Если не авторизован и пытается открыть личные страницы — показываем логин
+  const privatePages = ['dashboard','orders','profile'];
+  if (privatePages.includes(id) && !currentUser) {
+    openModal('loginModal');
+    showToast('Войдите в аккаунт','info');
+    return;
+  }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (id==='dashboard') renderDashboard();
+  if (id==='orders') renderOrdersPage();
+  if (id==='admin') renderAdmin();
+  if (id==='profile') renderProfile();
+  if (id==='services') filterServices();
+  if (id==='home') renderPopular();
+  closeMobile();
+}
+
+// ===== AUTH =====
+function switchLoginTab(role, btn) {
+  loginRoleVal = role;
+  btn.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('Заполните все поля','error'); return; }
+  if (!validateEmail(email)) { showToast('Некорректный email','error'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.innerHTML = '<span class="loader"></span> Вход...';
+  btn.disabled = true;
+  setTimeout(() => {
+    if (loginRoleVal==='admin' && email===ADMIN_EMAIL && pass===ADMIN_PASS) {
+      currentUser = {name:'Администратор', email, role:'admin'};
+      saveSession(currentUser);
+      closeModal('loginModal');
+      setLoggedIn();
+      showPage('admin');
+      showToast('Добро пожаловать, Администратор!','success');
+    } else {
+      const stored = JSON.parse(localStorage.getItem('mh_user') || 'null');
+      if (stored && stored.email===email && stored.pass===pass) {
+        currentUser = stored;
+        saveSession(currentUser);
+        closeModal('loginModal');
+        setLoggedIn();
+        showPage('dashboard');
+        showToast('Добро пожаловать, ' + currentUser.name.split(' ')[0] + '!','success');
+      } else {
+        showToast('Неверный email или пароль','error');
       }
-    };
-    return words[lang] && words[lang][week] ? words[lang][week] : [];
+    }
+    btn.innerHTML = 'Войти';
+    btn.disabled = false;
+  }, 900);
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  const agree = document.getElementById('regAgree').checked;
+  if (!name||!email||!pass) { showToast('Заполните все поля','error'); return; }
+  if (!validateEmail(email)) { showToast('Некорректный email','error'); return; }
+  if (pass.length<8) { showToast('Пароль минимум 8 символов','error'); return; }
+  if (pass!==pass2) { showToast('Пароли не совпадают','error'); return; }
+  if (!agree) { showToast('Примите условия использования','error'); return; }
+
+  // Проверка: такой email уже есть?
+  const existing = JSON.parse(localStorage.getItem('mh_user') || 'null');
+  if (existing && existing.email === email) {
+    showToast('Этот email уже зарегистрирован','error'); return;
   }
+
+  currentUser = {name, email, pass, role:'client', tg:'', registeredAt: new Date().toISOString()};
+  saveSession(currentUser);
+  closeModal('regModal');
+  setLoggedIn();
+  showPage('dashboard');
+  showToast('Аккаунт создан! 🎉','success');
+  sendTelegramMessage(`🆕 <b>Новый пользователь!</b>\n👤 ${name}\n📧 ${email}`);
+}
+
+function doReset() {
+  const email = document.getElementById('resetEmail').value.trim();
+  if (!email||!validateEmail(email)) { showToast('Введите корректный email','error'); return; }
+  closeModal('resetModal');
+  showToast('Инструкции отправлены на ' + email,'success');
+}
+
+function setLoggedIn() {
+  document.getElementById('guestActions').style.display = 'none';
+  const ua = document.getElementById('userActions');
+  ua.style.display = 'flex';
+  document.getElementById('navUsername').textContent = currentUser.name.split(' ')[0];
+}
+
+function setLoggedOut() {
+  document.getElementById('guestActions').style.display = 'flex';
+  document.getElementById('userActions').style.display = 'none';
+}
+
+function logout() {
+  currentUser = null;
+  clearSession();
+  setLoggedOut();
+  showPage('home');
+  showToast('Вы вышли из аккаунта','info');
+}
+
+// ===== SERVICES =====
+function getCatLabel(cat) {
+  return {web:'Сайты',design:'Дизайн',video:'Видео',bot:'Боты',mobile:'Приложения',seo:'SEO'}[cat] || cat;
+}
+
+function renderServicesInto(containerId, data) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = data.map(s => `
+    <div class="service-card" onclick="openServiceDetail(${s.id})">
+      ${s.badge ? `<div class="service-badge badge-${s.badge}">${s.badge==='hot'?'🔥 Хит':'✨ Новое'}</div>` : ''}
+      <div class="service-img">${s.emoji}</div>
+      <div class="service-cat">${getCatLabel(s.cat)}</div>
+      <h3>${s.title}</h3>
+      <p>${s.desc}</p>
+      <div class="service-meta">
+        <div class="service-price">${s.price}</div>
+        <div class="service-rating"><span>★</span>${s.rating} (${s.reviews})</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPopular() {
+  renderServicesInto('popularServices', SERVICES_DATA.filter(s => s.badge==='hot').slice(0,6));
+}
+
+function filterServices() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  let data = SERVICES_DATA;
+  if (currentCat !== 'all') data = data.filter(s => s.cat === currentCat);
+  if (q) data = data.filter(s => s.title.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
+  renderServicesInto('servicesGrid', data);
+}
+
+function setCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterServices();
+}
+
+function openServiceDetail(id) {
+  const s = SERVICES_DATA.find(x => x.id===id);
+  if (!s) return;
+  document.getElementById('serviceModalContent').innerHTML = `
+    <div style="font-size:48px;margin-bottom:16px;">${s.emoji}</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;">${s.title}</h2>
+    <div style="color:var(--text3);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">${getCatLabel(s.cat)}</div>
+    <p style="color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:20px;">${s.desc}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <div style="font-size:28px;font-weight:900;color:#43e97b;">${s.price}</div>
+      <div style="font-size:14px;color:var(--text2);">★ ${s.rating} · ${s.reviews} отзывов</div>
+    </div>
+    <button class="btn btn-primary btn-lg" style="width:100%;" onclick="closeModal('serviceModal');showPage('order')">Заказать эту услугу →</button>
+  `;
+  openModal('serviceModal');
+}
+
+// ===== ORDER =====
+function updateOrderPrice() {
+  const cat = document.getElementById('orderCat').value;
+  const pd = document.getElementById('priceDisplay');
+  if (cat && PRICE_MAP[cat]) {
+    document.getElementById('priceVal').textContent = PRICE_MAP[cat] + ' ₽';
+    pd.style.display = 'block';
+  } else {
+    pd.style.display = 'none';
+  }
+}
+
+function goToPayment() {
+  const cat = document.getElementById('orderCat').value;
+  const title = document.getElementById('orderTitle').value.trim();
+  const desc = document.getElementById('orderDesc').value.trim();
+  const tg = document.getElementById('orderTg').value.trim();
+  const name = document.getElementById('orderName').value.trim();
+  if (!cat) { showToast('Выберите тип услуги','error'); return; }
+  if (!title) { showToast('Укажите название проекта','error'); return; }
+  if (!desc || desc.length < 20) { showToast('Опишите подробнее (минимум 20 символов)','error'); return; }
+  if (!name) { showToast('Укажите ваше имя','error'); return; }
+  if (!tg) { showToast('Укажите Telegram для связи','error'); return; }
+  const price = PRICE_MAP[cat];
+  document.getElementById('payServiceName').textContent = CAT_LABELS[cat] || cat;
+  document.getElementById('payOrderTitle').textContent = '«' + title + '»';
+  document.getElementById('payAmount').textContent = price + ' ₽';
+  document.getElementById('orderStep1').style.display = 'none';
+  document.getElementById('orderStep2').style.display = 'block';
+  document.getElementById('s1').classList.remove('active');
+  document.getElementById('s1').classList.add('done');
+  document.getElementById('s2').classList.add('active');
+  orderStep = 2;
+  window.scrollTo(0,0);
+}
+
+function backToDetails() {
+  document.getElementById('orderStep2').style.display = 'none';
+  document.getElementById('orderStep1').style.display = 'block';
+  document.getElementById('s2').classList.remove('active');
+  document.getElementById('s1').classList.remove('done');
+  document.getElementById('s1').classList.add('active');
+  orderStep = 1;
+}
+
+function previewCheck(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  checkFileName = file.name;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    checkFileData = e.target.result;
+    const img = document.getElementById('checkPreview');
+    img.src = checkFileData;
+    img.style.display = 'block';
+    const cn = document.getElementById('checkName');
+    cn.textContent = '✅ Файл выбран: ' + file.name;
+    cn.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitOrder() {
+  if (!checkFileData) { showToast('Загрузите фото чека','error'); return; }
+  const cat = document.getElementById('orderCat').value;
+  const title = document.getElementById('orderTitle').value.trim();
+  const desc = document.getElementById('orderDesc').value.trim();
+  const links = document.getElementById('orderLinks').value.trim();
+  const deadline = document.getElementById('orderDeadline').value;
+  const tg = document.getElementById('orderTg').value.trim();
+  const name = document.getElementById('orderName').value.trim();
+  const price = PRICE_MAP[cat];
+  const btn = document.getElementById('submitOrderBtn');
+  btn.innerHTML = '<span class="loader"></span> Отправляем...';
+  btn.disabled = true;
+
+  // Сохраняем заказ в localStorage
+  const userOrders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const newOrder = {
+    id: '#' + (1056 + userOrders.length),
+    title, cat: getCatLabel(cat), price: '₽'+price,
+    status:'pending', date: new Date().toLocaleDateString('ru-RU'),
+    desc, tg, name
+  };
+  userOrders.unshift(newOrder);
+  localStorage.setItem('mh_orders', JSON.stringify(userOrders));
+
+  const caption = `🆕 <b>НОВЫЙ ЗАКАЗ — MAXA HUB</b>\n\n👤 <b>Имя:</b> ${name}\n📱 <b>Telegram:</b> ${tg}\n\n🛍 <b>Услуга:</b> ${CAT_LABELS[cat]||cat}\n📌 <b>Проект:</b> ${title}\n💰 <b>Сумма:</b> ${price} ₽\n⏱ <b>Срок:</b> ${deadline}\n\n📝 <b>Описание:</b>\n${desc}${links?'\n\n🔗 <b>Примеры:</b> '+links:''}\n\n✅ <b>Чек прикреплён</b>`;
+
+  await sendTelegramPhoto(caption, checkFileData);
+
+  btn.innerHTML = '✅ Я оплатил — отправить заказ';
+  btn.disabled = false;
+  showToast('Заказ отправлен! 🎉','success');
+  document.getElementById('orderStep2').style.display = 'none';
+  document.getElementById('orderStep3').style.display = 'block';
+  document.getElementById('s2').classList.remove('active');
+  document.getElementById('s2').classList.add('done');
+  document.getElementById('s3').classList.add('active');
+}
+
+function resetOrder() {
+  document.getElementById('orderStep3').style.display = 'none';
+  document.getElementById('orderStep1').style.display = 'block';
+  document.getElementById('orderStep2').style.display = 'none';
+  ['s1','s2','s3'].forEach(id => {
+    document.getElementById(id).classList.remove('active','done');
+  });
+  document.getElementById('s1').classList.add('active');
+  ['orderCat','orderTitle','orderDesc','orderLinks','orderName','orderTg'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('priceDisplay').style.display = 'none';
+  checkFileData = null; checkFileName = null;
+  const img = document.getElementById('checkPreview');
+  img.src = ''; img.style.display = 'none';
+  document.getElementById('checkName').style.display = 'none';
+  orderStep = 1;
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  if (!currentUser) return;
+  document.getElementById('dashName').textContent = currentUser.name.split(' ')[0];
+  const now = new Date();
+  document.getElementById('dashDate').textContent = now.toLocaleDateString('ru-RU',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  // Загружаем заказы пользователя из localStorage + демо
+  const savedOrders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const allOrders = [...savedOrders, ...ORDERS_DATA].slice(0,10);
+
+  document.getElementById('ordersList').innerHTML = allOrders.slice(0,4).map(o => `
+    <div class="order-item">
+      <div class="order-info"><h4>${o.title}</h4><p>${o.cat} · ${o.date}</p></div>
+      <div>
+        <div class="order-status status-${o.status}">${statusLabel(o.status)}</div>
+        <div style="font-size:13px;font-weight:700;color:var(--accent3);text-align:right;margin-top:4px;">${o.price}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('notifList').innerHTML = `
+    <div class="notif-item"><div class="notif-dot"></div><div><div class="notif-text">Добро пожаловать, ${currentUser.name.split(' ')[0]}! 👋</div><div class="notif-time">Сейчас</div></div></div>
+    <div class="notif-item"><div class="notif-dot"></div><div><div class="notif-text">Ваш заказ принят в работу</div><div class="notif-time">2 часа назад</div></div></div>
+    <div class="notif-item"><div class="notif-dot"></div><div><div class="notif-text">Новое сообщение от исполнителя</div><div class="notif-time">5 дней назад</div></div></div>
+  `;
+}
+
+function statusLabel(s) {
+  return {active:'В работе',done:'Завершён',pending:'Ожидает',waiting:'Требует оплаты'}[s]||s;
+}
+
+// ===== ORDERS PAGE =====
+function renderOrdersPage() {
+  const savedOrders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const allOrders = [...savedOrders, ...ORDERS_DATA];
+  const t = document.getElementById('ordersTable');
+  t.innerHTML = `<thead><tr><th>ID</th><th>Услуга</th><th>Категория</th><th>Стоимость</th><th>Дата</th><th>Статус</th></tr></thead><tbody>` +
+    allOrders.map(o => `<tr><td>${o.id}</td><td>${o.title}</td><td>${o.cat}</td><td>${o.price}</td><td>${o.date}</td><td><span class="order-status status-${o.status}">${statusLabel(o.status)}</span></td></tr>`).join('') +
+    '</tbody>';
+}
+
+// ===== PROFILE =====
+function renderProfile() {
+  if (!currentUser) return;
+  document.getElementById('profileName').textContent = currentUser.name;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  document.getElementById('avatarText').textContent = currentUser.name[0].toUpperCase();
+  document.getElementById('pName').value = currentUser.name;
+  document.getElementById('pEmail').value = currentUser.email;
+  document.getElementById('pTg').value = currentUser.tg || '';
+
+  const savedOrders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const allOrders = [...savedOrders, ...ORDERS_DATA];
+  const t = document.getElementById('profileOrdersTable');
+  t.innerHTML = `<thead><tr><th>ID</th><th>Услуга</th><th>Стоимость</th><th>Дата</th><th>Статус</th></tr></thead><tbody>` +
+    allOrders.map(o => `<tr><td>${o.id}</td><td>${o.title}</td><td>${o.price}</td><td>${o.date}</td><td><span class="order-status status-${o.status}">${statusLabel(o.status)}</span></td></tr>`).join('') +
+    '</tbody>';
+}
+
+function activeProfileTab(tab) {
+  document.querySelectorAll('.profile-tab').forEach((b,i) => {
+    b.classList.toggle('active', ['info','orders','settings'][i]===tab);
+  });
+  document.querySelectorAll('.profile-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('pc-'+tab)?.classList.add('active');
+}
+
+function saveProfile() {
+  if (!currentUser) return;
+  currentUser.name = document.getElementById('pName').value;
+  currentUser.email = document.getElementById('pEmail').value;
+  currentUser.tg = document.getElementById('pTg').value;
+  saveSession(currentUser);
+  document.getElementById('navUsername').textContent = currentUser.name.split(' ')[0];
+  document.getElementById('profileName').textContent = currentUser.name;
+  document.getElementById('avatarText').textContent = currentUser.name[0].toUpperCase();
+  showToast('Профиль сохранён','success');
+}
+
+// ===== ADMIN =====
+function renderAdmin() {
+  const ar = document.getElementById('adminRecentOrders');
+  const savedOrders = JSON.parse(localStorage.getItem('mh_orders') || '[]');
+  const allOrders = [...savedOrders, ...ORDERS_DATA];
+  if (ar) ar.innerHTML = allOrders.slice(0,5).map(o => `
+    <div class="order-item">
+      <div class="order-info"><h4>${o.title}</h4><p>${o.cat} · ${o.date}</p></div>
+      <div><div class="order-status status-${o.status}">${statusLabel(o.status)}</div><div style="font-size:13px;font-weight:700;color:var(--accent3);text-align:right;margin-top:4px;">${o.price}</div></div>
+    </div>
+  `).join('');
+  const ut = document.getElementById('usersTable');
+  if (ut) ut.innerHTML = `<thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Роль</th><th>Заказов</th><th>Статус</th></tr></thead><tbody>` +
+    USERS_DATA.map(u => `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.role}</td><td>${u.orders}</td><td><span class="order-status ${u.status==='active'?'status-done':'status-waiting'}">${u.status==='active'?'Активен':'Заблокирован'}</span></td></tr>`).join('') + '</tbody>';
+  const aot = document.getElementById('adminOrdersTable');
+  if (aot) aot.innerHTML = `<thead><tr><th>ID</th><th>Услуга</th><th>Категория</th><th>Цена</th><th>Дата</th><th>Статус</th></tr></thead><tbody>` +
+    allOrders.map(o => `<tr><td>${o.id}</td><td>${o.title}</td><td>${o.cat}</td><td>${o.price}</td><td>${o.date}</td><td><span class="order-status status-${o.status}">${statusLabel(o.status)}</span></td></tr>`).join('') + '</tbody>';
+  const ast = document.getElementById('adminServicesTable');
+  if (ast) ast.innerHTML = `<thead><tr><th>ID</th><th>Услуга</th><th>Категория</th><th>Цена</th><th>Рейтинг</th><th>Отзывов</th></tr></thead><tbody>` +
+    SERVICES_DATA.map(s => `<tr><td>${s.id}</td><td>${s.emoji} ${s.title}</td><td>${getCatLabel(s.cat)}</td><td>${s.price}</td><td>★${s.rating}</td><td>${s.reviews}</td></tr>`).join('') + '</tbody>';
+}
+
+function switchAdmin(tab, btn) {
+  document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('ac-'+tab)?.classList.add('active');
+}
+
+function addServiceAdmin() {
+  const title = document.getElementById('asTitle').value.trim();
+  const price = parseInt(document.getElementById('asPrice').value);
+  if (!title) { showToast('Введите название','error'); return; }
+  if (!price||price<100||price>1000) { showToast('Цена должна быть 100–1000₽','error'); return; }
+  showToast('Услуга «'+title+'» добавлена','success');
+  closeModal('addServiceModal');
+}
+
+// ===== CHAT =====
+function openChat(title) {
+  document.getElementById('chatTitle').textContent = title || 'Чат с исполнителем';
+  document.getElementById('chatBody').innerHTML = `<div class="msg recv">Здравствуйте! Готов взяться за ваш проект. Уточните детали.<div class="msg-time">10:00</div></div>`;
+  openModal('chatModal');
+}
+
+function sendMsg() {
+  const inp = document.getElementById('chatInputField');
+  const text = inp.value.trim();
+  if (!text) return;
+  const body = document.getElementById('chatBody');
+  const time = new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+  body.innerHTML += `<div class="msg sent">${text}<div class="msg-time">${time}</div></div>`;
+  inp.value = '';
+  body.scrollTop = body.scrollHeight;
+  setTimeout(() => {
+    body.innerHTML += `<div class="msg recv">Понял, принято! Скоро начну работу.<div class="msg-time">${time}</div></div>`;
+    body.scrollTop = body.scrollHeight;
+  }, 800);
+}
+
+// ===== MODALS =====
+function openModal(id) { document.getElementById(id)?.classList.add('show'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('show'); }
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target===this) this.classList.remove('show');
+  });
+});
+
+// ===== THEME =====
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark?'light':'dark');
+  document.querySelector('.theme-btn').textContent = isDark?'☀️':'🌙';
+  localStorage.setItem('mh_theme', isDark?'light':'dark');
+}
+
+// ===== TOAST =====
+function showToast(msg, type='info') {
+  const icons = {success:'✅',error:'❌',info:'ℹ️'};
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${icons[type]}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ===== MOBILE =====
+function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('show'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('show'); }
+
+// ===== UTILS =====
+function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  // Восстановить тему
+  const savedTheme = localStorage.getItem('mh_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  document.querySelector('.theme-btn').textContent = savedTheme==='dark'?'🌙':'☀️';
+
+  // Восстановить сессию — если уже входил, не просим логиниться снова
+  const session = loadSession();
+  if (session) {
+    currentUser = session;
+    setLoggedIn();
+    // Если это не первый визит — сразу открываем dashboard
+    showPage('dashboard');
+  } else {
+    renderPopular();
+    filterServices();
+  }
+});
 </script>
 </body>
 </html>
